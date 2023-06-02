@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">SeasonApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="benvenuti_al_season">benvenuti_al_season</string>
+    <string name="benvenuti_al_season">Benvenuti al Season</string>
     <string name="descrizione_season">Riscopri il lusso piu\' esclusivo al Season Resort di Sharm El Sheikh, in Egitto.Situato su un tratto di spiaggia privata di 1 km, il Season Resort di Sharm El Sheikh èun\'oasi di lusso tra il deserto e la barriera corallina,con sole tutto l\'anno, sistemazioni moderne ed eleganti e
         viste panoramiche sul Mar Rosso. Dotato di 5 piscine scoperte,
         offre 10 esperienze culinarie all\'aperto, un centro benessere acclamato,
         un divertente miniclub Kids For All Seasons e un centro immersioni PADI gestito con esperienza,
         oltre ad una delle migliori barriere coralline della regione e ad una funicolare che vi trasporta dalla cima
         alla spiaggia.</string>
+    <string name="contattaci">Contattaci per ottenere più informazioni</string>
+    <string name="numeroTelefono">3277141242</string>
 </resources>
