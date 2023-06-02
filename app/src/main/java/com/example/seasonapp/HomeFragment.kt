@@ -1,4 +1,4 @@
-package com.example.login
+package com.example.seasonapp
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
-import com.example.seasonapp.PrenotaFragment
-import com.example.seasonapp.R
 import com.example.seasonapp.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -18,7 +16,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
 
-    ): View {
+    ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         ratingBar = binding.ratingBar
         ratingBar.setIsIndicator(true)
