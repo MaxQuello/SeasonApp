@@ -19,6 +19,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         ratingBar = binding.ratingBar
+
         ratingBar.setIsIndicator(true)
 
         binding.buttonPrenota.setOnClickListener {
