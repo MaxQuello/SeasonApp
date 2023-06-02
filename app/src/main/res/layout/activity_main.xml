@@ -14,7 +14,7 @@
 
         <!-- Contenuto principale -->
         <fragment
-            android:id="@+id/fragment"
+            android:id="@+id/fragmentHome"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
