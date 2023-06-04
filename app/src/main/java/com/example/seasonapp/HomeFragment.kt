@@ -15,7 +15,7 @@ class HomeFragment : Fragment() {
     private fun onClickPrenota() {
         val manager = parentFragmentManager
         val transaction = manager.beginTransaction()
-        transaction.replace(R.id.homeFragment, PrenotaFragment())
+        transaction.replace(R.id.fragment,PrenotaFragment())
         transaction.commit()
         transaction.addToBackStack(null)
     }
