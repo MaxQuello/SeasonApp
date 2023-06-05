@@ -20,6 +20,12 @@ class HomeFragment : Fragment() {
         transaction.commit()
         transaction.addToBackStack(null)
     }
+    private fun onClickHome() {
+        val manager = parentFragmentManager
+        val transaction = manager.beginTransaction()
+        transaction.replace(R.id.fragment,HomeFragment())
+        transaction.commit()
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,6 +39,10 @@ class HomeFragment : Fragment() {
 
         binding.buttonPrenota.setOnClickListener {
             onClickPrenota()
+        }
+
+        binding.logoHomeButton.setOnClickListener {
+            onClickHome()
         }
 
 
