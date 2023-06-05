@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
+import androidx.appcompat.app.AppCompatActivity
 import com.example.seasonapp.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -33,6 +34,10 @@ class HomeFragment : Fragment() {
         binding.buttonPrenota.setOnClickListener {
             onClickPrenota()
         }
+
+
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.hide()
 
         return binding.root
 

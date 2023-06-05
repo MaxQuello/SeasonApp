@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Contenuto principale -->
+
         <fragment
             android:id="@+id/fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_bottom" />
 
-        <!-- Barra di navigazione inferiore -->
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="0dp"
@@ -38,6 +38,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Pannello laterale (drawer) -->
+
 
 </LinearLayout>

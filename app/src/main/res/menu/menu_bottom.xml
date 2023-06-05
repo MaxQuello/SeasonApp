@@ -4,7 +4,7 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
-        android:title="MENU'"/>
+        android:title="MENU'" />
     <item
         android:id="@+id/notifyFragment"
         android:icon="@drawable/ic_notifications"
