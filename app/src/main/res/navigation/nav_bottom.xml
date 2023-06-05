@@ -4,11 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_bottom"
     app:startDestination="@id/homeFragment">
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.seasonapp.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.seasonapp.ProfileFragment"
@@ -19,4 +15,9 @@
         android:name="com.example.seasonapp.NotifyFragment"
         android:label="fragment_notify"
         tools:layout="@layout/fragment_notify" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.seasonapp.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 </navigation>
