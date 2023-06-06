@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">SeasonApp</string>
+    <string name="drawer_open">Apri</string>
+    <string name="drawer_close">Chiudi</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">Welcome!</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">Login failed</string>
+    <!-- Strings related to the fragments -->
+    <string name="notifiche">Notifiche</string>
+    <string name="contattaci">Contattaci per ottenere più informazioni</string>
+    <string name="numeroTelefono">3277141242</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="benvenuti_al_season">Benvenuti al Season</string>
     <string name="descrizione_season">Riscopri il lusso piu\' esclusivo al Season Resort di Sharm El Sheikh, in Egitto.Situato su un tratto di spiaggia privata di 1 km, il Season Resort di Sharm El Sheikh èun\'oasi di lusso tra il deserto e la barriera corallina,con sole tutto l\'anno, sistemazioni moderne ed eleganti e
@@ -8,6 +23,13 @@
         un divertente miniclub Kids For All Seasons e un centro immersioni PADI gestito con esperienza,
         oltre ad una delle migliori barriere coralline della regione e ad una funicolare che vi trasporta dalla cima
         alla spiaggia.</string>
-    <string name="contattaci">Contattaci per ottenere più informazioni</string>
-    <string name="numeroTelefono">3277141242</string>
+    <string name="camere">Le Nostre Camere</string>
+    <string name="singola">Camera Singola</string>
+    <string name="desc_singola">Le nostre camere singole sono pensate per garantirvi piacevoli soggiorni sia brevi che lunghi.</string>
+    <string name="matrimoniale">Camera Matrimoniale</string>
+    <string name="desc_matrimoniale">Comode e accoglienti, luoghi ideali per continuare a rilassarvi. L\’arredamento dai colori caldi conferisce un’atmosfera di relax.</string>
+    <string name="family">Camera Family</string>
+    <string name="desc_family">Accoglienti e confortevoli sono dedicate a coloro che cercano un alloggio dall\’eccellente rapporto qualita\'-prezzo.</string>
+    <string name="inviaMail">Oppure scrivici alla mail:</string>
+    <string name="email">info@season.com</string>
 </resources>
