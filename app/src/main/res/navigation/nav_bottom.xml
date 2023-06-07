@@ -20,4 +20,5 @@
         android:name="com.example.seasonapp.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <include app:graph="@navigation/nav_drawer" />
 </navigation>

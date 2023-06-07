@@ -45,12 +45,10 @@ class HomeFragment : Fragment() {
             onClickHome()
         }
 
-
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.hide()
 
         return binding.root
-
 
     }
 
