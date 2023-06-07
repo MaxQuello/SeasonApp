@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SeasonApp</string>
     <string name="drawer_open">Apri</string>
     <string name="drawer_close">Chiudi</string>
@@ -12,7 +12,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">Login failed</string>
     <!-- Strings related to the fragments -->
-    <string name="notifiche">Notifiche</string>
     <string name="contattaci">Contattaci per ottenere più informazioni</string>
     <string name="numeroTelefono">3277141242</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -24,6 +23,7 @@
         oltre ad una delle migliori barriere coralline della regione e ad una funicolare che vi trasporta dalla cima
         alla spiaggia.</string>
     <string name="camere">Le Nostre Camere</string>
+    <string name="prenota">Prenota</string>
     <string name="singola">Camera Singola</string>
     <string name="desc_singola">Le nostre camere singole sono pensate per garantirvi piacevoli soggiorni sia brevi che lunghi.</string>
     <string name="matrimoniale">Camera Matrimoniale</string>
@@ -32,5 +32,10 @@
     <string name="desc_family">Accoglienti e confortevoli sono dedicate a coloro che cercano un alloggio dall\’eccellente rapporto qualita\'-prezzo.</string>
     <string name="inviaMail">Oppure scrivici alla mail:</string>
     <string name="email">info@season.com</string>
+    <string name="home" tools:ignore="ExtraTranslation">Home</string>
+    <string name="notifiche">Notifiche</string>
+    <string name="supporto" tools:ignore="ExtraTranslation">Supporto</string>
+    <string name="profilo" tools:ignore="ExtraTranslation">Profilo</string>
+
     <string name="benvenuto">Benvenuto, %s</string> <!-- il %s serve a inserire il nome automaticamente a seconda dell'utente loggato -->
 </resources>

@@ -20,4 +20,9 @@
         android:name="com.example.seasonapp.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/contattiFragment2"
+        android:name="com.example.seasonapp.ContattiFragment"
+        android:label="fragment_contatti"
+        tools:layout="@layout/fragment_contatti" />
 </navigation>

@@ -46,16 +46,6 @@
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/rounded_in_photoretrica" />
 
-            <ImageButton
-                android:id="@+id/buttonPrenota"
-                android:layout_width="150dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="#00FFFFFF"
-                android:onClick="onClickPrenota"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/image866" />
-
 
             <RatingBar
                 android:id="@+id/ratingBar"

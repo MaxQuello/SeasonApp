@@ -23,6 +23,7 @@
             android:id="@+id/action_homeFragment2_to_serviziFragment"
             app:destination="@id/serviziFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/camereFragment"
         android:name="com.example.seasonapp.CamereFragment"
@@ -41,6 +42,7 @@
             android:id="@+id/action_camereFragment_to_serviziFragment"
             app:destination="@id/serviziFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/serviziFragment"
         android:name="com.example.seasonapp.ServiziFragment"
@@ -59,6 +61,7 @@
             android:id="@+id/action_serviziFragment_to_ristoranteFragment"
             app:destination="@id/ristoranteFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/contattiFragment"
         android:name="com.example.seasonapp.ContattiFragment"
@@ -77,6 +80,7 @@
             android:id="@+id/action_contattiFragment_to_serviziFragment"
             app:destination="@id/serviziFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/ristoranteFragment"
         android:name="com.example.seasonapp.RistoranteFragment"
@@ -95,4 +99,5 @@
             android:id="@+id/action_ristoranteFragment_to_serviziFragment"
             app:destination="@id/serviziFragment" />
     </fragment>
+
 </navigation>

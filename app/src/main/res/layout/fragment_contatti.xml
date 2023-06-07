@@ -48,7 +48,7 @@
             android:layout_gravity="center_horizontal"
             android:backgroundTint="#00FFFFFF"
             android:scaleType="fitCenter"
-            android:src="@drawable/round_contact_phone_24"
+            android:src="@drawable/baseline_contact_phone_24"
             android:tint="@color/purple_500" />
 
         <View

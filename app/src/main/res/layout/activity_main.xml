@@ -22,7 +22,7 @@
             app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:navGraph="@navigation/nav_bottom"
+            app:navGraph="@menu/menu_bottom"
             tools:layout_editor_absoluteX="0dp" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,7 +31,6 @@
             android:layout_height="60dp"
             android:background="@drawable/dock"
             android:isScrollContainer="false"
-            android:pointerIcon="zoom_in"
             app:itemIconSize="25dp"
             app:itemIconTint="@color/white"
             app:itemTextColor="@color/white"

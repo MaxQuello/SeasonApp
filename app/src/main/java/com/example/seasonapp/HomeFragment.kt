@@ -13,13 +13,6 @@ class HomeFragment : Fragment() {
     private lateinit var ratingBar: RatingBar
     private lateinit var binding: FragmentHomeBinding
 
-    private fun onClickPrenota() {
-        val manager = parentFragmentManager
-        val transaction = manager.beginTransaction()
-        transaction.replace(R.id.fragment,PrenotaFragment())
-        transaction.commit()
-        transaction.addToBackStack(null)
-    }
     private fun onClickHome() {
         val manager = parentFragmentManager
         val transaction = manager.beginTransaction()
@@ -37,9 +30,6 @@ class HomeFragment : Fragment() {
 
         ratingBar.setIsIndicator(true)
 
-        binding.buttonPrenota.setOnClickListener {
-            onClickPrenota()
-        }
 
         binding.logoHomeButton.setOnClickListener {
             onClickHome()
