@@ -6,11 +6,9 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
-import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
-
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -55,7 +53,6 @@ open class MainActivity : AppCompatActivity() {
             true
         }
 
-
         binding.fab.setOnClickListener{
             dialog.show()
 
@@ -66,22 +63,31 @@ open class MainActivity : AppCompatActivity() {
             dialog.hide()
         }
 
-    }
-
-    private fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val fragment: Fragment = when (item.itemId) {
-            R.id.nav_camere -> CamereFragment()
-            R.id.nav_ristorante -> RistoranteFragment()
-            R.id.nav_servizi-> ServiziFragment()
-            else -> throw IllegalArgumentException("Invalid menu item ID")
+        binding.navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_camere -> {
+                    val fragment = CamereFragment()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment, fragment)
+                        .commit()
+                }
+                R.id.nav_ristorante -> {
+                    val fragment = RistoranteFragment()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment, fragment)
+                        .commit()
+                }
+                R.id.nav_servizi -> {
+                    val fragment = ServiziFragment()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment, fragment)
+                        .commit()
+                }
+            }
+            true
         }
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment, fragment)
-            .commit()
 
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
     }
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
