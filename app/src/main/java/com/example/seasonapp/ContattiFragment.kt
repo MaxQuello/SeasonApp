@@ -21,7 +21,7 @@ class ContattiFragment : Fragment() {
     ): View {
         binding = FragmentContattiBinding.inflate(layoutInflater)
         val chiamaci = R.id.contattaciButton
-        binding.contattaciButton.setOnClickListener { menuItem ->
+        binding.contattaciButton.setOnClickListener { button ->
             Log.i("mytag", "funziono")
             when (R.id.contattaciButton) {
                 R.id.contattaciButton -> {
@@ -35,9 +35,6 @@ class ContattiFragment : Fragment() {
                 else -> false
             }
         }
-
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.hide()
 
         binding = FragmentContattiBinding.inflate(layoutInflater)
         return binding.root
