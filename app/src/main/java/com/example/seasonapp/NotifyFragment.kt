@@ -18,9 +18,6 @@ class NotifyFragment : Fragment() {
 
     ): View {
 
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.hide()
-
         binding = FragmentNotifyBinding.inflate(layoutInflater)
         return binding.root
 

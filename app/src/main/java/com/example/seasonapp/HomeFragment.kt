@@ -26,13 +26,11 @@ class HomeFragment : Fragment() {
 
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
         ratingBar = binding.ratingBar
 
         ratingBar.setIsIndicator(true)
 
-
-        val actionBar = (activity as AppCompatActivity).supportActionBar
-        actionBar?.hide()
 
         return binding.root
 
