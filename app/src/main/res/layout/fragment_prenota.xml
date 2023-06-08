@@ -37,7 +37,8 @@
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/dock">
 
                 <Button
                     android:id="@+id/date_picker"
@@ -45,6 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
                     android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/dock"
                     android:text="Data di Check-in e di Check-out"
                     app:icon="@drawable/ic_today" />
 
@@ -53,14 +55,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
-                    android:text="Seleziona stanza " />
+                    android:backgroundTint="@color/dock"
+                    android:text="Numero di ospiti" />
 
                 <Button
                     android:id="@+id/search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
-                    android:text="Cerca stanza"
+                    android:backgroundTint="@color/dock"
+                    android:text="Verifica disponibilità"
                     app:icon="@drawable/ic_search" />
 
             </com.google.android.material.appbar.AppBarLayout>
