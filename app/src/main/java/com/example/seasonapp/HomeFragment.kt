@@ -31,10 +31,6 @@ class HomeFragment : Fragment() {
         ratingBar.setIsIndicator(true)
 
 
-        binding.logoHomeButton.setOnClickListener {
-            onClickHome()
-        }
-
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.hide()
 
