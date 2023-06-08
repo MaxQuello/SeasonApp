@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialog_background">
+    android:background="@drawable/dialog_background"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/round_remove_24"
         android:layout_gravity="center|top"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/round_remove_24" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,24 +19,24 @@
 
         <TextView
             android:id="@+id/testoPrenota"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
-            android:text="@string/prenota"
-            android:padding="8dp"
-            android:fontFamily="@font/fontcorsivo"
-            android:textColor="@color/dock"
+            android:layout_marginVertical="5dp"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="5dp"
+            android:fontFamily="@font/fontcorsivo"
+            android:padding="8dp"
+            android:text="@string/prenota"
+            android:textAlignment="viewStart"
+            android:textColor="@color/dock"
             android:textSize="25dp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_clear_24"
-            android:layout_marginLeft="250dp"
-            android:layout_marginTop="8dp"
-            android:id="@+id/cancelButton"/>
+            android:id="@+id/cancelButton"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="5dp"
+            android:layout_marginLeft="-50dp"
+            android:src="@drawable/baseline_clear_24" />
 
     </LinearLayout>
 
