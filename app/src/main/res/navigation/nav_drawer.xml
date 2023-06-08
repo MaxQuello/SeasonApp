@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_drawer"
-    app:startDestination="@id/homeFragment2">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/homeFragment2"
+        android:id="@+id/homeFragment"
         android:name="com.example.seasonapp.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
@@ -31,7 +31,7 @@
         tools:layout="@layout/fragment_camere" >
         <action
             android:id="@+id/action_camereFragment_to_homeFragment2"
-            app:destination="@id/homeFragment2" />
+            app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_camereFragment_to_contattiFragment"
             app:destination="@id/contattiFragment" />
@@ -56,7 +56,7 @@
             app:destination="@id/contattiFragment" />
         <action
             android:id="@+id/action_serviziFragment_to_homeFragment2"
-            app:destination="@id/homeFragment2" />
+            app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_serviziFragment_to_ristoranteFragment"
             app:destination="@id/ristoranteFragment" />
@@ -69,7 +69,7 @@
         tools:layout="@layout/fragment_contatti" >
         <action
             android:id="@+id/action_contattiFragment_to_homeFragment2"
-            app:destination="@id/homeFragment2" />
+            app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_contattiFragment_to_camereFragment"
             app:destination="@id/camereFragment" />
@@ -94,7 +94,7 @@
             app:destination="@id/contattiFragment" />
         <action
             android:id="@+id/action_ristoranteFragment_to_homeFragment2"
-            app:destination="@id/homeFragment2" />
+            app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_ristoranteFragment_to_serviziFragment"
             app:destination="@id/serviziFragment" />

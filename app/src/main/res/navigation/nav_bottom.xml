@@ -21,4 +21,9 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <include app:graph="@navigation/nav_drawer" />
+    <fragment
+        android:id="@+id/contattiFragment3"
+        android:name="com.example.seasonapp.ContattiFragment"
+        android:label="fragment_contatti"
+        tools:layout="@layout/fragment_contatti" />
 </navigation>

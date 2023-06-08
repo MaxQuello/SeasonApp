@@ -7,7 +7,12 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.seasonapp.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
 open class MainActivity : AppCompatActivity() {
@@ -34,9 +39,22 @@ open class MainActivity : AppCompatActivity() {
                     drawerLayout.openDrawer(GravityCompat.START)
                     true
                 }
-        }
 
-        /*{
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        val navController = findNavController(R.id.fragment)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.notifyFragment,
+                R.id.contattiFragment,
+                R.id.profileFragment
+            )
+        )
+        bottomNavigationView.setupWithNavController(navController)
+
+    }
+
+        /*
             super.setSupportActionBar(toolbar)
 
                 val toggle = ActionBarDrawerToggle(
@@ -52,8 +70,8 @@ open class MainActivity : AppCompatActivity() {
                 val menu = navigationView.menu
                 menu.findItem(R.id.homeFragment)?.isChecked = true
             }
-        }*/
-        fun onNavigationItemSelected(item: MenuItem): Boolean {
+        */
+        public fun onNavigationItemSelected(item: MenuItem): Boolean {
             val fragment: Fragment = when (item.itemId) {
                 R.id.camereFragment -> CamereFragment()
                 R.id.ristoranteFragment -> RistoranteFragment()
