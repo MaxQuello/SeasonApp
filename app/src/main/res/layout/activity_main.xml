@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@navigation/nav_header"
+        app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
         app:menu="@menu/nav_menu">
@@ -41,13 +41,29 @@
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />-->
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dock"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_anchorGravity="top"
+            app:logoDescription="Season"
+            app:navigationIcon="@drawable/baseline_menu_24"
+            app:title="Season Resort"
+            app:titleTextColor="#FFFFFF" />
+
         <fragment
             android:id="@+id/fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="55dp"
+            android:layout_marginVertical="55dp"
             app:defaultNavHost="true"
+            app:layout_anchor="@+id/fragment"
+            app:layout_anchorGravity="center"
             app:layout_constraintBottom_toTopOf="@+id/bottomAppBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -25,7 +25,7 @@
             android:text="@string/prenota"
             android:padding="8dp"
             android:fontFamily="@font/fontcorsivo"
-            android:textColor="@color/black"
+            android:textColor="@color/dock"
             android:layout_marginStart="12dp"
             android:layout_marginTop="5dp"
             android:textSize="25dp" />
