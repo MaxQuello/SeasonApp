@@ -37,9 +37,8 @@ open class MainActivity : AppCompatActivity() {
         dialog.window!!.setGravity(Gravity.TOP)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.setNavigationOnClickListener() {
+        toolbar.setNavigationOnClickListener{
             drawerLayout.openDrawer(GravityCompat.START)
-            true
         }
 
 
