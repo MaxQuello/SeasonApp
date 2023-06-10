@@ -16,7 +16,7 @@ class RecuperoPasswordFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
 
-    ): View {
+    ): View? {
 
         binding = FragmentRecuperoPasswordBinding.inflate(layoutInflater)
         return binding.root
