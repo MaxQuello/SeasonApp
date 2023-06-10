@@ -13,7 +13,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.seasonapp.databinding.ActivityMainBinding
-import com.google.android.material.navigation.NavigationView
+
 
 open class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
@@ -47,7 +47,7 @@ open class MainActivity : AppCompatActivity(){
                 R.id.homeButton -> replaceFragment(HomeFragment())
                 R.id.notifyButton -> replaceFragment(NotifyFragment())
                 R.id.contactsButton -> replaceFragment(ContattiFragment())
-                R.id.profileButton -> replaceFragment(ProfileFragment())
+                R.id.profileButton -> replaceFragment(LoginFragment())
             }
             true
         }
