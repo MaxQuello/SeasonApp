@@ -60,7 +60,7 @@ class PrenotaFragment : Fragment() {
                         // Mostra un messaggio di errore o prendi un'altra azione appropriata
                         Toast.makeText(
                             requireContext(),
-                            "La data di check-out deve essere successiva alla data di check-in",
+                            "La data di Check-out deve essere successiva alla data di Check-in",
                             Toast.LENGTH_SHORT
                         ).show()
                     }

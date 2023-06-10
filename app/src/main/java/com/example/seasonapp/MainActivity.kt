@@ -13,11 +13,12 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.seasonapp.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
 
-open class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+open class MainActivity : AppCompatActivity(){
+    private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var dialog :Dialog
+    private lateinit var dialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,6 @@ open class MainActivity : AppCompatActivity() {
 
         dialog = Dialog(this)
         dialog.setContentView(R.layout.bottomsheetlayout)
-
         dialog.window!!.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
@@ -37,7 +37,7 @@ open class MainActivity : AppCompatActivity() {
         dialog.window!!.setGravity(Gravity.TOP)
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.setNavigationOnClickListener{
+        toolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
@@ -52,7 +52,7 @@ open class MainActivity : AppCompatActivity() {
             true
         }
 
-        binding.fab.setOnClickListener{
+        binding.fab.setOnClickListener {
             dialog.show()
 
         }
@@ -62,42 +62,21 @@ open class MainActivity : AppCompatActivity() {
             dialog.hide()
         }
 
-        binding.navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_camere -> {
-                    val fragment = CamereFragment()
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment, fragment)
-                        .commit()
-                }
-                R.id.nav_ristorante -> {
-                    val fragment = RistoranteFragment()
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment, fragment)
-                        .commit()
-                }
-                R.id.nav_servizi -> {
-                    val fragment = ServiziFragment()
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment, fragment)
-                        .commit()
-                }
+
+        binding.navView.setNavigationItemSelectedListener {item ->
+            when (item.itemId) {
+                R.id.nav_camere -> replaceFragment(CamereFragment())
+                R.id.nav_ristorante -> replaceFragment(RistoranteFragment())
+                R.id.nav_servizi -> replaceFragment(ServiziFragment())
             }
             true
         }
 
-
     }
-    private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment, fragment)
-            .commit()
-    }
-
+        private fun replaceFragment(fragment: Fragment) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment, fragment)
+                .commit()
+        }
 }
-
-
-
-
-
 

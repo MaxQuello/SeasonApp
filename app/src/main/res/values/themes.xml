@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/dock</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/dock</item>
+        <item name="android:forceDarkAllowed">false</item>
         <!-- Customize your theme here. -->
     </style>
 
