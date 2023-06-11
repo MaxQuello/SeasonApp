@@ -13,32 +13,23 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.seasonapp.databinding.FragmentContattiBinding
 
 class ContattiFragment : Fragment() {
-      private lateinit var binding: FragmentContattiBinding
-      private lateinit var contattaciButton: ImageButton
+    private lateinit var binding: FragmentContattiBinding
+    private lateinit var contattaciButton: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentContattiBinding.inflate(layoutInflater)
+        binding = FragmentContattiBinding.inflate(inflater, container, false)
         contattaciButton = binding.contattaciButton
 
         contattaciButton.setOnClickListener {
-           when (R.id.contattaciButton){
-               R.id.contattaciButton ->{
-                   val intent = Intent(Intent.ACTION_DIAL)
-                   intent.data = Uri.parse("tel:${getString(R.string.numeroTelefono)}")
-                   startActivity(intent)
-                   true
-               }
-                else -> false
-           }
-
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:${getString(R.string.numeroTelefono)}")
+            startActivity(intent)
         }
-        
-        binding = FragmentContattiBinding.inflate(layoutInflater)
+
         return binding.root
     }
-
 }
