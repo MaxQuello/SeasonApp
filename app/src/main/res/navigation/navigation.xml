@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment2">
+
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.seasonapp.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/recuperoPasswordFragment"
+        android:name="com.example.seasonapp.RecuperoPasswordFragment"
+        android:label="fragment_recupero_password"
+        tools:layout="@layout/fragment_recupero_password" >
+        <action
+            android:id="@+id/action_recuperoPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recuperoUsernameFragment"
+        android:name="com.example.seasonapp.RecuperoUsernameFragment"
+        android:label="fragment_recupero_username"
+        tools:layout="@layout/fragment_recupero_username" >
+        <action
+            android:id="@+id/action_recuperoUsernameFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.seasonapp.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_recuperoUsernameFragment"
+            app:destination="@id/recuperoUsernameFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_recuperoPasswordFragment"
+            app:destination="@id/recuperoPasswordFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_homeFragment2" app:destination="@id/homeFragment2" />
+    <fragment
+        android:id="@+id/notifyFragment"
+        android:name="com.example.seasonapp.NotifyFragment"
+        android:label="fragment_notify"
+        tools:layout="@layout/fragment_notify" />
+    <action android:id="@+id/action_global_notifyFragment" app:destination="@id/notifyFragment" />
+    <fragment
+        android:id="@+id/contattiFragment"
+        android:name="com.example.seasonapp.ContattiFragment"
+        android:label="fragment_contatti"
+        tools:layout="@layout/fragment_contatti" />
+    <action android:id="@+id/action_global_contattiFragment" app:destination="@id/contattiFragment" />
+    <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
+    <fragment
+        android:id="@+id/camereFragment"
+        android:name="com.example.seasonapp.CamereFragment"
+        android:label="fragment_camere"
+        tools:layout="@layout/fragment_camere" />
+    <action android:id="@+id/action_global_camereFragment" app:destination="@id/camereFragment" />
+    <fragment
+        android:id="@+id/serviziFragment"
+        android:name="com.example.seasonapp.ServiziFragment"
+        android:label="fragment_servizi"
+        tools:layout="@layout/fragment_servizi" />
+    <action android:id="@+id/action_global_serviziFragment" app:destination="@id/serviziFragment" />
+    <fragment
+        android:id="@+id/ristoranteFragment"
+        android:name="com.example.seasonapp.RistoranteFragment"
+        android:label="fragment_ristorante"
+        tools:layout="@layout/fragment_ristorante" /><action android:id="@+id/action_global_ristoranteFragment" app:destination="@id/ristoranteFragment"/>
+</navigation>

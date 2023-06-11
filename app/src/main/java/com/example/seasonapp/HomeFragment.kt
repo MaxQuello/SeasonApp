@@ -14,12 +14,6 @@ class HomeFragment : Fragment() {
     private lateinit var ratingBar: RatingBar
     private lateinit var binding: FragmentHomeBinding
 
-    private fun onClickHome() {
-        val manager = parentFragmentManager
-        val transaction = manager.beginTransaction()
-        transaction.replace(R.id.fragment,HomeFragment())
-        transaction.commit()
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

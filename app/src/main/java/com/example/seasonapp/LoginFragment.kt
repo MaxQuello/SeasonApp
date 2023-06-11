@@ -7,40 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 import com.example.seasonapp.databinding.FragmentLoginBinding
 
 
 class LoginFragment : Fragment() {
-    private lateinit var binding: FragmentLoginBinding
-    private lateinit var recuperoPassword: TextView
-    private lateinit var recuperoUsername: TextView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
 
     ): View? {
-        binding = FragmentLoginBinding.inflate(layoutInflater)
-        recuperoPassword = binding.recuperoPassword
 
-        binding.recuperoPassword.setOnClickListener {
-            when (R.id.recuperoPassword) {
-                R.id.recuperoPassword -> (RecuperoPasswordFragment())
-            }
-
+        val view = inflater.inflate(R.layout.fragment_login, container, false)
+        val recuperopass = view.findViewById<TextView>(R.id.recuperoPassword)
+        recuperopass.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_recuperoPasswordFragment)
+        }
+        val recuperouser = view.findViewById<TextView>(R.id.recuperoUsername)
+        recuperouser.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_recuperoUsernameFragment)
         }
 
-        recuperoUsername = binding.recuperoUsername
-
-        binding.recuperoPassword.setOnClickListener {
-            when (R.id.recuperoUsername) {
-                R.id.recuperoUsername -> (RecuperoUsernameFragment())
-            }
-
-        }
-
-        binding = FragmentLoginBinding.inflate(layoutInflater)
-        return binding.root
+        return view
 
     }
 

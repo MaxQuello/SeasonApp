@@ -15,11 +15,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header"
-        app:navGraph="@menu/nav_menu"
+        app:headerLayout="@layout/header_drawer"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
-        app:menu="@menu/nav_menu"/>
+        app:menu="@menu/menu_drawer"/>
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -41,16 +40,13 @@
             app:titleTextColor="#FFFFFF" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment"
+            android:id="@+id/fragmentContainerView"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="55dp"
-            android:clickable="true"
+            android:layout_height="match_parent"
             app:defaultNavHost="false"
-            app:layout_anchorGravity="center"
-            app:navGraph="@navigation/nav_bottom"
-            tools:layout_editor_absoluteY="55dp" />
+            android:layout_marginVertical="55dp"
+            app:navGraph="@navigation/navigation" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -82,6 +78,7 @@
                 app:itemTextColor="@color/white"
                 app:labelVisibilityMode="labeled"
                 app:layout_anchor="@+id/fragment"
+                app:navGraph="@navigation/navigation"
                 app:layout_anchorGravity="bottom|center"
                 app:menu="@menu/menu_bottom">
 

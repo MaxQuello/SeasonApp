@@ -6,9 +6,21 @@
     tools:context=".RecuperoUsernameFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Recupero Username"
+        android:textSize="36sp" />
+
+    <Button
+        android:id="@+id/buttonIndietro2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="20dp"
+        android:text="indietro" />
 
 </FrameLayout>

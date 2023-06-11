@@ -5,12 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import com.example.seasonapp.databinding.FragmentRecuperoPasswordBinding
+import android.widget.Button
+import androidx.navigation.fragment.findNavController
 
 
 class RecuperoPasswordFragment : Fragment() {
-    private lateinit var binding: FragmentRecuperoPasswordBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -18,8 +17,12 @@ class RecuperoPasswordFragment : Fragment() {
 
     ): View? {
 
-        binding = FragmentRecuperoPasswordBinding.inflate(layoutInflater)
-        return binding.root
+        val view = inflater.inflate(R.layout.fragment_recupero_password, container, false)
+        val buttonindietro = view.findViewById<Button>(R.id.buttonIndietro)
+        buttonindietro.setOnClickListener {
+            findNavController().navigate(R.id.action_recuperoPasswordFragment_to_loginFragment)
 
+        }
+        return view
     }
 }
