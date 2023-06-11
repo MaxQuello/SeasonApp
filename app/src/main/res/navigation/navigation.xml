@@ -70,5 +70,6 @@
         android:id="@+id/ristoranteFragment"
         android:name="com.example.seasonapp.RistoranteFragment"
         android:label="fragment_ristorante"
-        tools:layout="@layout/fragment_ristorante" /><action android:id="@+id/action_global_ristoranteFragment" app:destination="@id/ristoranteFragment"/>
+        tools:layout="@layout/fragment_ristorante" />
+    <action android:id="@+id/action_global_ristoranteFragment" app:destination="@id/ristoranteFragment" />
 </navigation>

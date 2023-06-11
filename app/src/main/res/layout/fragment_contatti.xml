@@ -47,7 +47,6 @@
             android:layout_height="70dp"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="#00FFFFFF"
-            android:contextClickable="true"
             android:scaleType="fitCenter"
             android:src="@drawable/baseline_contact_phone_24"
             app:tint="@color/dock" />

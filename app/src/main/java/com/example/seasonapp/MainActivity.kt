@@ -6,7 +6,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
@@ -18,18 +20,19 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.seasonapp.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 
-open class MainActivity : AppCompatActivity() {
+open class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var dialog: Dialog
     private lateinit var navController: NavController
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -49,19 +52,18 @@ open class MainActivity : AppCompatActivity() {
                 R.id.contactsButton -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_contattiFragment)
                 R.id.profileButton -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_loginFragment)
             }
-           true
+            true
         }
-
-        binding.navView.setNavigationItemSelectedListener {item ->
+//Comportamento Drawer
+        binding.navigationView.setNavigationItemSelectedListener {item ->
             when (item.itemId) {
                 R.id.nav_camere -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_camereFragment)
                 R.id.nav_ristorante -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_ristoranteFragment)
                 R.id.nav_servizi -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_serviziFragment)
             }
+            drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
-
-
 
 //Comportamento floatingActionButton
         dialog = Dialog(this)
@@ -93,6 +95,4 @@ open class MainActivity : AppCompatActivity() {
 
     }
 
-
 }
-
