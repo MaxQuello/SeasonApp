@@ -27,7 +27,7 @@ class PrenotaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
 
-    ): View {
+    ): View? {
                 binding = FragmentPrenotaBinding.inflate(layoutInflater)
                 datePickerButton = binding.datePicker
                 datePickerButton.setOnClickListener {
