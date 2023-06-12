@@ -53,7 +53,6 @@
         android:label="fragment_contatti"
         tools:layout="@layout/fragment_contatti" />
     <action android:id="@+id/action_global_contattiFragment" app:destination="@id/contattiFragment" />
-    <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
     <fragment
         android:id="@+id/camereFragment"
         android:name="com.example.seasonapp.CamereFragment"
@@ -76,5 +75,28 @@
         android:id="@+id/recensioniFragment"
         android:name="com.example.seasonapp.RecensioniFragment"
         android:label="fragment_recensioni"
-        tools:layout="@layout/fragment_recensioni" /><action android:id="@+id/action_global_recensioniFragment" app:destination="@id/recensioniFragment"/>
+        tools:layout="@layout/fragment_recensioni" />
+    <action android:id="@+id/action_global_recensioniFragment" app:destination="@id/recensioniFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.seasonapp.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_registratiFragment"
+            app:destination="@id/registratiFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment" />
+    <fragment
+        android:id="@+id/registratiFragment"
+        android:name="com.example.seasonapp.RegistratiFragment"
+        android:label="fragment_registrati"
+        tools:layout="@layout/fragment_registrati" >
+        <action
+            android:id="@+id/action_registratiFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

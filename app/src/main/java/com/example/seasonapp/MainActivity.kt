@@ -40,7 +40,7 @@ open class MainActivity : AppCompatActivity(){
                 R.id.homeButton -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_homeFragment2)
                 R.id.notifyButton -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_notifyFragment)
                 R.id.contactsButton -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_contattiFragment)
-                R.id.profileButton -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_loginFragment)
+                R.id.profileButton -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_profileFragment)
             }
             true
         }

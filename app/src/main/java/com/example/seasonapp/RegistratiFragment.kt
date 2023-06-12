@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.example.seasonapp.databinding.FragmentLoginBinding
 import com.example.seasonapp.databinding.FragmentRegistratiBinding
 
 
@@ -17,8 +18,8 @@ class RegistratiFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View {
+        binding = FragmentRegistratiBinding.inflate(inflater,container,false)
 
-        binding = FragmentRegistratiBinding.inflate(layoutInflater)
         return binding.root
 
     }
