@@ -16,6 +16,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.seasonapp.databinding.ActivityMainBinding
 
+
+
 open class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
