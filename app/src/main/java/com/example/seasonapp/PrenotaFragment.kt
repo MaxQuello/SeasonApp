@@ -23,6 +23,7 @@ class PrenotaFragment : Fragment() {
     private var selectedCheckInDate: Date? = null
     private var selectedCheckOutDate: Date? = null
     private lateinit var guestSelection :Button
+    private var selectedGuests = 1
 
 
     override fun onCreateView(
@@ -100,13 +101,14 @@ class PrenotaFragment : Fragment() {
         // Imposta le configurazioni del NumberPicker
         guestsNumberPicker.minValue = 1 // Numero minimo di ospiti
         guestsNumberPicker.maxValue = 10 // Numero massimo di ospiti
+        guestsNumberPicker.value = selectedGuests // Imposta il valore iniziale del NumberPicker
 
         val dialogBuilder = AlertDialog.Builder(context)
             .setTitle("Seleziona il numero di ospiti")
             .setView(guestsNumberPicker)
             .setPositiveButton("OK") { dialog, _ ->
-                val selectedGuests = guestsNumberPicker.value
-                // Esegui l'azione desiderata con il numero di ospiti selezionato
+                selectedGuests = guestsNumberPicker.value
+                updateLocationPickerButtonText()
                 dialog.dismiss()
             }
             .setNegativeButton("Annulla") { dialog, _ ->
@@ -116,6 +118,12 @@ class PrenotaFragment : Fragment() {
         val dialog = dialogBuilder.create()
         dialog.show()
     }
+    private fun updateLocationPickerButtonText() {
+        val locationPickerButton: Button = binding.locationPicker
+        locationPickerButton.text = "Numero di ospiti: $selectedGuests"
+    }
+
+
 
 
 
