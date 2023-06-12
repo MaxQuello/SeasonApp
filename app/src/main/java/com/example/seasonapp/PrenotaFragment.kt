@@ -1,11 +1,13 @@
 package com.example.seasonapp
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
@@ -20,6 +22,7 @@ class PrenotaFragment : Fragment() {
     private lateinit var datePickerButton : Button
     private var selectedCheckInDate: Date? = null
     private var selectedCheckOutDate: Date? = null
+    private lateinit var guestSelection :Button
 
 
     override fun onCreateView(
@@ -33,6 +36,11 @@ class PrenotaFragment : Fragment() {
                 datePickerButton.setOnClickListener {
                     showDatePicker()
                 }
+                guestSelection = binding.locationPicker
+                guestSelection.setOnClickListener {
+                    showGuestsSelectionDialog()
+                }
+
                 return binding.root
         }
 
@@ -85,5 +93,30 @@ class PrenotaFragment : Fragment() {
         val buttonText = "$checkInDateString - $checkOutDateString"
         datePickerButton.text = buttonText
     }
+
+    private fun showGuestsSelectionDialog() {
+        val guestsNumberPicker = NumberPicker(context)
+
+        // Imposta le configurazioni del NumberPicker
+        guestsNumberPicker.minValue = 1 // Numero minimo di ospiti
+        guestsNumberPicker.maxValue = 10 // Numero massimo di ospiti
+
+        val dialogBuilder = AlertDialog.Builder(context)
+            .setTitle("Seleziona il numero di ospiti")
+            .setView(guestsNumberPicker)
+            .setPositiveButton("OK") { dialog, _ ->
+                val selectedGuests = guestsNumberPicker.value
+                // Esegui l'azione desiderata con il numero di ospiti selezionato
+                dialog.dismiss()
+            }
+            .setNegativeButton("Annulla") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
+    }
+
+
 
 }
