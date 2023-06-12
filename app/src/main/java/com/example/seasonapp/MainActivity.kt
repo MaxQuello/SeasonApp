@@ -50,6 +50,7 @@ open class MainActivity : AppCompatActivity(){
                 R.id.nav_camere -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_camereFragment)
                 R.id.nav_ristorante -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_ristoranteFragment)
                 R.id.nav_servizi -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_serviziFragment)
+                R.id.nav_recensioni -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_recensioniFragment)
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true

@@ -72,4 +72,9 @@
         android:label="fragment_ristorante"
         tools:layout="@layout/fragment_ristorante" />
     <action android:id="@+id/action_global_ristoranteFragment" app:destination="@id/ristoranteFragment" />
+    <fragment
+        android:id="@+id/recensioniFragment"
+        android:name="com.example.seasonapp.RecensioniFragment"
+        android:label="fragment_recensioni"
+        tools:layout="@layout/fragment_recensioni" /><action android:id="@+id/action_global_recensioniFragment" app:destination="@id/recensioniFragment"/>
 </navigation>

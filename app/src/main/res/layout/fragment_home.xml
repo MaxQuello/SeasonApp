@@ -67,11 +67,11 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 android:baselineAligned="false"
-                android:fontFamily="@font/fontcorsivo"
+                android:textStyle="bold"
                 android:justificationMode="inter_word"
                 android:text="@string/descrizione_season"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

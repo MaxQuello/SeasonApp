@@ -19,6 +19,11 @@
             android:id="@+id/nav_servizi"
             android:icon="@drawable/baseline_local_activity_24"
             android:title="Servizi" />
+
+        <item
+            android:id="@+id/nav_recensioni"
+            android:icon="@drawable/baseline_star_rate_24"
+            android:title="Recensioni" />
     </group>
 
     <item
