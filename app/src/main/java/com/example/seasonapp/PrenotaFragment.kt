@@ -20,6 +20,7 @@ class PrenotaFragment : Fragment() {
     private lateinit var datePickerButton : Button
     private var selectedCheckInDate: Date? = null
     private var selectedCheckOutDate: Date? = null
+    private var isSelectingCheckInDate = true
 
 
     override fun onCreateView(
@@ -48,16 +49,21 @@ class PrenotaFragment : Fragment() {
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, month, day)
 
-                if (selectedCheckInDate == null) {
+                if (selectedDate.timeInMillis < System.currentTimeMillis()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Non puoi selezionare una data passata",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@DatePickerDialog
+                }
+
+                if (isSelectingCheckInDate) {
                     selectedCheckInDate = selectedDate.time
-                    showDatePicker()
                 } else {
                     if (selectedDate.time.compareTo(selectedCheckInDate!!) > 0) {
                         selectedCheckOutDate = selectedDate.time
-                        updateButtonWithSelectedDates()
                     } else {
-                        // La data di check-out è precedente o uguale alla data di check-in
-                        // Mostra un messaggio di errore o prendi un'altra azione appropriata
                         Toast.makeText(
                             requireContext(),
                             "La data di Check-out deve essere successiva alla data di Check-in",
@@ -65,17 +71,24 @@ class PrenotaFragment : Fragment() {
                         ).show()
                     }
                 }
+
+                isSelectingCheckInDate = !isSelectingCheckInDate
+                updateButtonWithSelectedDates()
             },
             currentYear,
             currentMonth,
             currentDay
         )
 
-        // Imposta la data minima selezionabile nel DatePickerDialog
-        selectedCheckInDate?.let { datePickerDialog.datePicker.minDate = it.time }
+        if (!isSelectingCheckInDate) {
+            selectedCheckInDate?.let { datePickerDialog.datePicker.minDate = it.time }
+        }
+
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis()
 
         datePickerDialog.show()
     }
+
 
     private fun updateButtonWithSelectedDates() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
