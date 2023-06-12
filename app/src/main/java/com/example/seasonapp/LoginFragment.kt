@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View? {
-        binding = FragmentLoginBinding.inflate(inflater,container,false)
+        /*Log.d("SONO IO","Sono prima del bottone")
         binding.buttonLogin.setOnClickListener {
             if (binding.inserisciUsername.text.toString() != ""  && binding.inserisciPassword.text.toString() != ""){
                 username = binding.inserisciUsername.text.toString()
@@ -53,6 +53,36 @@ class LoginFragment : Fragment() {
         recuperouser.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_recuperoUsernameFragment)
         }
+
+        return view*/
+
+        binding = FragmentLoginBinding.inflate(inflater,container,false)
+        val view = binding.root
+        Log.d("SONO IO","Sono prima del bottone")
+        binding.buttonLogin.setOnClickListener {
+            if (binding.inserisciUsername.text.toString() != ""  && binding.inserisciPassword.text.toString() != ""){
+                username = binding.inserisciUsername.text.toString()
+                password = binding.inserisciPassword.text.toString()
+                val loginRequestLogin = RequestLogin(username=username, password=password)
+                Log.i("LOG-Login_Fragment", "chiamo la fun loginUtente passando: $loginRequestLogin ")
+                loginUtente(loginRequestLogin)
+            }else{
+                Log.i("LOG-Login_Fragment", "L'utente non ha inserito le credenziali")
+                Toast.makeText(context,"Inserisci le credenziali", Toast.LENGTH_LONG).show()
+            }
+
+        }
+
+        val recuperopass = view.findViewById<TextView>(R.id.recuperoPassword)
+        recuperopass.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_recuperoPasswordFragment)
+        }
+
+        val recuperouser = view.findViewById<TextView>(R.id.recuperoUsername)
+        recuperouser.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_recuperoUsernameFragment)
+        }
+
 
         return view
 
