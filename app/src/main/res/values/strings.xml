@@ -21,6 +21,13 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="nome">Nome</string>
+    <string name="cognome">Cognome</string>
+    <string name="uomo">Uomo</string>
+    <string name="donna">Donna</string>
+    <string name="dataNascita">Data di nascita</string>
+    <string name="emailUtente">Email</string>
+    <string name="numero">Numero di telefono</string>
     <string name="recuperoPassword">Non ricordo la Password.</string>
     <string name="recuperoUsername">Non ricordo l\'Username.</string>
     <string name="supporto">Supporto</string>
