@@ -37,6 +37,7 @@ android {
 
 dependencies {
 
+    implementation 'androidx.core:core-ktx:+'
     def retrofit_version = "2.9.0"
     def coroutines_version = "1.7.1"
     def lifecycle_version = "2.6.1"
@@ -64,6 +65,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.annotation:annotation:1.6.0'
+
+    implementation 'androidx.sqlite:sqlite:2.1.0'
 
 
     testImplementation 'junit:junit:4.13.2'

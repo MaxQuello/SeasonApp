@@ -14,12 +14,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import com.example.seasonapp.api.OnLoginStatusListener
 import com.example.seasonapp.databinding.ActivityMainBinding
 
 
 
-open class MainActivity : AppCompatActivity(), OnLoginStatusListener{
+open class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var dialog: Dialog
@@ -85,10 +84,6 @@ open class MainActivity : AppCompatActivity(), OnLoginStatusListener{
         }
 
 
-    }
-
-    override fun onLoginSuccess() {
-        // Esegui le azioni desiderate quando il login è stato effettuato con successo
     }
 
 }

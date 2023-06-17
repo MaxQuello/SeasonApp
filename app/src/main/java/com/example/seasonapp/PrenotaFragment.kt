@@ -2,7 +2,6 @@ package com.example.seasonapp
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.seasonapp.api.OnLoginStatusListener
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -28,22 +26,6 @@ class PrenotaFragment : Fragment() {
     private var checkInSelected = false
     private lateinit var guestSelection :Button
     private var selectedGuests = 1
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        if (context is OnLoginStatusListener) {
-            // L'Activity implementa l'interfaccia OnLoginStatusListener
-            val loginStatusListener = context as OnLoginStatusListener
-
-            // Puoi chiamare il metodo onLoginSuccess() o utilizzare l'oggetto loginStatusListener in altri punti del fragment
-        } else {
-            // L'Activity non implementa l'interfaccia OnLoginStatusListener
-            // Gestisci questa situazione di conseguenza
-        }
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +48,7 @@ class PrenotaFragment : Fragment() {
 
                 searchButton = binding.search
                 searchButton.setOnClickListener {
-                    checkiflogindone()
+                    //checkiflogindone()
                 }
 
 
@@ -157,10 +139,4 @@ class PrenotaFragment : Fragment() {
         val locationPickerButton: Button = binding.locationPicker
         locationPickerButton.text = "Numero di ospiti: $selectedGuests"
     }
-
-    private fun checkiflogindone(){
-
-    }
-
-
 }
