@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -58,6 +59,11 @@ class LoginFragment : Fragment() {
                 Toast.makeText(context,"Inserisci le credenziali", Toast.LENGTH_LONG).show()
             }
 
+        }
+
+        val indietro = view.findViewById<ImageButton>(R.id.buttonIndietroLogin)
+        indietro.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_profileFragment)
         }
 
         val recuperopass = view.findViewById<TextView>(R.id.recuperoPassword)

@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_recuperoPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_recuperoPasswordFragment_to_otpFragment"
+            app:destination="@id/otpFragment" />
     </fragment>
     <fragment
         android:id="@+id/recuperoUsernameFragment"
@@ -39,6 +42,9 @@
         <action
             android:id="@+id/action_loginFragment_to_recuperoPasswordFragment"
             app:destination="@id/recuperoPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <action android:id="@+id/action_global_homeFragment2" app:destination="@id/homeFragment2" />
     <fragment
@@ -97,6 +103,21 @@
         tools:layout="@layout/fragment_registrati" >
         <action
             android:id="@+id/action_registratiFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registratiFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.example.seasonapp.OtpFragment"
+        android:label="fragment_otp"
+        tools:layout="@layout/fragment_otp" >
+        <action
+            android:id="@+id/action_otpFragment_to_recuperoPasswordFragment"
+            app:destination="@id/recuperoPasswordFragment" />
+        <action
+            android:id="@+id/action_otpFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>
