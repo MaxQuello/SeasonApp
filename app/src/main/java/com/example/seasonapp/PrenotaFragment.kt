@@ -22,6 +22,7 @@ class PrenotaFragment : Fragment() {
     private lateinit var datePickerButton : Button
     private var selectedCheckInDate: Date? = null
     private var selectedCheckOutDate: Date? = null
+    private var checkInSelected = false
     private lateinit var guestSelection :Button
     private var selectedGuests = 1
 
@@ -35,6 +36,9 @@ class PrenotaFragment : Fragment() {
                 binding = FragmentPrenotaBinding.inflate(layoutInflater)
                 datePickerButton = binding.datePicker
                 datePickerButton.setOnClickListener {
+                    checkInSelected = false
+                    selectedCheckInDate = null
+                    selectedCheckOutDate = null
                     showDatePicker()
                 }
                 guestSelection = binding.locationPicker
@@ -57,21 +61,32 @@ class PrenotaFragment : Fragment() {
                 val selectedDate = Calendar.getInstance()
                 selectedDate.set(year, month, day)
 
-                if (selectedCheckInDate == null) {
-                    selectedCheckInDate = selectedDate.time
-                    showDatePicker()
+                if (selectedDate.time.compareTo(calendar.time) < 0) {
+                    // La data di check-in è precedente alla data corrente
+                    // Mostra un messaggio di errore o prendi un'altra azione appropriata
+                    Toast.makeText(
+                        requireContext(),
+                        "La data di Check-in non può essere precedente alla data corrente",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    if (selectedDate.time.compareTo(selectedCheckInDate!!) > 0) {
-                        selectedCheckOutDate = selectedDate.time
-                        updateButtonWithSelectedDates()
+                    if (!checkInSelected) {
+                        selectedCheckInDate = selectedDate.time
+                        checkInSelected = true
+                        showDatePicker()
                     } else {
-                        // La data di check-out è precedente o uguale alla data di check-in
-                        // Mostra un messaggio di errore o prendi un'altra azione appropriata
-                        Toast.makeText(
-                            requireContext(),
-                            "La data di Check-out deve essere successiva alla data di Check-in",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        if (selectedDate.time.compareTo(selectedCheckInDate!!) > 0) {
+                            selectedCheckOutDate = selectedDate.time
+                            updateButtonWithSelectedDates()
+                        } else {
+                            // La data di check-out è precedente o uguale alla data di check-in
+                            // Mostra un messaggio di errore o prendi un'altra azione appropriata
+                            Toast.makeText(
+                                requireContext(),
+                                "La data di Check-out deve essere successiva alla data di Check-in",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             },
@@ -79,9 +94,6 @@ class PrenotaFragment : Fragment() {
             currentMonth,
             currentDay
         )
-
-        // Imposta la data minima selezionabile nel DatePickerDialog
-        selectedCheckInDate?.let { datePickerDialog.datePicker.minDate = it.time }
 
         datePickerDialog.show()
     }
@@ -94,7 +106,6 @@ class PrenotaFragment : Fragment() {
         val buttonText = "$checkInDateString - $checkOutDateString"
         datePickerButton.text = buttonText
     }
-
     private fun showGuestsSelectionDialog() {
         val guestsNumberPicker = NumberPicker(context)
 
