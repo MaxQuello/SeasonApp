@@ -1,5 +1,6 @@
 package com.example.seasonapp
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.seasonapp.api.ClientNetwork
+import com.example.seasonapp.api.OnLoginStatusListener
 import com.example.seasonapp.databinding.FragmentLoginBinding
 import com.example.seasonapp.model.RequestLogin
 import com.google.gson.JsonArray
@@ -24,6 +26,16 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     var username = ""
     var password = ""
+    private var loginStatusListener: OnLoginStatusListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnLoginStatusListener) {
+            loginStatusListener = context
+        }
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,6 +88,7 @@ class LoginFragment : Fragment() {
                         try{
                             getUser((response.body()?.get("queryset")as JsonArray).get(0) as JsonObject)
                             Log.i("LOG-Login_Fragment-onResponse", "LOGGATO")
+                            loginStatusListener?.onLoginSuccess()
                             if ((response.body()?.get("queryset") as JsonArray).size() == 1) {
                                 //Log.i("LOG-Login_Fragment-onResponse", "Sono dentro il secondo if. e chiamo la getImageProfilo")
                             } else {
