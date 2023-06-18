@@ -1,5 +1,6 @@
 package com.example.seasonapp
 
+import AdapterOfferte
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -7,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -50,6 +53,14 @@ class PrenotaFragment : Fragment() {
                 searchButton.setOnClickListener {
                     //checkiflogindone()
                 }
+
+        val offerte = ArrayList<Offerta>()
+        for(i in 1..3){
+            offerte.add(Offerta(1, 2, 3, 1549.60))
+        }
+
+        binding.listaOfferte.adapter = AdapterOfferte(offerte)
+        binding.listaOfferte.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 
 
                 return binding.root
