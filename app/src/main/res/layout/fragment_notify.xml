@@ -24,7 +24,7 @@
             android:text="@string/notifiche"
             android:textColor="#000000"
             android:textSize="40sp"
-            android:textStyle="normal" />
+            android:textStyle="normal|bold" />
 
         <View
             android:id="@+id/divider3"
