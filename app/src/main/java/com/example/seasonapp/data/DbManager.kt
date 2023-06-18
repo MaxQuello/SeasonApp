@@ -19,78 +19,78 @@ class DbManager(val context: Context) {
         helper.close()
     }
 
-    fun insertUtente(id: Int, nome: String, cognome: String, email: String, password: String){
+    fun insertUtente(username:String, nome: String, cognome: String, email: String, password: String){
         val value = ContentValues().apply {
-            put(DBHelper.ID_UTENTE, id)
+            put(DBHelper.USERNAME, username)
             put(DBHelper.NOME, nome)
             put(DBHelper.COGNOME, cognome)
             put(DBHelper.EMAIL, email)
             put(DBHelper.PASSWORD, password)
         }
-        db.insert(DBHelper.TABLE_UTENTE, null, value)
+        db.insert(DBHelper.TABLE_PERSONA, null, value)
     }
 
     fun updateUtente(idUtente: Int, nome: String, cognome: String, telefono: String, email: String): Int{
-        val selection = "${DBHelper.ID_UTENTE} = ?"
+        val selection = "${DBHelper.USERNAME} = ?"
         val selectioArgs = arrayOf(idUtente.toString())
         val values = ContentValues().apply {
-            put(DBHelper.ID_UTENTE, idUtente)
+            put(DBHelper.USERNAME, idUtente)
             put(DBHelper.NOME, nome)
             put(DBHelper.COGNOME, cognome)
             put(DBHelper.TELEFONO, telefono)
             put(DBHelper.EMAIL, email)
         }
 
-        return db.update(DBHelper.TABLE_UTENTE, values, selection, selectioArgs)
+        return db.update(DBHelper.TABLE_PERSONA, values, selection, selectioArgs)
     }
 
     fun updateTelefono(idUtente: Int, telefono: String): Int {
-        val selection = "${DBHelper.ID_UTENTE} = ?"
+        val selection = "${DBHelper.USERNAME} = ?"
         val selectioArgs = arrayOf(idUtente.toString())
 
         val values = ContentValues().apply {
             put(DBHelper.TELEFONO, telefono)
         }
 
-        return db.update(DBHelper.TABLE_UTENTE, values, selection, selectioArgs)
+        return db.update(DBHelper.TABLE_PERSONA, values, selection, selectioArgs)
     }
 
     fun updateEmail(idUtente: Int, email: String): Int {
-        val selection = "${DBHelper.ID_UTENTE} = ?"
+        val selection = "${DBHelper.USERNAME} = ?"
         val selectioArgs = arrayOf(idUtente.toString())
 
         val values = ContentValues().apply {
             put(DBHelper.EMAIL, email)
         }
 
-        return db.update(DBHelper.TABLE_UTENTE, values, selection, selectioArgs)
+        return db.update(DBHelper.TABLE_PERSONA, values, selection, selectioArgs)
     }
 
     fun updatePassword(idUtente: Int, password: String): Int {
-        val selection = "${DBHelper.ID_UTENTE} = ?"
+        val selection = "${DBHelper.USERNAME} = ?"
         val selectioArgs = arrayOf(idUtente.toString())
 
         val values = ContentValues().apply {
             put(DBHelper.PASSWORD, password)
         }
 
-        return db.update(DBHelper.TABLE_UTENTE, values, selection, selectioArgs)
+        return db.update(DBHelper.TABLE_PERSONA, values, selection, selectioArgs)
     }
 
     fun deleteUtente(idUtente: Int){
-        val selection = "${DBHelper.ID_UTENTE} = ?"
+        val selection = "${DBHelper.USERNAME} = ?"
         val selectionArgs = arrayOf(idUtente.toString())
-        db.delete(DBHelper.TABLE_UTENTE, selection, selectionArgs)
+        db.delete(DBHelper.TABLE_PERSONA, selection, selectionArgs)
     }
 
     fun deleteAll(){
-        db.delete(DBHelper.TABLE_UTENTE, null, null)
+        db.delete(DBHelper.TABLE_PERSONA, null, null)
     }
 
     fun selectUtente(): Cursor{
-        val projection = arrayOf(DBHelper.ID_UTENTE, DBHelper.EMAIL, DBHelper.PASSWORD)
+        val projection = arrayOf(DBHelper.USERNAME, DBHelper.EMAIL, DBHelper.PASSWORD)
         val cursor = db.query(
-            DBHelper.TABLE_UTENTE,
+            DBHelper.TABLE_PERSONA,
             projection,
             null,
             null,
@@ -103,9 +103,9 @@ class DbManager(val context: Context) {
     }
 
     fun selectDatiUtente(): Cursor{
-        val projection = arrayOf(DBHelper.ID_UTENTE, DBHelper.NOME, DBHelper.COGNOME, DBHelper.TELEFONO, DBHelper.EMAIL)
+        val projection = arrayOf(DBHelper.USERNAME, DBHelper.NOME, DBHelper.COGNOME, DBHelper.TELEFONO, DBHelper.EMAIL)
         val cursor = db.query(
-            DBHelper.TABLE_UTENTE,
+            DBHelper.TABLE_PERSONA,
             projection,
             null,
             null,
@@ -118,9 +118,9 @@ class DbManager(val context: Context) {
     }
 
     fun selectIdUtente(): Cursor {
-        val projection = arrayOf(DBHelper.ID_UTENTE)
+        val projection = arrayOf(DBHelper.USERNAME)
         val cursor = db.query(
-            DBHelper.TABLE_UTENTE,
+            DBHelper.TABLE_PERSONA,
             projection,
             null,
             null,

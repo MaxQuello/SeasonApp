@@ -3,7 +3,9 @@ package com.example.seasonapp
 import AdapterOfferte
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
+import com.example.seasonapp.model.RequestRoom
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -51,7 +54,11 @@ class PrenotaFragment : Fragment() {
 
                 searchButton = binding.search
                 searchButton.setOnClickListener {
-                    //checkiflogindone()
+                    if (checkiflogindone()){
+                        searchRoom()
+                    }else{
+                        //Mi porta al profilo
+                    }
                 }
 
         val offerte = ArrayList<Offerta>()
@@ -65,6 +72,48 @@ class PrenotaFragment : Fragment() {
 
                 return binding.root
         }
+
+    private fun searchRoom() {
+        val numberOfGuests = selectedGuests
+        val checkInDate = selectedCheckInDate
+        val checkOutDate = selectedCheckOutDate
+
+        // Verifica se le informazioni sono valide
+        if (numberOfGuests > 0 && checkInDate != null && checkOutDate != null) {
+            val requestRoom = RequestRoom(checkInDate,checkOutDate,numberOfGuests)
+            ricercaCamereDB()
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "Completa tutte le informazioni di prenotazione",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun ricercaCamereDB() {
+        val query = "select * from "
+
+    }
+
+
+    private fun checkiflogindone(): Boolean {
+        // Ottenere un'istanza delle SharedPreferences
+        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+        // Recuperare lo stato del login
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+        // Verificare lo stato del login
+        if (isLoggedIn) {
+            Log.i("PROVA","LOGIN FATTO")
+            return true
+        } else {
+            Log.i("PROVA","LOGIN NON FATTO")
+            return false
+        }
+
+    }
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()

@@ -14,9 +14,9 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val DB_VERSION = 1
 
         //TABLE NAME
-        const val TABLE_UTENTE = "UTENTE"
+        const val TABLE_PERSONA = "PERSONA"
 
-        const val ID_UTENTE = "id_utente"
+        const val USERNAME = "username"
         const val NOME = "nome"
         const val COGNOME = "cognome"
         const val TELEFONO = "telefono"
@@ -25,8 +25,8 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         // STRING TO CREATE TABLE
         private const val SQL_CREATE_UTENTE =
-            "CREATE TABLE $TABLE_UTENTE (" +
-                    "$ID_UTENTE INTEGER PRIMARY KEY," +
+            "CREATE TABLE $TABLE_PERSONA (" +
+                    "$USERNAME TEXT PRIMARY KEY," +
                     "$NOME TEXT NOT NULL," +
                     "$COGNOME TEXT NOT NULL," +
                     "$TELEFONO TEXT," +
@@ -35,7 +35,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         // STRING TO DROP TABLE
         private const val SQL_DELETE_UTENTE =
-            "DROP TABLE IF EXISTS $TABLE_UTENTE;"
+            "DROP TABLE IF EXISTS $TABLE_PERSONA;"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
