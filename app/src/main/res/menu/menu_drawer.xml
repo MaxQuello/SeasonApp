@@ -6,11 +6,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camere"
-            android:checkable="true"
-            android:enabled="true"
             android:icon="@drawable/baseline_bed_24"
-            android:title="Camere"
-            android:visible="true" />
+            android:title="Camere"/>
         <item
             android:id="@+id/nav_ristorante"
             android:icon="@drawable/baseline_restaurant_24"
@@ -26,13 +23,24 @@
             android:title="Recensioni" />
     </group>
 
-    <item android:title="logout">
-        <menu>
+    <item android:title=""/>
+
+
+    <item android:title=""/>
+
+    <item android:title=""/>
+
+    <item android:title=""/>
+
+    <item android:title=""/>
+
+    <item android:title=""/>
+
+    <item android:title=""/>
+
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/baseline_logout_24"
                 android:title="Logout" />
-        </menu>
-    </item>
 
 </menu>
