@@ -1,6 +1,7 @@
 package com.example.seasonapp
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -88,6 +89,18 @@ class LoginFragment : Fragment() {
                         try{
                             getUser((response.body()?.get("queryset")as JsonArray).get(0) as JsonObject)
                             Log.i("LOG-Login_Fragment-onResponse", "LOGGATO")
+                            // Ottenere un'istanza delle SharedPreferences
+                            val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+                            // Ottenere un'istanza dell'editor delle SharedPreferences
+                            val editor = sharedPreferences.edit()
+
+                            // Impostare lo stato del login su true
+                            editor.putBoolean("isLoggedIn", true)
+
+                            // Applicare le modifiche
+                            editor.apply()
+
                             if ((response.body()?.get("queryset") as JsonArray).size() == 1) {
                                 //Log.i("LOG-Login_Fragment-onResponse", "Sono dentro il secondo if. e chiamo la getImageProfilo")
                             } else {

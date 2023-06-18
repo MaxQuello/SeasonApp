@@ -1,10 +1,12 @@
 package com.example.seasonapp
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -51,6 +53,7 @@ open class MainActivity : AppCompatActivity(){
                 R.id.nav_ristorante -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_ristoranteFragment)
                 R.id.nav_servizi -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_serviziFragment)
                 R.id.nav_recensioni -> findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_recensioniFragment)
+                R.id.nav_logout -> logout()
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true
@@ -85,5 +88,25 @@ open class MainActivity : AppCompatActivity(){
 
 
     }
+
+    private fun logout() {
+        // Ottenere un'istanza delle SharedPreferences
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+        // Ottenere un'istanza dell'editor delle SharedPreferences
+        val editor = sharedPreferences.edit()
+
+        // Impostare lo stato del login su false
+        editor.putBoolean("isLoggedIn", false)
+
+        // Applicare le modifiche
+        editor.apply()
+
+        Log.i("PROVA","HO FATTO IL LOGOUT")
+
+        // Puoi eseguire altre operazioni di logout, come reindirizzamento a una schermata di accesso o cancellazione dei dati di sessione
+    }
+
+
 
 }
