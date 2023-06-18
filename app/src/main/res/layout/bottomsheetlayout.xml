@@ -26,6 +26,7 @@
             android:fontFamily="@font/fontcorsivo"
             android:padding="8dp"
             android:text="@string/prenota"
+            android:textStyle="bold|normal"
             android:textAlignment="viewStart"
             android:textColor="@color/dock"
             android:textSize="25dp" />

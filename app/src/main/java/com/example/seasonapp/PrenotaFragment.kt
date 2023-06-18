@@ -67,7 +67,7 @@ class PrenotaFragment : Fragment() {
         }
 
         binding.listaOfferte.adapter = AdapterOfferte(offerte)
-        binding.listaOfferte.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        binding.listaOfferte.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
 
                 return binding.root
