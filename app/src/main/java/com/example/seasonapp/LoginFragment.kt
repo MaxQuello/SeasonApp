@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.seasonapp.api.ClientNetwork
+import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.databinding.FragmentLoginBinding
 import com.example.seasonapp.model.RequestLogin
 import com.google.gson.JsonArray
@@ -25,7 +26,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     var username = ""
     var password = ""
-    private var isLoggedIn = false
+    private lateinit var dbManager: DbManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +37,9 @@ class LoginFragment : Fragment() {
 
         binding = FragmentLoginBinding.inflate(inflater,container,false)
         val view = binding.root
+        dbManager = DbManager(requireContext())
+        dbManager.open()  //apertura connessione al Database locale -->LocalDB
+
         Log.d("SONO IO","Sono prima del bottone")
         binding.buttonLogin.setOnClickListener {
             if (binding.inserisciUsername.text.toString() != ""  && binding.inserisciPassword.text.toString() != ""){
@@ -110,10 +114,10 @@ class LoginFragment : Fragment() {
 
     private fun getUser(jsonObject: JsonObject){
         val username=jsonObject.get("username").asString
+        val nome = jsonObject.get("nome").asString
+        val cognome=jsonObject.get("cognome").asString
+        val email=jsonObject.get("email").asString
         val password=jsonObject.get("password").asString
-        /*val cognome=jsonObject.get("cognome").asString
-        val qr=jsonObject.get("qr").asString
-        val type=jsonObject.get("type").asString*/
     }
 
 }
