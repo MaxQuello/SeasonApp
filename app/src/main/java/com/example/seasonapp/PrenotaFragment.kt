@@ -1,43 +1,49 @@
 package com.example.seasonapp
 
-import AdapterOfferte
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
-import android.icu.util.LocaleData
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestRoom
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.ZoneId
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.util.Objects
+
+data class Camera(
+    val roomId: Int,
+    val roomType: String,
+    val capacity: Int
+)
+
 
 
 class PrenotaFragment : Fragment() {
     private lateinit var binding: FragmentPrenotaBinding
     private lateinit var datePickerButton : Button
     private lateinit var searchButton: Button
+    private lateinit var camerePickerButton : Button
     private var selectedCheckInDate: Date? = null
     private var selectedCheckOutDate: Date? = null
     private var checkInSelected = false
     private lateinit var guestSelection :Button
     private var selectedGuests = 1
+    private var selectedRooms: Int = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,8 +62,9 @@ class PrenotaFragment : Fragment() {
         } */
 
 
-        var date: List<LocalDate?>? = null
+
                 binding = FragmentPrenotaBinding.inflate(layoutInflater)
+
                 datePickerButton = binding.datePicker
                 datePickerButton.setOnClickListener {
                     checkInSelected = false
@@ -70,18 +77,23 @@ class PrenotaFragment : Fragment() {
                     showGuestsSelectionDialog()
                 }
 
+                camerePickerButton = binding.camerePicker
+                camerePickerButton.setOnClickListener {
+                    showRoomsSelectionDialog()
+                }
+
                 searchButton = binding.search
                 searchButton.setOnClickListener {
-                    if (!checkiflogindone()){  //togliere ! quando il db è linkato bene
-                        date = searchRoom()
+                    if (checkiflogindone()){  //togliere ! quando il db è linkato bene
+                        searchRoom()
                         //preleva dati db e popola arrayList offerte
-                        val offerte = ArrayList<Offerta>()
+                        /*val offerte = ArrayList<Offerta>()
                         for(i in 1..3){ //qui sostituire il for con un for migliorato che itera il json
                             offerte.add(Offerta("Bellissime",99, 999.99, date?.get(0), date?.get(1), 99)) // qui dentro andranno gli attributi del risultato della query per popolare la cardview
-                        }
+                        }*/
 
-                        binding.listaOfferte.adapter = AdapterOfferte(offerte)
-                        binding.listaOfferte.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                        /*binding.listaOfferte.adapter = AdapterOfferte(offerte)
+                        binding.listaOfferte.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)*/
 
                     }else{
                         //Mi porta al profilo
@@ -91,30 +103,100 @@ class PrenotaFragment : Fragment() {
                 return binding.root
         }
 
-    private fun searchRoom(): List<LocalDate?>? {
+    private fun showRoomsSelectionDialog() {
+        val roomNumberPicker = NumberPicker(context)
+
+        // Imposta le configurazioni del NumberPicker
+        roomNumberPicker.minValue = 1 // Numero minimo di camere
+        roomNumberPicker.maxValue = 6 // Numero massimo di camere
+        roomNumberPicker.value = selectedRooms // Imposta il valore iniziale del NumberPicker
+
+        val dialogBuilder = AlertDialog.Builder(context)
+            .setTitle("Seleziona il numero di camere")
+            .setView(roomNumberPicker)
+            .setPositiveButton("OK") { dialog, _ ->
+                selectedRooms = roomNumberPicker.value
+                updateRoomPickerButtonText()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Annulla") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
+    }
+
+    private fun updateRoomPickerButtonText() {
+        val buttonText = "Numero di camere: $selectedRooms"
+        camerePickerButton.text = buttonText
+    }
+
+
+    private fun searchRoom() {
         val numberOfGuests = selectedGuests
-        val checkInDate = selectedCheckInDate?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
-        val checkOutDate = selectedCheckOutDate?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
+        val checkInDate = selectedCheckInDate
+        val checkOutDate = selectedCheckOutDate
+        val numberOfRooms = selectedRooms
         Log.i("MyTag", checkInDate.toString())
 
         // Verifica se le informazioni sono valide
         if (numberOfGuests > 0 && checkInDate != null && checkOutDate != null) {
-            val requestRoom = RequestRoom(checkInDate,checkOutDate,numberOfGuests)
-
-            ricercaCamereDB()
-            return listOf(checkInDate, checkOutDate)
+            val requestRoom = RequestRoom(checkInDate,checkOutDate,numberOfGuests,numberOfRooms)
+            ricercaCamereDB(requestRoom)
+            //return listOf(checkInDate, checkOutDate)
         } else {
             Toast.makeText(
                 requireContext(),
                 "Completa tutte le informazioni di prenotazione",
                 Toast.LENGTH_SHORT
             ).show()
-            return null
+            //return null
         }
     }
 
-    private fun ricercaCamereDB() {
-        val query = "select * from "
+    private fun ricercaCamereDB(requestRoom: RequestRoom) {
+        val query = "SELECT * FROM rooms " +
+                "WHERE (capacity = 1 AND ${requestRoom.numberOfGuest} = 1) " +
+                "OR (capacity = 2 AND ${requestRoom.numberOfGuest} <= 2) " +
+                "OR (capacity = 4 AND ${requestRoom.numberOfGuest} <= 4) " +
+                "AND availability = TRUE " +
+                "AND roomId NOT IN " +
+                "(SELECT roomId FROM reservations " +
+                "WHERE (checkInDate <= '${requestRoom.checkInDate}' AND checkOutDate >= '${requestRoom.checkInDate}') " +
+                "OR (checkInDate <= '${requestRoom.checkOutDate}' AND checkOutDate >= '${requestRoom.checkOutDate}')) " +
+                "LIMIT ${requestRoom.numberOfRoom}"
+
+        ClientNetwork.retrofit.getAvaibleRooms(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful) {
+                        val availableRoomsJsonArray = response.body()?.getAsJsonArray("availableRooms")
+                        if (availableRoomsJsonArray != null) {
+                            // Trasforma l'array JSON delle camere disponibili in una lista di oggetti Camera
+                            val availableRoomsList = Gson().fromJson(availableRoomsJsonArray, Array<Camera>::class.java).toList()
+
+                            // Stampa i dati delle camere disponibili nell'output del Logcat
+                            for (room in availableRoomsList) {
+                                Log.d("Camera Disponibile", "ID: ${room.roomId}, Tipo: ${room.roomType}, Capacità: ${room.capacity}")
+                            }
+                        } else {
+                            Log.d("Risposta Vuota", "Nessuna camera disponibile")
+                        }
+                    } else {
+                        Log.e("Errore API", "Codice di errore: ${response.code()}")
+                    }
+                }
+
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+
 
     }
 

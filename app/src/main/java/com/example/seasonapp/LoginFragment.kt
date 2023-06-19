@@ -124,13 +124,13 @@ class LoginFragment : Fragment() {
             }
         )
     }
-
     private fun getUser(jsonObject: JsonObject){
         val username=jsonObject.get("username").asString
         val nome = jsonObject.get("nome").asString
         val cognome=jsonObject.get("cognome").asString
         val email=jsonObject.get("email").asString
         val password=jsonObject.get("password").asString
+        dbManager.insertUtente(username,nome,cognome,email,password)
     }
 
 }

@@ -24,7 +24,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val PASSWORD = "password"
 
         // STRING TO CREATE TABLE
-        private const val SQL_CREATE_UTENTE =
+        private const val SQL_CREATE_PERSONA =
             "CREATE TABLE $TABLE_PERSONA (" +
                     "$USERNAME TEXT PRIMARY KEY," +
                     "$NOME TEXT NOT NULL," +
@@ -40,7 +40,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL("PRAGMA foreign_keys=ON;")
-        db?.execSQL(SQL_CREATE_UTENTE)
+        db?.execSQL(SQL_CREATE_PERSONA)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
