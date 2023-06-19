@@ -4,6 +4,7 @@ import AdapterOfferte
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
+import android.icu.util.LocaleData
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,9 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestRoom
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.Objects
 
 
 class PrenotaFragment : Fragment() {
@@ -39,6 +43,7 @@ class PrenotaFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View {
+        var date: List<LocalDate?>? = null
                 binding = FragmentPrenotaBinding.inflate(layoutInflater)
                 datePickerButton = binding.datePicker
                 datePickerButton.setOnClickListener {
@@ -54,40 +59,44 @@ class PrenotaFragment : Fragment() {
 
                 searchButton = binding.search
                 searchButton.setOnClickListener {
-                    if (checkiflogindone()){
-                        searchRoom()
+                    if (!checkiflogindone()){  //togliere ! quando il db è linkato bene
+                        date = searchRoom()
+                        //preleva dati db e popola arrayList offerte
+                        val offerte = ArrayList<Offerta>()
+                        for(i in 1..3){ //qui sostituire il for con un for migliorato che itera il json
+                            offerte.add(Offerta("Bellissime",99, 999.99, date?.get(0), date?.get(1), 99)) // qui dentro andranno gli attributi del risultato della query per popolare la cardview
+                        }
+
+                        binding.listaOfferte.adapter = AdapterOfferte(offerte)
+                        binding.listaOfferte.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
                     }else{
                         //Mi porta al profilo
                     }
                 }
 
-        val offerte = ArrayList<Offerta>()
-        for(i in 1..3){
-            offerte.add(Offerta(1, 2, 3, 1549.60))
-        }
-
-        binding.listaOfferte.adapter = AdapterOfferte(offerte)
-        binding.listaOfferte.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
-
                 return binding.root
         }
 
-    private fun searchRoom() {
+    private fun searchRoom(): List<LocalDate?>? {
         val numberOfGuests = selectedGuests
-        val checkInDate = selectedCheckInDate
-        val checkOutDate = selectedCheckOutDate
+        val checkInDate = selectedCheckInDate?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
+        val checkOutDate = selectedCheckOutDate?.toInstant()?.atZone(ZoneId.systemDefault())?.toLocalDate()
+        Log.i("MyTag", checkInDate.toString())
 
         // Verifica se le informazioni sono valide
         if (numberOfGuests > 0 && checkInDate != null && checkOutDate != null) {
             val requestRoom = RequestRoom(checkInDate,checkOutDate,numberOfGuests)
+
             ricercaCamereDB()
+            return listOf(checkInDate, checkOutDate)
         } else {
             Toast.makeText(
                 requireContext(),
                 "Completa tutte le informazioni di prenotazione",
                 Toast.LENGTH_SHORT
             ).show()
+            return null
         }
     }
 
