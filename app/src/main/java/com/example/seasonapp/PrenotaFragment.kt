@@ -53,7 +53,8 @@ class PrenotaFragment : Fragment() {
             buttonPrenotaOra.visibility = View.VISIBLE
         } else {
             buttonPrenotaOra.visibility = View.GONE                 //cercare di capire perchè crasha
-        }*/
+        } */
+
 
         var date: List<LocalDate?>? = null
                 binding = FragmentPrenotaBinding.inflate(layoutInflater)
