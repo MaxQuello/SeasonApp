@@ -185,7 +185,7 @@ class PrenotaFragment : Fragment() {
             .setView(guestsNumberPicker)
             .setPositiveButton("OK") { dialog, _ ->
                 selectedGuests = guestsNumberPicker.value
-                updateLocationPickerButtonText()
+                updateOspitiPickerButtonText()
                 dialog.dismiss()
             }
             .setNegativeButton("Annulla") { dialog, _ ->
@@ -195,8 +195,8 @@ class PrenotaFragment : Fragment() {
         val dialog = dialogBuilder.create()
         dialog.show()
     }
-    private fun updateLocationPickerButtonText() {
-        val locationPickerButton: Button = binding.ospitiPicker
-        locationPickerButton.text = "Numero di ospiti: $selectedGuests"
+    private fun updateOspitiPickerButtonText() {
+        val ospitiPickerButton: Button = binding.ospitiPicker
+        ospitiPickerButton.text = "Numero di ospiti: $selectedGuests"
     }
 }
