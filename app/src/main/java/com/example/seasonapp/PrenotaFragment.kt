@@ -16,6 +16,8 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestRoom
 import java.text.SimpleDateFormat
@@ -43,6 +45,16 @@ class PrenotaFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View {
+
+//Pulsante Prenota che appare se nella recycler ci sono elementi
+    /*    val adapterOfferte = AdapterOfferte(ArrayList())
+        val buttonPrenotaOra = binding.buttonPrenotaOra
+        if (adapterOfferte.itemCount> 0) {
+            buttonPrenotaOra.visibility = View.VISIBLE
+        } else {
+            buttonPrenotaOra.visibility = View.GONE                 //cercare di capire perchè crasha
+        }*/
+
         var date: List<LocalDate?>? = null
                 binding = FragmentPrenotaBinding.inflate(layoutInflater)
                 datePickerButton = binding.datePicker
