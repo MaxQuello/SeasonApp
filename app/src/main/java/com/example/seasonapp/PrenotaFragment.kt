@@ -47,7 +47,7 @@ class PrenotaFragment : Fragment() {
                     selectedCheckOutDate = null
                     showDatePicker()
                 }
-                guestSelection = binding.locationPicker
+                guestSelection = binding.ospitiPicker
                 guestSelection.setOnClickListener {
                     showGuestsSelectionDialog()
                 }
@@ -196,7 +196,7 @@ class PrenotaFragment : Fragment() {
         dialog.show()
     }
     private fun updateLocationPickerButtonText() {
-        val locationPickerButton: Button = binding.locationPicker
+        val locationPickerButton: Button = binding.ospitiPicker
         locationPickerButton.text = "Numero di ospiti: $selectedGuests"
     }
 }
