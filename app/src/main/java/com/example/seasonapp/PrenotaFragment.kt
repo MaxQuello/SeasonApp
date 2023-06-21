@@ -170,6 +170,9 @@ class PrenotaFragment : Fragment() {
         ClientNetwork.retrofit.getAvaibleRooms(query).enqueue(
             object : Callback<JsonObject>{
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    Log.i("onResponse", "Sono dentro la onResponse e l'esito sarà: ${response.isSuccessful}")
+                    val errorBodyString = response.errorBody()?.string()
+                    Log.i("onResponse", "Sono dentro la onResponse e l'error body sara : ${errorBodyString}")
                     if (response.isSuccessful) {
                         val availableRoomsJsonArray = response.body()?.getAsJsonArray("availableRooms")
                         if (availableRoomsJsonArray != null) {
