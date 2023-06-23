@@ -36,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="20dp">
+            android:layout_marginVertical="20dp"
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:id="@+id/layoutPaginaRistorante"
@@ -76,6 +77,57 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="?android:attr/listDivider" />
+
+                <Button
+                    android:id="@+id/date_picker_ristorante"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/dataPrenRistorante"
+                    app:icon="@drawable/ic_today" />
+
+                <Button
+                    android:id="@+id/ospiti_picker_ristorante"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/numero_di_ospiti" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginVertical="5dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButtonPranzo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:text="@string/pranzo" />
+
+                    <RadioButton
+                        android:id="@+id/radioButtonCena"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:text="@string/cena" />
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/buttonPrenotaOra2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/prenota"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </LinearLayout>
 

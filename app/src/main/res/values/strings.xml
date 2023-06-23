@@ -58,6 +58,10 @@
     <string name="cognomeUtenteLoggato">%s</string>
     <string name="dataNascitaUtenteLoggato">%s</string>
     <string name="ristorante">Il Nostro Ristorante</string>
-    <string name="sottotitoloRistorante">Lasciati guidare dai nostri chef</string>
-    <string name="descRistorante">Prova i nostri menu\' giornalieri</string>
+    <string name="sottotitoloRistorante">Lasciati coccolare dai nostri chef</string>
+    <string name="descRistorante">Prenota ora il tuo tavolo e vivi la nostra esperienza culinaria.</string>
+    <string name="dataPrenRistorante">Data della Prenotazione</string>
+    <string name="numero_di_ospiti">Numero di ospiti</string>
+    <string name="pranzo">Pranzo</string>
+    <string name="cena">Cena</string>
 </resources>
