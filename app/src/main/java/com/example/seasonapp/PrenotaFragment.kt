@@ -16,11 +16,13 @@ import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestRoom
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -38,8 +40,8 @@ class PrenotaFragment : Fragment() {
     private lateinit var datePickerButton : Button
     private lateinit var searchButton: Button
     private lateinit var camerePickerButton : Button
-    private var selectedCheckInDate: Date? = null
-    private var selectedCheckOutDate: Date? = null
+    private var selectedCheckInDate: LocalDate? = null
+    private var selectedCheckOutDate: LocalDate? = null
     private var checkInSelected = false
     private lateinit var guestSelection :Button
     private var selectedGuests = 1
@@ -163,30 +165,21 @@ class PrenotaFragment : Fragment() {
                 "AND availability = TRUE " +
                 "AND roomId NOT IN " +
                 "(SELECT roomId FROM reservations " +
-                "WHERE (checkInDate <= '${requestRoom.checkInDate}' AND checkOutDate >= '${requestRoom.checkInDate}') " +
-                "OR (checkInDate <= '${requestRoom.checkOutDate}' AND checkOutDate >= '${requestRoom.checkOutDate}')) " +
+                "WHERE (checkInDate <= '${requestRoom.checkInDate}' AND checkOutDate >= '${requestRoom.checkOutDate}') " +
+                "OR (checkInDate <= '${requestRoom.checkInDate}' AND checkOutDate >= '${requestRoom.checkOutDate}')) " +
                 "LIMIT ${requestRoom.numberOfRoom}"
 
         ClientNetwork.retrofit.getAvaibleRooms(query).enqueue(
             object : Callback<JsonObject>{
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     Log.i("onResponse", "Sono dentro la onResponse e l'esito sarà: ${response.isSuccessful}")
-                    val errorBodyString = response.errorBody()?.string()
-                    Log.i("onResponse", "Sono dentro la onResponse e l'error body sara : ${errorBodyString}")
+                    val BodyString = response.body()
+                    Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${BodyString}")
                     if (response.isSuccessful) {
-                        val availableRoomsJsonArray = response.body()?.getAsJsonArray("availableRooms")
-                        if (availableRoomsJsonArray != null) {
-                            // Trasforma l'array JSON delle camere disponibili in una lista di oggetti Camera
-                            val availableRoomsList = Gson().fromJson(availableRoomsJsonArray, Array<Camera>::class.java).toList()
+                        //Scrivi qui gio
+                    }
 
-                            // Stampa i dati delle camere disponibili nell'output del Logcat
-                            for (room in availableRoomsList) {
-                                Log.d("Camera Disponibile", "ID: ${room.roomId}, Tipo: ${room.roomType}, Capacità: ${room.capacity}")
-                            }
-                        } else {
-                            Log.d("Risposta Vuota", "Nessuna camera disponibile")
-                        }
-                    } else {
+                    else {
                         Log.e("Errore API", "Codice di errore: ${response.code()}")
                     }
                 }
@@ -223,18 +216,17 @@ class PrenotaFragment : Fragment() {
     }
 
     private fun showDatePicker() {
-        val calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        val currentMonth = calendar.get(Calendar.MONTH)
-        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+        val currentDate = LocalDate.now()
+        val currentYear = currentDate.year
+        val currentMonth = currentDate.monthValue
+        val currentDay = currentDate.dayOfMonth
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, year, month, day ->
-                val selectedDate = Calendar.getInstance()
-                selectedDate.set(year, month, day)
+                val selectedDate = LocalDate.of(year, month + 1, day)
 
-                if (selectedDate.time.compareTo(calendar.time) < 0) {
+                if (selectedDate.isBefore(currentDate)) {
                     // La data di check-in è precedente alla data corrente
                     // Mostra un messaggio di errore o prendi un'altra azione appropriata
                     Toast.makeText(
@@ -244,12 +236,12 @@ class PrenotaFragment : Fragment() {
                     ).show()
                 } else {
                     if (!checkInSelected) {
-                        selectedCheckInDate = selectedDate.time
+                        selectedCheckInDate = selectedDate
                         checkInSelected = true
                         showDatePicker()
                     } else {
-                        if (selectedDate.time.compareTo(selectedCheckInDate!!) > 0) {
-                            selectedCheckOutDate = selectedDate.time
+                        if (selectedDate.isAfter(selectedCheckInDate)) {
+                            selectedCheckOutDate = selectedDate
                             updateButtonWithSelectedDates()
                         } else {
                             // La data di check-out è precedente o uguale alla data di check-in
@@ -264,21 +256,22 @@ class PrenotaFragment : Fragment() {
                 }
             },
             currentYear,
-            currentMonth,
+            currentMonth - 1,
             currentDay
         )
 
         datePickerDialog.show()
     }
 
+
     private fun updateButtonWithSelectedDates() {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val checkInDateString = selectedCheckInDate?.let { dateFormat.format(it) } ?: ""
-        val checkOutDateString = selectedCheckOutDate?.let { dateFormat.format(it) } ?: ""
+        val checkInDateString = selectedCheckInDate?.toString() ?: ""
+        val checkOutDateString = selectedCheckOutDate?.toString() ?: ""
 
         val buttonText = "$checkInDateString - $checkOutDateString"
         datePickerButton.text = buttonText
     }
+
     private fun showGuestsSelectionDialog() {
         val guestsNumberPicker = NumberPicker(context)
 
@@ -305,5 +298,11 @@ class PrenotaFragment : Fragment() {
     private fun updateOspitiPickerButtonText() {
         val ospitiPickerButton: Button = binding.ospitiPicker
         ospitiPickerButton.text = "Numero di ospiti: $selectedGuests"
+    }
+
+    fun getRooms(jsonObject: JsonObject){
+        val roomId = jsonObject.get("roomId").asInt
+        val roomType = jsonObject.get("roomType").asString
+        val capacity = jsonObject.get("capacity").asInt
     }
 }
