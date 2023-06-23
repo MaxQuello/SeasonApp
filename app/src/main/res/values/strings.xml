@@ -64,4 +64,6 @@
     <string name="numero_di_ospiti">Numero di ospiti</string>
     <string name="pranzo">Pranzo</string>
     <string name="cena">Cena</string>
+    <string name="i_nostri_servizi">I Nostri Servizi</string>
+    <string name="acquista_il_tuo_gympass">Acquista il tuo GymPass</string>
 </resources>
