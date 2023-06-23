@@ -7,7 +7,7 @@
     tools:context=".RistoranteFragment">
 
     <LinearLayout
-        android:id="@+id/layoutCamere"
+        android:id="@+id/layoutRistorante"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
