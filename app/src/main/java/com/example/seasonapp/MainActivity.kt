@@ -62,13 +62,13 @@ open class MainActivity : AppCompatActivity(){
 //Comportamento floatingActionButton
         dialog = Dialog(this)
         dialog.setContentView(R.layout.bottomsheetlayout)
-        dialog.window!!.setLayout(
+        dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window!!.attributes.windowAnimations = R.style.DialogAnimation
-        dialog.window!!.setGravity(Gravity.TOP)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.TOP)
 
         binding.fab.setOnClickListener {
             dialog.show()

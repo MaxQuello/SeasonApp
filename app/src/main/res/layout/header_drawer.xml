@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/margin"
     android:layout_width="match_parent"
     android:layout_height="150dp"
+    android:layout_margin="25dp"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView

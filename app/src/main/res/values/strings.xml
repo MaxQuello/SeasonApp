@@ -52,4 +52,12 @@
         un divertente miniclub Kids For All Seasons e un centro immersioni PADI gestito con esperienza,
         oltre ad una delle migliori barriere coralline della regione e ad una funicolare che vi trasporta dalla cima
         alla spiaggia.</string>
+    <string name="le_mie_prenotazioni">LE MIE PRENOTAZIONI</string>
+    <string name="modifica_profilo">MODIFICA PROFILO</string>
+    <string name="nomeUtenteLoggato">%s</string>
+    <string name="cognomeUtenteLoggato">%s</string>
+    <string name="dataNascitaUtenteLoggato">%s</string>
+    <string name="ristorante">Il Nostro Ristorante</string>
+    <string name="sottotitoloRistorante">Lasciati guidare dai nostri chef</string>
+    <string name="descRistorante">Prova i nostri menu\' giornalieri</string>
 </resources>
