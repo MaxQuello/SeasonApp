@@ -66,4 +66,9 @@
     <string name="cena">Cena</string>
     <string name="i_nostri_servizi">I Nostri Servizi</string>
     <string name="acquista_il_tuo_gympass">Acquista il tuo GymPass</string>
+    <string name="data_di_prenotazione_gympass">Data di prenotazione</string>
+    <string name="data_di_prenotazione_escursione">Data di prenotazione</string>
+    <string name="textEscursione">Scopri Le Bellezze Del Posto</string>
+    <string name="descPalestra">Prova la nostra sala Fitness.</string>
+    <string name="descEscursione">Visita il complesso della nostra struttura e vivi l\'esperienza delle immersioni PADI.</string>
 </resources>

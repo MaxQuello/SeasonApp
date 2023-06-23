@@ -3,4 +3,177 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ServiziFragment"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ServiziFragment">
+
+    <LinearLayout
+        android:id="@+id/layoutServizi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/testoServizi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
+            android:fontFamily="@font/fontcorsivo"
+            android:gravity="center_horizontal"
+            android:text="@string/i_nostri_servizi"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            android:textStyle="normal|bold" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <ScrollView
+            android:id="@+id/pageServizi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:id="@+id/layoutPaginaServizi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imagePalestra"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginVertical="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/palestra" />
+
+                <TextView
+                    android:id="@+id/titoloPalestra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/fontcorsivo"
+                    android:gravity="center_horizontal"
+                    android:text="@string/acquista_il_tuo_gympass"
+                    android:textColor="#000000"
+                    android:textSize="30sp"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/descPalestra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/descPalestra" />
+
+                <Button
+                    android:id="@+id/date_picker_palestra"
+                    app:icon="@drawable/ic_today"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/data_di_prenotazione_gympass" />
+
+                <EditText
+                    android:id="@+id/editTextText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:ems="10"
+                    android:gravity="center_horizontal"
+                    android:inputType="text"
+                    android:text="Codice Fiscale" />
+
+                <Button
+                    android:id="@+id/buttonPrenotaOraPalestra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/prenota"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:id="@+id/divider8"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <ImageView
+                    android:id="@+id/imageEscursione"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginVertical="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/escursione" />
+
+                <TextView
+                    android:id="@+id/titoloEscursione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/fontcorsivo"
+                    android:gravity="center_horizontal"
+                    android:text="@string/textEscursione"
+                    android:textColor="#000000"
+                    android:textSize="30sp"
+                    android:textStyle="normal|bold" />
+
+                <TextView
+                    android:id="@+id/descEscursione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/descEscursione" />
+
+                <Button
+                    android:id="@+id/date_picker_escursione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/data_di_prenotazione_escursione"
+                    app:icon="@drawable/ic_today" />
+
+                <Button
+                    android:id="@+id/ospiti_picker_escursione"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/numero_di_ospiti" />
+
+                <Button
+                    android:id="@+id/buttonPrenotaOraEscursione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/prenota"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:id="@+id/divider11"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</FrameLayout>
