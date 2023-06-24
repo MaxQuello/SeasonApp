@@ -82,15 +82,13 @@
                     android:backgroundTint="@color/dock"
                     android:text="@string/data_di_prenotazione_gympass" />
 
-                <EditText
-                    android:id="@+id/editTextText"
+                <Button
+                    android:id="@+id/ospiti_picker_palestra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:ems="10"
-                    android:gravity="center_horizontal"
-                    android:inputType="text"
-                    android:text="Codice Fiscale" />
+                    android:layout_marginHorizontal="8dp"
+                    android:backgroundTint="@color/dock"
+                    android:text="@string/numero_di_ospiti" />
 
                 <Button
                     android:id="@+id/buttonPrenotaOraPalestra"
@@ -140,8 +138,7 @@
                     android:id="@+id/date_picker_escursione"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_margin="8dp"
                     android:backgroundTint="@color/dock"
                     android:text="@string/data_di_prenotazione_escursione"
                     app:icon="@drawable/ic_today" />
@@ -159,6 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_margin="8dp"
                     android:backgroundTint="@color/dock"
                     android:text="@string/prenota"
                     app:layout_constraintBottom_toBottomOf="parent"
