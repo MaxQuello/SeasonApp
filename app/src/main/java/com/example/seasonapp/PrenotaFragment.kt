@@ -173,8 +173,8 @@ class PrenotaFragment : Fragment() {
             object : Callback<JsonObject>{
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     Log.i("onResponse", "Sono dentro la onResponse e l'esito sarà: ${response.isSuccessful}")
-                    val BodyString = response.body()
-                    Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${BodyString}")
+                    val bodyString = response.body()
+                    Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
                         //Scrivi qui gio
                     }
