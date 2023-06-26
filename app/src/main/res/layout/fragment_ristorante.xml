@@ -97,6 +97,7 @@
                     android:text="@string/numero_di_ospiti" />
 
                 <RadioGroup
+                    android:id="@+id/groupPasto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

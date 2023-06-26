@@ -2,14 +2,24 @@ package com.example.seasonapp
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.NumberPicker
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Toast
+import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.databinding.FragmentRistoranteBinding
+import com.example.seasonapp.model.RequestResturant
+import com.google.gson.JsonObject
+import org.jsoup.Jsoup
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 
 
@@ -17,6 +27,9 @@ class RistoranteFragment : Fragment() {
     private lateinit var binding: FragmentRistoranteBinding
     private lateinit var datePickerButton: Button
     private lateinit var guestButton: Button
+    private var isOptionSelected : Boolean ?= null
+    private lateinit var prenotaButton: Button
+    private lateinit var radioGroup: RadioGroup
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
 
@@ -37,7 +50,38 @@ class RistoranteFragment : Fragment() {
             showGuestsSelectionDialog()
         }
 
+        radioGroup = binding.groupPasto
+        radioGroup.setOnCheckedChangeListener {
+                group,checkedId ->
+            when(checkedId){
+                R.id.radioButtonPranzo -> {
+                    Log.d("Prova","Pranzo selezionato")
+                    isOptionSelected = true
+                }
+                R.id.radioButtonCena -> {
+                    Log.d("Prova","Cena selezionata")
+                    isOptionSelected = false
+                }
+            }
+        }
+
+        prenotaButton = binding.buttonPrenotaOraRistorante
+        prenotaButton.setOnClickListener {
+            prenotaRistorante()
+        }
+
         return binding.root
+    }
+
+    private fun prenotaRistorante() {
+        val numberOfGuest = selectedGuests
+        val resturantDate = selectedDate
+        val optionSelected = isOptionSelected
+
+        if (numberOfGuest>0 && resturantDate!=null && optionSelected !=null){
+            val requestResturant = RequestResturant(numberOfGuest,resturantDate,optionSelected)
+            prenotazioneRistorante(requestResturant)
+        }
     }
 
     private fun showGuestsSelectionDialog() {
@@ -106,5 +150,35 @@ class RistoranteFragment : Fragment() {
     private fun updateButtonWithSelectedDate() {
         val dateString = selectedDate?.toString() ?: ""
         datePickerButton.text = dateString
+    }
+
+    private fun prenotazioneRistorante(requestResturant: RequestResturant){
+        val query = "INSERT INTO prenotazioneRistorante (data_prenotazione, numero_ospiti, valore_booleano) " +
+                "VALUES ('${requestResturant.resturantDate}', ${requestResturant.numberOfGuest}, ${requestResturant.valueChecked})"
+
+        ClientNetwork.retrofit.insertResturantReservation(query).enqueue(
+            object : Callback<JsonObject> {
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    Log.i("onResponse", "Sono dentro la onResponse e l'esito sarà: ${response.isSuccessful}")
+                    val bodyString = response.body()
+                    Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Prenotazione effettuata",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        // Gestisci l'errore nell'inserimento nel database
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("onResponse", "Errore nell'inserimento nel database: $errorBody")
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    // Gestisci l'eventuale errore di comunicazione con il server
+                }
+            }
+        )
     }
 }
