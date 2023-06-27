@@ -1,5 +1,6 @@
 package com.example.seasonapp
 
+import AdapterOfferte
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestRoom
@@ -21,6 +23,7 @@ import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Math.ceil
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Calendar
@@ -144,8 +147,13 @@ class PrenotaFragment : Fragment() {
 
         // Verifica se le informazioni sono valide
         if (numberOfGuests > 0 && checkInDate != null && checkOutDate != null) {
+            val camereNecessarie = calcolaCamere(numberOfGuests, numberOfRooms)
             val requestRoom = RequestRoom(checkInDate,checkOutDate,numberOfGuests,numberOfRooms)
-            ricercaCamereDB(requestRoom)
+            if(camereNecessarie != null) {
+                ricercaCamereDB(checkInDate, checkOutDate, camereNecessarie)
+            }else{
+                //gestisci richiesta impossibile
+            }
             //return listOf(checkInDate, checkOutDate)
         } else {
             Toast.makeText(
@@ -157,17 +165,62 @@ class PrenotaFragment : Fragment() {
         }
     }
 
-    private fun ricercaCamereDB(requestRoom: RequestRoom) {
-        val query = "SELECT * FROM rooms " +
-                "WHERE (capacity = 1 AND ${requestRoom.numberOfGuest} = 1) " +
-                "OR (capacity = 2 AND ${requestRoom.numberOfGuest} <= 2) " +
-                "OR (capacity = 4 AND ${requestRoom.numberOfGuest} <= 4) " +
-                "AND availability = TRUE " +
-                "AND roomId NOT IN " +
-                "(SELECT roomId FROM reservations " +
-                "WHERE (checkInDate <= '${requestRoom.checkInDate}' AND checkOutDate >= '${requestRoom.checkOutDate}') " +
-                "OR (checkInDate <= '${requestRoom.checkInDate}' AND checkOutDate >= '${requestRoom.checkOutDate}')) " +
-                "LIMIT ${requestRoom.numberOfRoom}"
+    fun calcolaCamere(nOspiti: Int, nCamere:Int): HashMap<Int, Int>?{
+        val camereIndividuate = HashMap<Int, Int>()
+        camereIndividuate[1] = 0
+        camereIndividuate[2] = 0
+        camereIndividuate[4] = 0
+        val dimensioniCamere = arrayOf(4, 2, 1)
+        var camereRimanenti = nCamere
+        if(nCamere <= nOspiti){
+            var ospitiSenzaCamera = nOspiti
+            while(ospitiSenzaCamera > 0){
+
+                val n = ospitiSenzaCamera.toDouble() / camereRimanenti
+                var dimensioneCameraPiuGrande = kotlin.math.ceil(n).toInt()
+
+                if(dimensioneCameraPiuGrande > 4){
+                    return null
+                }
+
+                while(dimensioneCameraPiuGrande !in dimensioniCamere){
+                    dimensioneCameraPiuGrande++
+                }
+
+                ospitiSenzaCamera -= dimensioneCameraPiuGrande
+                camereRimanenti--
+
+                val numeroCamereNuovo = camereIndividuate[dimensioneCameraPiuGrande]?.plus(1)
+                if(numeroCamereNuovo != null) {
+                    camereIndividuate[dimensioneCameraPiuGrande] = numeroCamereNuovo
+                }
+
+                println(dimensioneCameraPiuGrande)
+
+            }
+            return camereIndividuate
+        }else{
+            return null
+        }
+    }
+
+    private fun ricercaCamereDB(checkInDate: LocalDate, checkOutDate: LocalDate, camereNecessarie: Map<Int, Int>) {
+        val query = "(SELECT * FROM rooms WHERE capacity = 1 " +
+                "AND availability = TRUE AND roomId NOT IN (" +
+                    "SELECT roomId FROM reservations WHERE (checkInDate <= '${checkInDate}' " +
+                    "AND checkOutDate >= '${checkOutDate}')) " +
+                "LIMIT ${camereNecessarie[1]}) " +
+                "UNION (SELECT * FROM rooms WHERE capacity = 2 " +
+                "AND availability = TRUE AND roomId NOT IN (" +
+                    "SELECT roomId FROM reservations WHERE (checkInDate <= '${checkInDate}' " +
+                    "AND checkOutDate >= '${checkOutDate}')) " +
+                "LIMIT ${camereNecessarie[2]}) " +
+                "UNION (SELECT * FROM rooms WHERE capacity = 4 " +
+                "AND availability = TRUE AND roomId NOT IN (" +
+                    "SELECT roomId FROM reservations WHERE (checkInDate <= '${checkInDate}' " +
+                    "AND checkOutDate >= '${checkOutDate}')) " +
+                " LIMIT ${camereNecessarie[4]})"
+        Log.i("MyTag", query)
 
         ClientNetwork.retrofit.getAvaibleRooms(query).enqueue(
             object : Callback<JsonObject>{
@@ -176,7 +229,18 @@ class PrenotaFragment : Fragment() {
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
-                        //Scrivi qui gio
+                        val listaOfferte = ArrayList<Offerta>()
+                        val jsonArray = response.body()?.getAsJsonArray("queryset")
+                        val resultList = jsonArray?.mapNotNull { it as? JsonObject }
+                        if (resultList != null) {
+                            for(jsonObject in resultList){
+                                val capacita = jsonObject["capacity"].toString().toInt()
+                                val tipologia = jsonObject["roomType"].toString().replace("\"", "")
+                                listaOfferte.add(Offerta(tipologia, 1, 100.0, checkInDate, checkOutDate, capacita))
+                            }
+                        }
+                        binding.listaOfferte.adapter = AdapterOfferte(listaOfferte)
+                        binding.listaOfferte.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                     }
 
                     else {
