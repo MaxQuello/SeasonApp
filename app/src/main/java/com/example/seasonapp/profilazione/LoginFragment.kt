@@ -26,6 +26,7 @@ import retrofit2.Response
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
+    private var idRicevuto : Int? = null
     var username = ""
     var password = ""
     private lateinit var dbManager: DbManager
@@ -49,6 +50,7 @@ class LoginFragment : Fragment() {
                 password = binding.inserisciPassword.text.toString()
                 val loginRequestLogin = RequestLogin(username=username, password=password)
                 Log.i("LOG-Login_Fragment", "chiamo la fun loginUtente passando: $loginRequestLogin ")
+                getIdUtente(loginRequestLogin)
                 loginUtente(loginRequestLogin)
             }else{
                 Log.i("LOG-Login_Fragment", "L'utente non ha inserito le credenziali")
@@ -140,6 +142,37 @@ class LoginFragment : Fragment() {
         val password=jsonObject.get("password").asString
         val risposta = jsonObject.get("risposta").asString
         dbManager.insertUtente(nome,cognome,gender,dataNascita,email,telefono,username,password,risposta)
+    }
+
+    private fun getIdUtente(requestLogin: RequestLogin) {
+        val query = "select id from utente where username = '${requestLogin.username}' and password = '${requestLogin.password}';"
+        ClientNetwork.retrofit.getIdUtente(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        val jsonObject = response.body()
+                        val jsonArray = jsonObject?.getAsJsonArray("queryset")
+                        if (jsonArray != null && jsonArray.size() > 0) {
+                            val firstObject = jsonArray.get(0).asJsonObject
+                            val idUtente: Int? = firstObject.getAsJsonPrimitive("id")?.asInt
+                            SessionManager.userId = idUtente
+
+                            Log.d("Prova1", "L'id è: ${idUtente}")
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        "L'id utente non esiste",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+        )
+
     }
 
 }

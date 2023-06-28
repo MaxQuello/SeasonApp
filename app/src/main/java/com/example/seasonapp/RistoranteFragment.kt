@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.NumberPicker
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import com.example.seasonapp.api.ClientNetwork
@@ -27,14 +28,13 @@ class RistoranteFragment : Fragment() {
     private lateinit var binding: FragmentRistoranteBinding
     private lateinit var datePickerButton: Button
     private lateinit var guestButton: Button
-    private var isOptionSelected : Boolean ?= null
     private lateinit var prenotaButton: Button
-    private lateinit var radioGroup: RadioGroup
+    private lateinit var radioGroupPasto: RadioGroup
+    private lateinit var chosenMeal : String
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
     private lateinit var dbManager: DbManager
     val idUtente = SessionManager.userId
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,24 +58,18 @@ class RistoranteFragment : Fragment() {
             showGuestsSelectionDialog()
         }
 
-        radioGroup = binding.groupPasto
-        radioGroup.setOnCheckedChangeListener {
-                group,checkedId ->
-            when(checkedId){
-                R.id.radioButtonPranzo -> {
-                    Log.d("Prova","Pranzo selezionato")
-                    isOptionSelected = true
-                }
-                R.id.radioButtonCena -> {
-                    Log.d("Prova","Cena selezionata")
-                    isOptionSelected = false
-                }
-            }
-        }
+        radioGroupPasto = binding.groupPasto
+
 
         prenotaButton = binding.buttonPrenotaOraRistorante
         prenotaButton.setOnClickListener {
+            val radioButtonId = radioGroupPasto.checkedRadioButtonId
+            val radioButton = view?.findViewById<RadioButton>(radioButtonId)
+            val scelta = radioButton?.text.toString()
+            chosenMeal = scelta
             prenotaRistorante()
+
+            Log.d("Prova","pasto scelto: ${chosenMeal}")
         }
 
         return binding.root
@@ -85,12 +79,25 @@ class RistoranteFragment : Fragment() {
         if(idUtente != null){
             val numberOfGuest = selectedGuests
             val resturantDate = selectedDate
-            val optionSelected = isOptionSelected
+            val sceltaPasto = chosenMeal
+            val idRicevuto = idUtente
 
-            if (numberOfGuest>0 && resturantDate!=null && optionSelected !=null){
-                val requestResturant = RequestResturant(numberOfGuest,resturantDate,optionSelected)
+            if (numberOfGuest>0 && resturantDate!=null && sceltaPasto !=null){
+                val requestResturant = RequestResturant(idRicevuto,numberOfGuest,resturantDate,sceltaPasto)
                 prenotazioneRistorante(requestResturant)
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "Non hai completato i campi richiesti",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+        }else{
+            Toast.makeText(
+                requireContext(),
+                "Devi fare l'accesso per prenotare",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -163,9 +170,10 @@ class RistoranteFragment : Fragment() {
     }
 
     private fun prenotazioneRistorante(requestResturant: RequestResturant){
-        val query = "INSERT INTO prenotazioneRistorante (data_prenotazione, numero_ospiti, valore_booleano) " +
-                "VALUES ('${requestResturant.resturantDate}', ${requestResturant.numberOfGuest}, ${requestResturant.valueChecked})"
+        val query = "INSERT INTO prenotazioneRistorante(id_utente, data_prenotazione, numero_ospiti, chosen_meal)" +
+        "VALUES (${requestResturant.idUtente}, '${requestResturant.resturantDate}', ${requestResturant.numberOfGuest}, '${requestResturant.scelta}');"
 
+        Log.d("QUERY","La mia query è: ${query}")
 
         ClientNetwork.retrofit.insertResturantReservation(query).enqueue(
             object : Callback<JsonObject> {
@@ -174,19 +182,21 @@ class RistoranteFragment : Fragment() {
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
-                       val debug = response.body()?.get("queryset")
-                       Log.d("DEBUG","Sto stampando : ${debug}")
-                       dbManager.insertPrenotazioneRistorante(requestResturant.resturantDate.toString(),requestResturant.numberOfGuest
-                       ,requestResturant.valueChecked)
+                       /*dbManager.insertPrenotazioneRistorante(requestResturant.resturantDate.toString(),requestResturant.numberOfGuest
+                       ,requestResturant.scelta)*/
                         Toast.makeText(
                             requireContext(),
                             "Prenotazione effettuata",
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        // Gestisci l'errore nell'inserimento nel database
-                        val errorBody = response.errorBody()?.string()
-                        Log.e("onResponse", "Errore nell'inserimento nel database: $errorBody")
+                        val errorMessage = response.message()
+                        Log.e("onResponse", "Errore nell'inserimento nel database: $errorMessage")
+                        Toast.makeText(
+                            requireContext(),
+                            "La tua richiesta non è andata a buon fine",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 

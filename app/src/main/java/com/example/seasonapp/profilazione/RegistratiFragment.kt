@@ -39,7 +39,6 @@ class RegistratiFragment : Fragment() {
     private lateinit var editTextNumeroDiTelefono : EditText
     private lateinit var editTextUsername : EditText
     private lateinit var editTextPassword : EditText
-    private lateinit var selectSpinnerDomanda: Spinner
     private lateinit var editTextRisposta : EditText
     private lateinit var registratiButton: Button
     private lateinit var dbManager: DbManager

@@ -17,6 +17,11 @@ interface UserAPI {
 
     @POST("postSelect/")
     @FormUrlEncoded
+    fun getIdUtente(@Field("query") query: String): Call<JsonObject>
+
+
+    @POST("postSelect/")
+    @FormUrlEncoded
     fun getAvaibleRooms(@Field("query") query: String) : Call<JsonObject>
 
     @POST("postInsert/")

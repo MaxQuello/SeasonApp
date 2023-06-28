@@ -32,7 +32,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         const val DATA_PRENOTAZIONE = "data_prenotazione"
         const val NUMERO_OSPITI = "numero_ospiti"
-        const val VALUE_CHECKED = "value_checked"
+        const val CHOSENMEAL = "chosen_meal"
 
         // STRING TO CREATE TABLE
         private const val SQL_CREATE_UTENTE =
@@ -52,7 +52,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
             "CREATE TABLE $TABLE_RISTORANTE (" +
                     "$DATA_PRENOTAZIONE DATE NOT NULL," +
                     "$NUMERO_OSPITI INTEGER NOT NULL," +
-                    "$VALUE_CHECKED BOOLEAN);"
+                    "$CHOSENMEAL TEXT NOT NULL);"
 
         // STRING TO DROP TABLE
         private const val SQL_DELETE_UTENTE =

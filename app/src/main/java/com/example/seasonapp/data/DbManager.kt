@@ -20,22 +20,32 @@ class DbManager(val context: Context) {
         helper.close()
     }
 
-    fun insertUtente(nome: String,cognome:String,gender:String,dataNascita:String,email:String,telefono: String,
-    username:String,password: String,risposta:String){
+    fun insertUtente(
+        nome: String,
+        cognome: String,
+        gender: String,
+        dataNascita: String,
+        email: String,
+        telefono: String,
+        username: String,
+        password: String,
+        risposta: String
+    ) {
         val value = ContentValues().apply {
             put(DBHelper.NOME, nome)
             put(DBHelper.COGNOME, cognome)
             put(DBHelper.GENDER, gender)
             put(DBHelper.EMAIL, email)
             put(DBHelper.DATANASCITA, dataNascita)
-            put(DBHelper.EMAIL,email)
-            put(DBHelper.TELEFONO,telefono)
-            put(DBHelper.USERNAME,username)
-            put(DBHelper.PASSWORD,password)
-            put(DBHelper.RISPOSTA,risposta)
+            put(DBHelper.EMAIL, email)
+            put(DBHelper.TELEFONO, telefono)
+            put(DBHelper.USERNAME, username)
+            put(DBHelper.PASSWORD, password)
+            put(DBHelper.RISPOSTA, risposta)
         }
-        db.insert(DBHelper.TABLE_UTENTE, null, value)
+        db.insertWithOnConflict(DBHelper.TABLE_UTENTE, null, value, SQLiteDatabase.CONFLICT_IGNORE)
     }
+
 
     fun updateUtente(idUtente: Int, nome: String, cognome: String, telefono: String, email: String): Int{
         val selection = "${DBHelper.USERNAME} = ?"
@@ -161,11 +171,11 @@ class DbManager(val context: Context) {
         return cursor
     }
 
-    fun insertPrenotazioneRistorante(data_prenotazione:String,numero_ospiti:Int,value_checked : Boolean){
+    fun insertPrenotazioneRistorante(data_prenotazione:String,numero_ospiti:Int,chosenMeal : String){
         val value = ContentValues().apply {
             put(DBHelper.DATA_PRENOTAZIONE,data_prenotazione)
             put(DBHelper.NUMERO_OSPITI,numero_ospiti)
-            put(DBHelper.VALUE_CHECKED,value_checked)
+            put(DBHelper.CHOSENMEAL,chosenMeal)
         }
         db.insert(DBHelper.TABLE_RISTORANTE,null,value)
     }
