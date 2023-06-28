@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/recuperoPasswordFragment"
-        android:name="com.example.seasonapp.RecuperoPasswordFragment"
+        android:name="com.example.seasonapp.profilazione.RecuperoPasswordFragment"
         android:label="fragment_recupero_password"
         tools:layout="@layout/fragment_recupero_password" >
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/recuperoUsernameFragment"
-        android:name="com.example.seasonapp.RecuperoUsernameFragment"
+        android:name="com.example.seasonapp.profilazione.RecuperoUsernameFragment"
         android:label="fragment_recupero_username"
         tools:layout="@layout/fragment_recupero_username" >
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.seasonapp.LoginFragment"
+        android:name="com.example.seasonapp.profilazione.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -98,7 +98,7 @@
     <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment" />
     <fragment
         android:id="@+id/registratiFragment"
-        android:name="com.example.seasonapp.RegistratiFragment"
+        android:name="com.example.seasonapp.profilazione.RegistratiFragment"
         android:label="fragment_registrati"
         tools:layout="@layout/fragment_registrati" >
         <action
@@ -110,7 +110,7 @@
     </fragment>
     <fragment
         android:id="@+id/otpFragment"
-        android:name="com.example.seasonapp.OtpFragment"
+        android:name="com.example.seasonapp.profilazione.OtpFragment"
         android:label="fragment_otp"
         tools:layout="@layout/fragment_otp" >
         <action

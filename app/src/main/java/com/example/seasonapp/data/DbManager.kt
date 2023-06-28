@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import java.time.LocalDate
 
 class DbManager(val context: Context) {
     private lateinit var helper: DBHelper
@@ -19,15 +20,21 @@ class DbManager(val context: Context) {
         helper.close()
     }
 
-    fun insertUtente(username:String, nome: String, cognome: String, email: String, password: String){
+    fun insertUtente(nome: String,cognome:String,gender:String,dataNascita:String,email:String,telefono: String,
+    username:String,password: String,risposta:String){
         val value = ContentValues().apply {
-            put(DBHelper.USERNAME, username)
             put(DBHelper.NOME, nome)
             put(DBHelper.COGNOME, cognome)
+            put(DBHelper.GENDER, gender)
             put(DBHelper.EMAIL, email)
-            put(DBHelper.PASSWORD, password)
+            put(DBHelper.DATANASCITA, dataNascita)
+            put(DBHelper.EMAIL,email)
+            put(DBHelper.TELEFONO,telefono)
+            put(DBHelper.USERNAME,username)
+            put(DBHelper.PASSWORD,password)
+            put(DBHelper.RISPOSTA,risposta)
         }
-        db.insert(DBHelper.TABLE_PERSONA, null, value)
+        db.insert(DBHelper.TABLE_UTENTE, null, value)
     }
 
     fun updateUtente(idUtente: Int, nome: String, cognome: String, telefono: String, email: String): Int{
@@ -41,7 +48,7 @@ class DbManager(val context: Context) {
             put(DBHelper.EMAIL, email)
         }
 
-        return db.update(DBHelper.TABLE_PERSONA, values, selection, selectioArgs)
+        return db.update(DBHelper.TABLE_UTENTE, values, selection, selectioArgs)
     }
 
     fun updateTelefono(idUtente: Int, telefono: String): Int {
@@ -52,7 +59,7 @@ class DbManager(val context: Context) {
             put(DBHelper.TELEFONO, telefono)
         }
 
-        return db.update(DBHelper.TABLE_PERSONA, values, selection, selectioArgs)
+        return db.update(DBHelper.TABLE_UTENTE, values, selection, selectioArgs)
     }
 
     fun updateEmail(idUtente: Int, email: String): Int {
@@ -63,7 +70,7 @@ class DbManager(val context: Context) {
             put(DBHelper.EMAIL, email)
         }
 
-        return db.update(DBHelper.TABLE_PERSONA, values, selection, selectioArgs)
+        return db.update(DBHelper.TABLE_UTENTE, values, selection, selectioArgs)
     }
 
     fun updatePassword(idUtente: Int, password: String): Int {
@@ -74,23 +81,23 @@ class DbManager(val context: Context) {
             put(DBHelper.PASSWORD, password)
         }
 
-        return db.update(DBHelper.TABLE_PERSONA, values, selection, selectioArgs)
+        return db.update(DBHelper.TABLE_UTENTE, values, selection, selectioArgs)
     }
 
     fun deleteUtente(idUtente: Int){
         val selection = "${DBHelper.USERNAME} = ?"
         val selectionArgs = arrayOf(idUtente.toString())
-        db.delete(DBHelper.TABLE_PERSONA, selection, selectionArgs)
+        db.delete(DBHelper.TABLE_UTENTE, selection, selectionArgs)
     }
 
     fun deleteAll(){
-        db.delete(DBHelper.TABLE_PERSONA, null, null)
+        db.delete(DBHelper.TABLE_UTENTE, null, null)
     }
 
     fun selectUtente(): Cursor{
         val projection = arrayOf(DBHelper.USERNAME, DBHelper.EMAIL, DBHelper.PASSWORD)
         val cursor = db.query(
-            DBHelper.TABLE_PERSONA,
+            DBHelper.TABLE_UTENTE,
             projection,
             null,
             null,
@@ -105,7 +112,7 @@ class DbManager(val context: Context) {
     fun selectDatiUtente(): Cursor{
         val projection = arrayOf(DBHelper.USERNAME, DBHelper.NOME, DBHelper.COGNOME, DBHelper.TELEFONO, DBHelper.EMAIL)
         val cursor = db.query(
-            DBHelper.TABLE_PERSONA,
+            DBHelper.TABLE_UTENTE,
             projection,
             null,
             null,
@@ -120,7 +127,7 @@ class DbManager(val context: Context) {
     fun selectIdUtente(): Cursor {
         val projection = arrayOf(DBHelper.USERNAME)
         val cursor = db.query(
-            DBHelper.TABLE_PERSONA,
+            DBHelper.TABLE_UTENTE,
             projection,
             null,
             null,
@@ -130,6 +137,15 @@ class DbManager(val context: Context) {
         )
         cursor?.moveToFirst()
         return cursor
+    }
+
+    fun insertPrenotazioneRistorante(data_prenotazione:String,numero_ospiti:Int,value_checked : Boolean){
+        val value = ContentValues().apply {
+            put(DBHelper.DATA_PRENOTAZIONE,data_prenotazione)
+            put(DBHelper.NUMERO_OSPITI,numero_ospiti)
+            put(DBHelper.VALUE_CHECKED,value_checked)
+        }
+        db.insert(DBHelper.TABLE_RISTORANTE,null,value)
     }
 
 

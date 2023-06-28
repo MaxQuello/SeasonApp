@@ -1,4 +1,4 @@
-package com.example.seasonapp
+package com.example.seasonapp.profilazione
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.navigation.fragment.findNavController
+import com.example.seasonapp.R
 
 
 class OtpFragment : Fragment() {

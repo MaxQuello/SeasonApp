@@ -23,6 +23,10 @@ interface UserAPI {
     @FormUrlEncoded
     fun insertResturantReservation(@Field("query") query: String) : Call<JsonObject>
 
+    @POST("postInsert/")
+    @FormUrlEncoded
+    fun insertUser(@Field("query") query: String) : Call<JsonObject>
+
     @POST("postUpdate/")
     @FormUrlEncoded
     fun modifica(@Field("query") query: String): Call<JsonObject>

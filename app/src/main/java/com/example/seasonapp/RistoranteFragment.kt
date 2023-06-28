@@ -9,19 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.NumberPicker
-import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import com.example.seasonapp.api.ClientNetwork
+import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.databinding.FragmentRistoranteBinding
 import com.example.seasonapp.model.RequestResturant
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import org.jsoup.Jsoup
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
-
 
 class RistoranteFragment : Fragment() {
     private lateinit var binding: FragmentRistoranteBinding
@@ -32,6 +31,7 @@ class RistoranteFragment : Fragment() {
     private lateinit var radioGroup: RadioGroup
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
+    private lateinit var dbManager: DbManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +39,10 @@ class RistoranteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRistoranteBinding.inflate(layoutInflater)
+
+        dbManager = DbManager(requireContext())
+        dbManager.open()
+
 
         datePickerButton = binding.datePickerRistorante
         datePickerButton.setOnClickListener {
@@ -156,6 +160,7 @@ class RistoranteFragment : Fragment() {
         val query = "INSERT INTO prenotazioneRistorante (data_prenotazione, numero_ospiti, valore_booleano) " +
                 "VALUES ('${requestResturant.resturantDate}', ${requestResturant.numberOfGuest}, ${requestResturant.valueChecked})"
 
+
         ClientNetwork.retrofit.insertResturantReservation(query).enqueue(
             object : Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
@@ -163,6 +168,10 @@ class RistoranteFragment : Fragment() {
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
+                       val debug = response.body()?.get("queryset")
+                       Log.d("DEBUG","Sto stampando : ${debug}")
+                       dbManager.insertPrenotazioneRistorante(requestResturant.resturantDate.toString(),requestResturant.numberOfGuest
+                       ,requestResturant.valueChecked)
                         Toast.makeText(
                             requireContext(),
                             "Prenotazione effettuata",
@@ -176,7 +185,8 @@ class RistoranteFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    // Gestisci l'eventuale errore di comunicazione con il server
+                    Log.i("LOG-Resturant_Fragment-onFailure", "Errore ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
             }
         )

@@ -1,7 +1,6 @@
-package com.example.seasonapp
+package com.example.seasonapp.profilazione
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.example.seasonapp.R
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.databinding.FragmentLoginBinding
@@ -78,7 +78,7 @@ class LoginFragment : Fragment() {
 
     private fun loginUtente (requestLogin: RequestLogin){
 
-        val query = "select * from persona where username = '${requestLogin.username}' and password = '${requestLogin.password}';"
+        val query = "select * from utente where username = '${requestLogin.username}' and password = '${requestLogin.password}';"
         Log.i("LOG-Login_Fragment", "Query creata:$query ")
 
         ClientNetwork.retrofit.login(query).enqueue(
@@ -104,17 +104,18 @@ class LoginFragment : Fragment() {
                             if ((response.body()?.get("queryset") as JsonArray).size() == 1) {
                                 //Log.i("LOG-Login_Fragment-onResponse", "Sono dentro il secondo if. e chiamo la getImageProfilo")
                             } else {
-                                Log.i("LOG-Login_Fragment-onResponse", "CREDENZIALI ERRATE")
+                                Log.i("LOG-Login_Fragment-onResponse", "CREDENZIALI ERRATE1")
                                 Toast.makeText(context,"credenziali errate", Toast.LENGTH_LONG).show()
                             }
                         }catch (e:Exception){
-                            Log.i("LOG-Login_Fragment-onResponse", "CREDENZIALI ERRATE")
+                            Log.i("LOG-Login_Fragment-onResponse", "CREDENZIALI ERRATE2")
                             Toast.makeText(context,"credenziali errate", Toast.LENGTH_LONG).show()
+                            Log.e("LOG-Login_Fragment-onResponse", "Eccezione:", e)
                         }
 
                     }else{
                         Toast.makeText(context,"Inserisci le credenziali", Toast.LENGTH_LONG).show()
-                        Log.i("LOG-Login_Fragment-onResponse", "CREDENZIALI ERRATE")
+                        Log.i("LOG-Login_Fragment-onResponse", "CREDENZIALI ERRATE3")
                     }
                 }
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
@@ -125,12 +126,17 @@ class LoginFragment : Fragment() {
         )
     }
     private fun getUser(jsonObject: JsonObject){
-        val username=jsonObject.get("username").asString
+        val id = jsonObject.get("id").asString
         val nome = jsonObject.get("nome").asString
         val cognome=jsonObject.get("cognome").asString
-        val email=jsonObject.get("email").asString
+        val gender = jsonObject.get("gender").asString
+        val dataNascita = jsonObject.get("dataNascita").asString
+        val email=jsonObject.get("mail").asString
+        val telefono = jsonObject.get("numeroDiTelefono").asString
+        val username=jsonObject.get("username").asString
         val password=jsonObject.get("password").asString
-        dbManager.insertUtente(username,nome,cognome,email,password)
+        val risposta = jsonObject.get("risposta").asString
+        //dbManager.insertUtente(username,nome,cognome,email,password)
     }
 
 }
