@@ -25,10 +25,9 @@
             android:textSize="12sp"
             android:textStyle="bold|italic"
             app:layout_constraintBottom_toTopOf="@+id/textNumCamere"
-            app:layout_constraintEnd_toEndOf="@+id/textCamere"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textCamere" />
+            app:layout_constraintTop_toTopOf="@+id/divider10"
+            app:layout_constraintVertical_bias="0.70" />
 
         <ImageView
             android:id="@+id/fotoCamera"
@@ -42,21 +41,6 @@
             app:srcCompat="@drawable/camera_family" />
 
         <TextView
-            android:id="@+id/textCamere"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:gravity="end"
-            android:text="Tipologia Camere"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.70" />
-
-        <TextView
             android:id="@+id/textNumCamere"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -68,17 +52,19 @@
             android:textSize="12sp"
             android:textStyle="bold|italic"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textCamere"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tipologiaCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/fontcorsivo"
+            android:textColor="@color/dock"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider10"
-            app:layout_constraintHorizontal_bias="0.534"
-            app:layout_constraintStart_toEndOf="@+id/textCamere"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.703" />
 
@@ -159,10 +145,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/divider10"
-            app:layout_constraintHorizontal_bias="0.53"
+            app:layout_constraintHorizontal_bias="0.583"
             app:layout_constraintStart_toEndOf="@+id/textNumOspiti"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.82" />
+            app:layout_constraintVertical_bias="0.818" />
 
         <TextView
             android:id="@+id/textView5"

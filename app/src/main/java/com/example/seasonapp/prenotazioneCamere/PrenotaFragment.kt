@@ -43,19 +43,7 @@ class PrenotaFragment : Fragment() {
         savedInstanceState: Bundle?
 
     ): View {
-
-//Pulsante Prenota che appare se nella recycler ci sono elementi
-    /*    val adapterOfferte = AdapterOfferte(ArrayList())
-        val buttonPrenotaOra = binding.buttonPrenotaOra
-        if (adapterOfferte.itemCount> 0) {
-            buttonPrenotaOra.visibility = View.VISIBLE
-        } else {
-            buttonPrenotaOra.visibility = View.GONE                 //cercare di capire perchè crasha
-        } */
-
-
-
-                binding = FragmentPrenotaBinding.inflate(layoutInflater)
+        binding = FragmentPrenotaBinding.inflate(layoutInflater)
 
                 datePickerButton = binding.datePicker
                 datePickerButton.setOnClickListener {
@@ -74,24 +62,19 @@ class PrenotaFragment : Fragment() {
                     showRoomsSelectionDialog()
                 }
 
+
                 searchButton = binding.search
                 searchButton.setOnClickListener {
-                    if (checkiflogindone()){  //togliere ! quando il db è linkato bene
+                    if (checkiflogindone()){
                         searchRoom()
-                        //preleva dati db e popola arrayList offerte
-                        /*val offerte = ArrayList<Offerta>()
-                        for(i in 1..3){ //qui sostituire il for con un for migliorato che itera il json
-                            offerte.add(Offerta("Bellissime",99, 999.99, date?.get(0), date?.get(1), 99)) // qui dentro andranno gli attributi del risultato della query per popolare la cardview
-                        }*/
-
-                        /*binding.listaOfferte.adapter = AdapterOfferte(offerte)
-                        binding.listaOfferte.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)*/
-
                     }else{
-                        //Mi porta al profilo
+                        Toast.makeText(
+                            requireContext(),
+                            "Effettua il Login per verificare la disponibilità delle camere.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-
                 return binding.root
         }
 
