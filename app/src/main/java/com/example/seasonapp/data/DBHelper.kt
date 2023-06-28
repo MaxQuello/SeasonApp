@@ -16,7 +16,8 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         //TABLE NAME
         const val TABLE_UTENTE = "UTENTE"
 
-        const val ID = "id"
+        const val ID_UTENTE = "id_utente"
+        const val ID_RISTORANTE = "id_ristorante"
 
         const val NOME = "nome"
         const val COGNOME = "cognome"
@@ -30,6 +31,8 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         const val TABLE_RISTORANTE = "RISTORANTE"
 
+
+        const val REF_UTENTE = "ref_utente"
         const val DATA_PRENOTAZIONE = "data_prenotazione"
         const val NUMERO_OSPITI = "numero_ospiti"
         const val CHOSENMEAL = "chosen_meal"
@@ -37,7 +40,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         // STRING TO CREATE TABLE
         private const val SQL_CREATE_UTENTE =
             "CREATE TABLE $TABLE_UTENTE (" +
-                    "$ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "$ID_UTENTE INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "$NOME TEXT NOT NULL," +
                     "$COGNOME TEXT NOT NULL," +
                     "$GENDER TEXT NOT NULL," +
@@ -50,9 +53,15 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         private const val SQL_CREATE_RISTORANTE =
             "CREATE TABLE $TABLE_RISTORANTE (" +
-                    "$DATA_PRENOTAZIONE DATE NOT NULL," +
-                    "$NUMERO_OSPITI INTEGER NOT NULL," +
-                    "$CHOSENMEAL TEXT NOT NULL);"
+                    "$ID_RISTORANTE INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "$REF_UTENTE INTEGER," +
+                    "$DATA_PRENOTAZIONE TEXT," +
+                    "$NUMERO_OSPITI INTEGER," +
+                    "$CHOSENMEAL TEXT," +
+                    "FOREIGN KEY ($REF_UTENTE) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
+                    ");"
+
+
 
         // STRING TO DROP TABLE
         private const val SQL_DELETE_UTENTE =

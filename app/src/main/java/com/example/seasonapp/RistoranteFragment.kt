@@ -182,8 +182,9 @@ class RistoranteFragment : Fragment() {
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
-                       /*dbManager.insertPrenotazioneRistorante(requestResturant.resturantDate.toString(),requestResturant.numberOfGuest
-                       ,requestResturant.scelta)*/
+                        val dateString = requestResturant.resturantDate.toString()
+                       dbManager.insertPrenotazioneRistorante(requestResturant.idUtente,dateString,
+                       requestResturant.numberOfGuest,requestResturant.scelta)
                         Toast.makeText(
                             requireContext(),
                             "Prenotazione effettuata",

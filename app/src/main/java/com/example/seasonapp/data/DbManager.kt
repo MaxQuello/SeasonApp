@@ -135,7 +135,7 @@ class DbManager(val context: Context) {
     }
 
     fun getUserIdByUsername(username: String): Int? {
-        val projection = arrayOf(DBHelper.ID)
+        val projection = arrayOf(DBHelper.ID_UTENTE)
         val selection = "${DBHelper.USERNAME} = ?"
         val selectionArgs = arrayOf(username)
         val cursor = db.query(
@@ -150,7 +150,7 @@ class DbManager(val context: Context) {
 
         var userId: Int? = null
         if (cursor != null && cursor.moveToFirst()) {
-            userId = cursor.getInt(cursor.getColumnIndex(DBHelper.ID))
+            userId = cursor.getInt(cursor.getColumnIndex(DBHelper.ID_UTENTE))
         }
         cursor?.close()
         return userId
@@ -171,14 +171,21 @@ class DbManager(val context: Context) {
         return cursor
     }
 
-    fun insertPrenotazioneRistorante(data_prenotazione:String,numero_ospiti:Int,chosenMeal : String){
-        val value = ContentValues().apply {
-            put(DBHelper.DATA_PRENOTAZIONE,data_prenotazione)
-            put(DBHelper.NUMERO_OSPITI,numero_ospiti)
-            put(DBHelper.CHOSENMEAL,chosenMeal)
+    fun insertPrenotazioneRistorante(
+        idUtente: Int,
+        dataPrenotazione: String,
+        numeroOspiti: Int,
+        chosenMeal: String
+    ) {
+        val values = ContentValues().apply {
+            put(DBHelper.REF_UTENTE, idUtente)
+            put(DBHelper.DATA_PRENOTAZIONE, dataPrenotazione)
+            put(DBHelper.NUMERO_OSPITI, numeroOspiti)
+            put(DBHelper.CHOSENMEAL, chosenMeal)
         }
-        db.insert(DBHelper.TABLE_RISTORANTE,null,value)
+        db.insertWithOnConflict(DBHelper.TABLE_RISTORANTE, null, values, SQLiteDatabase.CONFLICT_IGNORE)
     }
+
 
 
 }
