@@ -71,4 +71,8 @@
     <string name="textEscursione">Scopri Le Bellezze Del Posto</string>
     <string name="descPalestra">Prova la nostra sala Fitness.</string>
     <string name="descEscursione">Visita il complesso della nostra struttura e vivi l\'esperienza delle immersioni PADI.</string>
+    <string name="recensioni">Recensioni</string>
+    <string name="sottotitolo_recensioni">L\'esperienza dei nostri clienti</string>
+    <string name="descRecensioni">Visualizza o lascia una recensione sulla base della tua esperienza nella nostra struttura.</string>
+    <string name="recensisci">Recensisci</string>
 </resources>
