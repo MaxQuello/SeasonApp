@@ -17,24 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestRoom
-import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Math.ceil
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-
-data class Camera(
-    val roomId: Int,
-    val roomType: String,
-    val capacity: Int
-)
 
 
 
@@ -248,7 +235,6 @@ class PrenotaFragment : Fragment() {
                     }
                 }
 
-
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                     Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
@@ -259,8 +245,6 @@ class PrenotaFragment : Fragment() {
 
 
     }
-
-
     private fun checkiflogindone(): Boolean {
         // Ottenere un'istanza delle SharedPreferences
         val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.seasonapp.R
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentLoginBinding
 import com.example.seasonapp.model.RequestLogin
 import com.google.gson.JsonArray
@@ -89,6 +90,8 @@ class LoginFragment : Fragment() {
                         try{
                             getUser((response.body()?.get("queryset")as JsonArray).get(0) as JsonObject)
                             Log.i("LOG-Login_Fragment-onResponse", "LOGGATO")
+                            val idUtente = dbManager.getUserIdByUsername("${requestLogin.username}")
+                            SessionManager.userId = idUtente
                             // Ottenere un'istanza delle SharedPreferences
                             val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
@@ -136,7 +139,7 @@ class LoginFragment : Fragment() {
         val username=jsonObject.get("username").asString
         val password=jsonObject.get("password").asString
         val risposta = jsonObject.get("risposta").asString
-        //dbManager.insertUtente(username,nome,cognome,email,password)
+        dbManager.insertUtente(nome,cognome,gender,dataNascita,email,telefono,username,password,risposta)
     }
 
 }

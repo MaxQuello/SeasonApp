@@ -124,6 +124,28 @@ class DbManager(val context: Context) {
         return cursor
     }
 
+    fun getUserIdByUsername(username: String): Int? {
+        val projection = arrayOf(DBHelper.ID)
+        val selection = "${DBHelper.USERNAME} = ?"
+        val selectionArgs = arrayOf(username)
+        val cursor = db.query(
+            DBHelper.TABLE_UTENTE,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        var userId: Int? = null
+        if (cursor != null && cursor.moveToFirst()) {
+            userId = cursor.getInt(cursor.getColumnIndex(DBHelper.ID))
+        }
+        cursor?.close()
+        return userId
+    }
+
     fun selectIdUtente(): Cursor {
         val projection = arrayOf(DBHelper.USERNAME)
         val cursor = db.query(

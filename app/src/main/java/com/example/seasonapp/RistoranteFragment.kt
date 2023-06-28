@@ -13,6 +13,7 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentRistoranteBinding
 import com.example.seasonapp.model.RequestResturant
 import com.google.gson.JsonArray
@@ -32,6 +33,8 @@ class RistoranteFragment : Fragment() {
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
     private lateinit var dbManager: DbManager
+    val idUtente = SessionManager.userId
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +45,7 @@ class RistoranteFragment : Fragment() {
 
         dbManager = DbManager(requireContext())
         dbManager.open()
+
 
 
         datePickerButton = binding.datePickerRistorante
@@ -78,13 +82,15 @@ class RistoranteFragment : Fragment() {
     }
 
     private fun prenotaRistorante() {
-        val numberOfGuest = selectedGuests
-        val resturantDate = selectedDate
-        val optionSelected = isOptionSelected
+        if(idUtente != null){
+            val numberOfGuest = selectedGuests
+            val resturantDate = selectedDate
+            val optionSelected = isOptionSelected
 
-        if (numberOfGuest>0 && resturantDate!=null && optionSelected !=null){
-            val requestResturant = RequestResturant(numberOfGuest,resturantDate,optionSelected)
-            prenotazioneRistorante(requestResturant)
+            if (numberOfGuest>0 && resturantDate!=null && optionSelected !=null){
+                val requestResturant = RequestResturant(numberOfGuest,resturantDate,optionSelected)
+                prenotazioneRistorante(requestResturant)
+            }
         }
     }
 

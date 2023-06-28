@@ -44,7 +44,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
                     "$DATANASCITA TEXT NOT NULL,"+
                     "$EMAIL TEXT NOT NULL," +
                     "$TELEFONO TEXT," +
-                    "$USERNAME TEXT NOT NULL,"+
+                    "$USERNAME TEXT NOT NULL UNIQUE,"+
                     "$PASSWORD TEXT NOT NULL," +
                     "$RISPOSTA TEXT NOT NULL);"
 

@@ -1,6 +1,7 @@
 package com.example.seasonapp.profilazione
 
 import android.R
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentRegistratiBinding
 import com.example.seasonapp.model.RequestRegistration
 import com.google.gson.JsonObject
@@ -139,12 +141,33 @@ class RegistratiFragment : Fragment() {
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
                         Log.d("ONRESPONSE","REGISTRATO")
-                        dbManager.insertUtente(requestRegistration.nome,requestRegistration.cognome, requestRegistration.gender,
-                        requestRegistration.dataNascita,requestRegistration.mail,requestRegistration.numeroTelefono,
-                        requestRegistration.username,requestRegistration.password,requestRegistration.risposta)
+                        try {
+                            dbManager.insertUtente(requestRegistration.nome,requestRegistration.cognome, requestRegistration.gender,
+                                requestRegistration.dataNascita,requestRegistration.mail,requestRegistration.numeroTelefono,
+                                requestRegistration.username,requestRegistration.password,requestRegistration.risposta)
+                            val idUtente = dbManager.getUserIdByUsername("${requestRegistration.username}")
+                            Log.d("ID UTENTE","L'id dell'utente è: ${idUtente}")
+                            SessionManager.userId = idUtente
+                            //DEVE PORTARE ALLA HOME
+                            Toast.makeText(
+                                requireContext(),
+                                "Registrazione effettutata, fai l'accesso",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }catch (e: SQLiteConstraintException){
+                            Toast.makeText(
+                                requireContext(),
+                            "L'username inserito è gia esistente",
+                            Toast.LENGTH_SHORT).show()
+                        }
 
-                        //DEVE PORTARE ALLA HOME
 
+                    }else{
+                        Toast.makeText(
+                            requireContext(),
+                            "Username gia registrato",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
