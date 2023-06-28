@@ -30,6 +30,10 @@ interface UserAPI {
 
     @POST("postInsert/")
     @FormUrlEncoded
+    fun insertGymReservation(@Field("query") query: String) : Call<JsonObject>
+
+    @POST("postInsert/")
+    @FormUrlEncoded
     fun insertUser(@Field("query") query: String) : Call<JsonObject>
 
     @POST("postUpdate/")
