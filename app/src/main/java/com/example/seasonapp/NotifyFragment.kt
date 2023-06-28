@@ -18,6 +18,8 @@ class NotifyFragment : Fragment() {
 
     ): View {
 
+        //INSERIRE QUERY DB PER PRENDERE LE NOTIFICHE CHE SONO NEL DB PER POPOLARE LE CARDVIEW
+
         binding = FragmentNotifyBinding.inflate(layoutInflater)
         return binding.root
 
