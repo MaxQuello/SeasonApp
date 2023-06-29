@@ -75,4 +75,8 @@
     <string name="sottotitolo_recensioni">L\'esperienza dei nostri clienti</string>
     <string name="descRecensioni">Visualizza o lascia una recensione sulla base della tua esperienza nella nostra struttura.</string>
     <string name="recensisci">Recensisci</string>
+    <string name="modifica">Modifica</string>
+    <string name="i_miei_servizi">I MIEI SERVIZI</string>
+    <string name="gestisci_prenotazioni">GESTISCI PRENOTAZIONI</string>
+    <string name="messaggioOtp">Il codice di recupero per la password è %s</string>
 </resources>

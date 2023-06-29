@@ -29,9 +29,13 @@ class RecuperoPasswordFragment : Fragment() {
         }
 
         buttonContinua.setOnClickListener {
+            //QUERY DB PER CONTROLLARE SE EMAIL E N TELEFONO SONO CORRETTI
+            //SE SONO CORRETTI GENERA NUMERO DA TOT CIFRE E LO MANDA AL DB E LO STAMPA SULLO SCHERMO
+            // CON UN TOAST, SUCCESSIVAMENTE APPARE IL FRAGMENT COME QUI SOTTO
             findNavController().navigate(R.id.action_recuperoPasswordFragment_to_otpFragment)
 
         }
         return view
     }
+
 }

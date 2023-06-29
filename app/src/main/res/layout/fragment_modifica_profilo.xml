@@ -17,7 +17,7 @@
 
 
             <ImageButton
-                android:id="@+id/buttonIndietroRegistrati"
+                android:id="@+id/buttonIndietroModifica"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -32,11 +32,12 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="@font/fontcorsivo"
                 android:gravity="center_horizontal"
                 android:text="@string/modifica_profilo"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                android:textStyle="bold|italic" />
+                android:textSize="34sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textNome"
@@ -50,7 +51,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/inserisciCognome"
+                android:id="@+id/textCognome"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
@@ -116,46 +117,16 @@
                 android:inputType="textPassword"
                 android:minEms="6" />
 
-            <TextView
-                android:id="@+id/domandaSicurezza"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center_horizontal"
-                android:text="@string/domandaSicurezza"
-                android:textColor="@color/black"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/multiSelectSpinner"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="10dp" />
-
-            <EditText
-                android:id="@+id/inserisciRispostaSicurezza"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginVertical="15dp"
-                android:layout_weight="0"
-                android:hint="@string/rispostaSicurezza"
-                android:inputType="text" />
-
             <Button
-                android:id="@+id/buttonRegistrati"
+                android:id="@+id/buttonModifica"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="100dp"
                 android:layout_marginBottom="70dp"
                 android:layout_weight="0"
-                android:text="@string/registrati" />
+                android:backgroundTint="@color/dock"
+                android:text="@string/modifica" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

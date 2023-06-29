@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -15,8 +16,6 @@ import com.example.seasonapp.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var buttonAccedi: Button
-    private lateinit var buttonRegistrati: Button
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,16 +31,33 @@ class ProfileFragment : Fragment() {
         val messaggioBenvenuto = getString(R.string.benvenuto, nomeUtente)
         binding.testoProfilo.text = messaggioBenvenuto
 
-        val login = view.findViewById<Button>(R.id.buttonAccedi)
+        val login = binding.buttonAccedi
         login.setOnClickListener{
             findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
         }
-        val registrati = view.findViewById<Button>(R.id.buttonRegistrati)
+        val registrati = binding.buttonRegistrati
         registrati.setOnClickListener{
             findNavController().navigate(R.id.action_profileFragment_to_registratiFragment)
         }
 
-        return binding.root
+        val prenotazioni = binding.layoutButtonLeMiePrenotazioni
+        prenotazioni.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_gestisciPrenotazioniFragment)
 
+        }
+
+        val modifica = binding.layoutButtonModificaProfilo
+        modifica.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_modificaProfiloFragment)
+
+        }
+
+        val servizi = binding.layoutButtonIMieiServizi
+        servizi.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_gestisciServiziFragment)
+
+        }
+        return view
     }
+
 }

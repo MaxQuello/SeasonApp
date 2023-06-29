@@ -94,6 +94,15 @@
         <action
             android:id="@+id/action_profileFragment_to_registratiFragment"
             app:destination="@id/registratiFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_modificaProfiloFragment"
+            app:destination="@id/modificaProfiloFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_gestisciPrenotazioniFragment"
+            app:destination="@id/gestisciPrenotazioniFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_gestisciServiziFragment"
+            app:destination="@id/gestisciServiziFragment" />
     </fragment>
     <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment" />
     <fragment
@@ -119,5 +128,32 @@
         <action
             android:id="@+id/action_otpFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modificaProfiloFragment"
+        android:name="com.example.seasonapp.profilazione.ModificaProfiloFragment"
+        android:label="fragment_modifica_profilo"
+        tools:layout="@layout/fragment_modifica_profilo" >
+        <action
+            android:id="@+id/action_modificaProfiloFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gestisciPrenotazioniFragment"
+        android:name="com.example.seasonapp.GestisciPrenotazioniFragment"
+        android:label="fragment_gestisci_prenotazioni"
+        tools:layout="@layout/fragment_gestisci_prenotazioni" >
+        <action
+            android:id="@+id/action_gestisciPrenotazioniFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gestisciServiziFragment"
+        android:name="com.example.seasonapp.GestisciServiziFragment"
+        android:label="fragment_gestisci_servizi"
+        tools:layout="@layout/fragment_gestisci_servizi" >
+        <action
+            android:id="@+id/action_gestisciServiziFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

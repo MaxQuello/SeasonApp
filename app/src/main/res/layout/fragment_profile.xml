@@ -33,6 +33,7 @@
             android:background="?android:attr/listDivider" />
 
         <LinearLayout
+            android:id="@+id/conditionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
@@ -78,11 +79,13 @@
             android:background="?android:attr/listDivider" />
 
         <LinearLayout
+            android:id="@+id/buttonLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layoutButtonLeMiePrenotazioni"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -110,6 +113,35 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutButtonIMieiServizi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/buttonIMieiServizi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="0"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@drawable/baseline_local_activity_24"
+                    app:tint="@color/dock" />
+
+                <TextView
+                    android:id="@+id/textIMieiServizi"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/i_miei_servizi"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutButtonModificaProfilo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
