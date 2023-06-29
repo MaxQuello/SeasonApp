@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.Toast
 import com.example.seasonapp.api.ClientNetwork
+import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.databinding.FragmentServiziBinding
@@ -31,6 +32,7 @@ class ServiziFragment : Fragment() {
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
     val idUtente = SessionManager.userId
+    private lateinit var dbManager: DbManager
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,6 +42,9 @@ class ServiziFragment : Fragment() {
 
     ): View {
         binding = FragmentServiziBinding.inflate(layoutInflater)
+
+        dbManager = DbManager(requireContext())
+        dbManager.open()
 
         Log.d("Prova","L'id Utente è : ${idUtente}")
 
@@ -175,6 +180,10 @@ class ServiziFragment : Fragment() {
                             "Prenotazione effettuata",
                             Toast.LENGTH_SHORT
                         ).show()
+                        val dateString = requestGym.gymDate.toString()
+                        dbManager.insertPrenotazioneGym(requestGym.idUtente,dateString,requestGym.numeroOspiti)
+
+
                     }else{
                         val errorMessage = response.message()
                         Log.e("onResponse", "Errore nell'inserimento nel database: $errorMessage")

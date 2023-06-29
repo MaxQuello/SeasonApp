@@ -37,6 +37,12 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val NUMERO_OSPITI = "numero_ospiti"
         const val CHOSENMEAL = "chosen_meal"
 
+        const val TABLE_GYM = "GYM"
+        const val ID_PRENOTAZIONE_GYM = "id_prenotazione_ristorante"
+        const val REF_GYM = "ref_gym"
+        const val DATA_GYM = "data_gym"
+        const val OSPITI_GYM = "ospiti_gym"
+
         // STRING TO CREATE TABLE
         private const val SQL_CREATE_UTENTE =
             "CREATE TABLE $TABLE_UTENTE (" +
@@ -61,6 +67,16 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
                     "FOREIGN KEY ($REF_UTENTE) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
                     ");"
 
+        private const val SQL_CREATE_GYM =
+            "CREATE TABLE $TABLE_GYM (" +
+                    "$ID_PRENOTAZIONE_GYM INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "$REF_GYM INTEGER," +
+                    "$DATA_GYM TEXT," +
+                    "$OSPITI_GYM INTEGER," +
+                    "FOREIGN KEY ($REF_GYM) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
+                    ");"
+
+
 
 
         // STRING TO DROP TABLE
@@ -77,11 +93,13 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         db?.execSQL("PRAGMA foreign_keys=ON;")
         db?.execSQL(SQL_CREATE_UTENTE)
         db?.execSQL(SQL_CREATE_RISTORANTE)
+        db?.execSQL(SQL_CREATE_GYM)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL(SQL_DELETE_UTENTE)
         db?.execSQL(SQL_DELETE_RISTORANTE)
+        db?.execSQL(SQL_CREATE_GYM)
         onCreate(db)
     }
 
