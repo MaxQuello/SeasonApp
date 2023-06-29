@@ -92,9 +92,10 @@ class LoginFragment : Fragment() {
                         try{
                             getUser((response.body()?.get("queryset")as JsonArray).get(0) as JsonObject)
                             Log.i("LOG-Login_Fragment-onResponse", "LOGGATO")
-                            val idUtente = dbManager.getUserIdByUsername("${requestLogin.username}")
-                            SessionManager.userId = idUtente
-                            // Ottenere un'istanza delle SharedPreferences
+                            val idUtente = dbManager.getUserIdByUsername(requestLogin.username)
+                            val username = requestLogin.username
+                            val sessionManager = SessionManager.getInstance(requireContext())
+                            sessionManager.setUsername(username)
                             val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
                             // Ottenere un'istanza dell'editor delle SharedPreferences
@@ -131,7 +132,7 @@ class LoginFragment : Fragment() {
         )
     }
     private fun getUser(jsonObject: JsonObject){
-        val id = jsonObject.get("id").asString
+        val id = jsonObject.get("id").asInt
         val nome = jsonObject.get("nome").asString
         val cognome=jsonObject.get("cognome").asString
         val gender = jsonObject.get("gender").asString
@@ -141,7 +142,7 @@ class LoginFragment : Fragment() {
         val username=jsonObject.get("username").asString
         val password=jsonObject.get("password").asString
         val risposta = jsonObject.get("risposta").asString
-        dbManager.insertUtente(nome,cognome,gender,dataNascita,email,telefono,username,password,risposta)
+        dbManager.insertUtente(id,nome,cognome,gender,dataNascita,email,telefono,username,password,risposta)
     }
 
     private fun getIdUtente(requestLogin: RequestLogin) {
@@ -155,8 +156,6 @@ class LoginFragment : Fragment() {
                         if (jsonArray != null && jsonArray.size() > 0) {
                             val firstObject = jsonArray.get(0).asJsonObject
                             val idUtente: Int? = firstObject.getAsJsonPrimitive("id")?.asInt
-                            SessionManager.userId = idUtente
-
                             Log.d("Prova1", "L'id è: ${idUtente}")
                         }
                     }
@@ -174,5 +173,4 @@ class LoginFragment : Fragment() {
         )
 
     }
-
 }

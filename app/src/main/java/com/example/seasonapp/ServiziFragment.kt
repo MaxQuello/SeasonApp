@@ -31,7 +31,8 @@ class ServiziFragment : Fragment() {
     private lateinit var prenotaGymButton: Button
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
-    val idUtente = SessionManager.userId
+
+    var idUtente : Int? = null
     private lateinit var dbManager: DbManager
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +47,13 @@ class ServiziFragment : Fragment() {
         dbManager = DbManager(requireContext())
         dbManager.open()
 
-        Log.d("Prova","L'id Utente è : ${idUtente}")
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val username = sessionManager.getUsername()
+
+
+        Log.d("USERNAME","${username}")
+
+        idUtente = username?.let { dbManager.getUserIdByUsername(it) }
 
         datePickerButton = binding.datePickerPalestra
         datePickerButton.setOnClickListener {
@@ -144,8 +151,8 @@ class ServiziFragment : Fragment() {
             val idRicevuto = idUtente
 
             if (numberOfGuest>0 && gymDate!=null){
-                val requestGym = RequestGym(idRicevuto,gymDate,numberOfGuest)
-                prenotazionePalestra(requestGym)
+                val requestGym = idRicevuto?.let { RequestGym(it,gymDate,numberOfGuest) }
+                requestGym?.let { prenotazionePalestra(it) }
             }else{
                 Toast.makeText(
                     requireContext(),

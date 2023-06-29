@@ -21,6 +21,7 @@ import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentRegistratiBinding
+import com.example.seasonapp.model.RequestLogin
 import com.example.seasonapp.model.RequestRegistration
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -42,6 +43,7 @@ class RegistratiFragment : Fragment() {
     private lateinit var editTextRisposta : EditText
     private lateinit var registratiButton: Button
     private lateinit var dbManager: DbManager
+    private lateinit var idUtente : RequestRegistration
 
 
     override fun onCreateView(
@@ -101,28 +103,39 @@ class RegistratiFragment : Fragment() {
         val testoPassword = editTextPassword.text.toString()
         val testoRisposta = editTextRisposta.text.toString()
 
-
         if (testoNome.isNotEmpty() && testoCognome.isNotEmpty() && scelta.isNotEmpty() && testoDataNascita.isNotEmpty()
             && testoMail.isNotEmpty() && testoNumeroTelefono.isNotEmpty() && testoUsername.isNotEmpty()
-            && testoPassword.isNotEmpty() && testoRisposta.isNotEmpty()){
-            val requestRegistration = RequestRegistration(testoNome,testoCognome,scelta,testoDataNascita,testoMail,
-            testoNumeroTelefono,testoUsername,testoPassword,testoRisposta)
+            && testoPassword.isNotEmpty() && testoRisposta.isNotEmpty()) {
 
-            registraUtente(requestRegistration)
-            /*dbManager.insertUtente(testoNome,testoCognome,scelta,testoDataNascita,testoMail,testoNumeroTelefono,testoUsername,
-            testoPassword,testoRisposta)*/
+            val requestRegistration = RequestRegistration(testoNome, testoCognome, scelta, testoDataNascita, testoMail,
+                testoNumeroTelefono, testoUsername, testoPassword, testoRisposta)
 
-        }else{
+            registraUtente(requestRegistration) { idUtente ->
+                if (idUtente != null) {
+                    dbManager.insertUtente(
+                        idUtente,
+                        testoNome,
+                        testoCognome,
+                        scelta,
+                        testoDataNascita,
+                        testoMail,
+                        testoNumeroTelefono,
+                        testoUsername,
+                        testoPassword,
+                        testoRisposta
+                    )
+                }
+            }
+        } else {
             Toast.makeText(
                 requireContext(),
                 "Completa i dati mancanti",
                 Toast.LENGTH_SHORT
             ).show()
         }
-
     }
 
-    private fun registraUtente(requestRegistration: RequestRegistration) {
+    private fun registraUtente(requestRegistration: RequestRegistration, callback: (idUtente: Int?) -> Unit) {
 
         val query = "INSERT INTO utente (nome, cognome, gender, dataNascita, mail, numeroDiTelefono, username, password, risposta) " +
                 "VALUES ('${requestRegistration.nome}', '${requestRegistration.cognome}', '${requestRegistration.gender}'," +
@@ -141,13 +154,23 @@ class RegistratiFragment : Fragment() {
                     if (response.isSuccessful) {
                         Log.d("ONRESPONSE","REGISTRATO")
                         try {
-                            dbManager.insertUtente(requestRegistration.nome,requestRegistration.cognome, requestRegistration.gender,
-                                requestRegistration.dataNascita,requestRegistration.mail,requestRegistration.numeroTelefono,
-                                requestRegistration.username,requestRegistration.password,requestRegistration.risposta)
-                            val idUtente = dbManager.getUserIdByUsername("${requestRegistration.username}")
-                            Log.d("ID UTENTE","L'id dell'utente è: ${idUtente}")
-                            SessionManager.userId = idUtente
-                            //DEVE PORTARE ALLA HOME
+                            getIdUtente(requestRegistration) { idUtente ->
+                                if (idUtente != null) {
+                                    dbManager.insertUtente(
+                                        idUtente,
+                                        requestRegistration.nome,
+                                        requestRegistration.cognome,
+                                        requestRegistration.gender,
+                                        requestRegistration.dataNascita,
+                                        requestRegistration.mail,
+                                        requestRegistration.numeroTelefono,
+                                        requestRegistration.username,
+                                        requestRegistration.password,
+                                        requestRegistration.risposta
+                                    )
+                                }
+                            }
+
                             Toast.makeText(
                                 requireContext(),
                                 "Registrazione effettutata, fai l'accesso",
@@ -173,6 +196,45 @@ class RegistratiFragment : Fragment() {
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                     Log.i("LOG-Resturant_Fragment-onFailure", "Errore ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+
+    }
+
+    private fun getIdUtente(requestRegistration: RequestRegistration,callback: (idUtente: Int?) -> Unit) {
+        val query = "select id from utente where username = '${requestRegistration.username}' and password = '${requestRegistration.password}';"
+        ClientNetwork.retrofit.getIdUtente(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful) {
+                        val jsonObject = response.body()
+                        val jsonArray = jsonObject?.getAsJsonArray("queryset")
+                        if (jsonArray != null && jsonArray.size() > 0) {
+                            val firstObject = jsonArray.get(0).asJsonObject
+                            val idUtente: Int? = firstObject.getAsJsonPrimitive("id")?.asInt
+                            //SessionManager.userId = idUtente
+
+                            Log.d("Prova1", "L'id è: ${idUtente}")
+                            callback(idUtente)
+                        } else {
+                            // Nessun risultato trovato
+                            callback(null)
+                        }
+                    } else {
+                        // Errore nella chiamata API
+                        callback(null)
+                    }
+                }
+
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        "L'id utente non esiste",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
             }

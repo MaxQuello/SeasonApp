@@ -46,7 +46,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         // STRING TO CREATE TABLE
         private const val SQL_CREATE_UTENTE =
             "CREATE TABLE $TABLE_UTENTE (" +
-                    "$ID_UTENTE INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "$ID_UTENTE INTEGER PRIMARY KEY," +
                     "$NOME TEXT NOT NULL," +
                     "$COGNOME TEXT NOT NULL," +
                     "$GENDER TEXT NOT NULL," +

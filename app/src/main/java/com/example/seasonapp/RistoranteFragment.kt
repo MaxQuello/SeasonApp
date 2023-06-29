@@ -17,7 +17,6 @@ import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentRistoranteBinding
 import com.example.seasonapp.model.RequestResturant
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,7 +33,7 @@ class RistoranteFragment : Fragment() {
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
     private lateinit var dbManager: DbManager
-    val idUtente = SessionManager.userId
+    val idUtente : Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,

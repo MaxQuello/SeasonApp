@@ -21,6 +21,7 @@ class DbManager(val context: Context) {
     }
 
     fun insertUtente(
+        id : Int,
         nome: String,
         cognome: String,
         gender: String,
@@ -32,6 +33,7 @@ class DbManager(val context: Context) {
         risposta: String
     ) {
         val value = ContentValues().apply {
+            put(DBHelper.ID_UTENTE,id)
             put(DBHelper.NOME, nome)
             put(DBHelper.COGNOME, cognome)
             put(DBHelper.GENDER, gender)
