@@ -15,10 +15,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         //TABLE NAME
         const val TABLE_UTENTE = "UTENTE"
-
         const val ID_UTENTE = "id_utente"
-        const val ID_RISTORANTE = "id_ristorante"
-
         const val NOME = "nome"
         const val COGNOME = "cognome"
         const val GENDER = "gender"
@@ -30,8 +27,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val RISPOSTA = "risposta"
 
         const val TABLE_RISTORANTE = "RISTORANTE"
-
-
+        const val ID_RISTORANTE = "id_ristorante"
         const val REF_UTENTE = "ref_utente"
         const val DATA_PRENOTAZIONE = "data_prenotazione"
         const val NUMERO_OSPITI = "numero_ospiti"
@@ -42,6 +38,21 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val REF_GYM = "ref_gym"
         const val DATA_GYM = "data_gym"
         const val OSPITI_GYM = "ospiti_gym"
+
+        const val TABLE_RESERVATIONS = "RESERVATIONS"
+        const val ID_RESERVATIONS = "id_reservations"
+        const val ROOMID = "room_id"
+        const val CHECKINDATE = "check_in_date"
+        const val CHECKOUTDATE = "check_out_date"
+        const val REFRESERVATIONS = "ref_reservations"
+
+        const val TABLE_ROOMS = "ROOMS"
+        const val ROOMIDROOMS = "room_id_rooms"
+        const val ROOM_TYPE = "room_type"
+        const val CAPACITY = "capacity"
+        const val AVAILABILITY = "avability3"
+
+
 
         // STRING TO CREATE TABLE
         private const val SQL_CREATE_UTENTE =
@@ -76,6 +87,26 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
                     "FOREIGN KEY ($REF_GYM) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
                     ");"
 
+        private const val SQL_CREATE_RESERVATIONS =
+            "CREATE TABLE $TABLE_RESERVATIONS (" +
+                    "$ID_RESERVATIONS INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "$ROOMID INTEGER," +
+                    "$CHECKINDATE TEXT," +
+                    "$CHECKOUTDATE TEXT," +
+                    "$REFRESERVATIONS INTEGER," +
+                    "FOREIGN KEY ($ROOMID) REFERENCES $TABLE_ROOMS ($ROOMIDROOMS)," +
+                    "FOREIGN KEY ($REFRESERVATIONS) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
+                    ");"
+
+        private const val SQL_CREATE_ROOMS =
+            "CREATE TABLE $TABLE_ROOMS (" +
+                    "$ROOMIDROOMS INTEGER PRIMARY KEY," +
+                    "$ROOM_TYPE TEXT," +
+                    "$CAPACITY INTEGER," +
+                    "$AVAILABILITY INTEGER" +
+                    ");"
+
+
 
 
 
@@ -94,12 +125,16 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         db?.execSQL(SQL_CREATE_UTENTE)
         db?.execSQL(SQL_CREATE_RISTORANTE)
         db?.execSQL(SQL_CREATE_GYM)
+        db?.execSQL(SQL_CREATE_ROOMS)
+        db?.execSQL(SQL_CREATE_RESERVATIONS)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL(SQL_DELETE_UTENTE)
         db?.execSQL(SQL_DELETE_RISTORANTE)
         db?.execSQL(SQL_CREATE_GYM)
+        db?.execSQL(SQL_CREATE_ROOMS)
+        db?.execSQL(SQL_CREATE_RESERVATIONS)
         onCreate(db)
     }
 

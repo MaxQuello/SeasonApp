@@ -15,7 +15,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.seasonapp.api.ClientNetwork
+import com.example.seasonapp.data.DbManager
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
+import com.example.seasonapp.model.RequestPrenotaCamera
 import com.example.seasonapp.model.RequestRoom
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -30,12 +33,16 @@ class PrenotaFragment : Fragment() {
     private lateinit var datePickerButton : Button
     private lateinit var searchButton: Button
     private lateinit var camerePickerButton : Button
+    private lateinit var prenotaButton: Button
     private var selectedCheckInDate: LocalDate? = null
     private var selectedCheckOutDate: LocalDate? = null
     private var checkInSelected = false
     private lateinit var guestSelection :Button
     private var selectedGuests = 1
     private var selectedRooms: Int = 1
+    private var selectedOffer : ArrayList<Offerta>? = null
+    var idUtente : Int? = null
+    private lateinit var dbManager: DbManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +51,17 @@ class PrenotaFragment : Fragment() {
 
     ): View {
         binding = FragmentPrenotaBinding.inflate(layoutInflater)
+
+        dbManager = DbManager(requireContext())
+        dbManager.open()
+
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val username = sessionManager.getUsername()
+
+
+        Log.d("USERNAME","${username}")
+
+        idUtente = username?.let { dbManager.getUserIdByUsername(it) }
 
                 datePickerButton = binding.datePicker
                 datePickerButton.setOnClickListener {
@@ -75,8 +93,90 @@ class PrenotaFragment : Fragment() {
                         ).show()
                     }
                 }
+
+                prenotaButton = binding.buttonPrenotaOra
+                prenotaButton.setOnClickListener {
+                    prenotaCamera()
+                }
+
+
                 return binding.root
         }
+
+    private fun prenotaCamera() {
+        var roomIdOfferta : Int? = null
+        var dataCheckInOfferta : LocalDate? = null
+        var dataCheckOutOfferta : LocalDate? = null
+        for (offerte in selectedOffer!!){
+            roomIdOfferta=offerte.roomId
+            dataCheckInOfferta=offerte.dataCheckIn
+            dataCheckOutOfferta= offerte.dataCheckOut
+        }
+        val requestPrenotaCamera = roomIdOfferta?.let {
+            dataCheckInOfferta?.let { it1 ->
+                dataCheckOutOfferta?.let { it2 ->
+                    idUtente?.let { it3 ->
+                        RequestPrenotaCamera(
+                            it,
+                            it1,
+                            it2,
+                            it3
+                        )
+                    }
+                }
+            }
+        }
+        inserisciCamera(requestPrenotaCamera)
+    }
+
+    private fun inserisciCamera(requestPrenotaCamera: RequestPrenotaCamera?) {
+        val query = "INSERT INTO reservations (roomId, checkInDate, checkOutDate, ref_reservations) " +
+                "VALUES (${requestPrenotaCamera?.roomId}, '${requestPrenotaCamera?.dataCheckIn}', " +
+                "'${requestPrenotaCamera?.dataCheckOut}', $idUtente);"
+
+
+        ClientNetwork.retrofit.addReservationRoom(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    Log.i("onResponse", "Sono dentro la onResponse e l'esito sarà: ${response.isSuccessful}")
+                    val bodyString = response.body()
+                    Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Prenotazione effettuata",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        val dateCheckInString = requestPrenotaCamera?.dataCheckIn.toString()
+                        val dateCheckOutString = requestPrenotaCamera?.dataCheckOut.toString()
+                        requestPrenotaCamera?.roomId?.let {
+                            idUtente?.let { it1 ->
+                                dbManager.insertPrenotazioneCamera(
+                                    it,dateCheckInString,
+                                    dateCheckOutString, it1
+                                )
+                            }
+                        }
+                    }
+                    else{
+                        val errorMessage = response.message()
+                        Log.e("onResponse", "Errore nell'inserimento nel database: $errorMessage")
+                        Toast.makeText(
+                            requireContext(),
+                            "La tua richiesta non è andata a buon fine",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Servizi_Fragment-onFailure", "Errore ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+    }
 
     private fun showRoomsSelectionDialog() {
         val roomNumberPicker = NumberPicker(context)
@@ -201,13 +301,19 @@ class PrenotaFragment : Fragment() {
                     if (response.isSuccessful) {
                         val listaOfferte = ArrayList<Offerta>()
                         val jsonArray = response.body()?.getAsJsonArray("queryset")
+                        Log.d("QUERY","risultati:  ${jsonArray}")
                         val resultList = jsonArray?.mapNotNull { it as? JsonObject }
+                        Log.d("listarisultati","lista risultati:  ${resultList}")
                         if (resultList != null) {
                             for(jsonObject in resultList){
                                 val capacita = jsonObject["capacity"].toString().toInt()
                                 val tipologia = jsonObject["roomType"].toString().replace("\"", "")
-                                listaOfferte.add(Offerta(tipologia, 1, 100.0, checkInDate, checkOutDate, capacita))
+                                val roomId = jsonObject["roomId"].toString().toInt()
+
+                                listaOfferte.add(Offerta(roomId,tipologia, 1, 100.0, checkInDate, checkOutDate, capacita))
+                                selectedOffer = listaOfferte
                             }
+
                         }
                         binding.listaOfferte.adapter = AdapterOfferte(listaOfferte)
                         binding.listaOfferte.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -331,9 +437,4 @@ class PrenotaFragment : Fragment() {
         ospitiPickerButton.text = "Numero di ospiti: $selectedGuests"
     }
 
-    fun getRooms(jsonObject: JsonObject){
-        val roomId = jsonObject.get("roomId").asInt
-        val roomType = jsonObject.get("roomType").asString
-        val capacity = jsonObject.get("capacity").asInt
-    }
 }
