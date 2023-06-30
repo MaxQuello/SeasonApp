@@ -26,11 +26,13 @@ class RecuperoUsernameFragment : Fragment() {
 
         val buttonIndietro = binding.buttonIndietroRecuperoUsername
         buttonIndietro.setOnClickListener {
+
             findNavController().navigate(R.id.action_recuperoUsernameFragment_to_loginFragment)
 
         }
         val buttonContinua = binding.buttonContinuaRecuperoUs
         buttonContinua.setOnClickListener {
+
             findNavController().navigate(R.id.action_recuperoUsernameFragment_to_loginFragment)
 
         }

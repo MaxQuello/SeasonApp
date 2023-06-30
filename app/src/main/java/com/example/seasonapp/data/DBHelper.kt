@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
     companion object{
+
         // DATABASE NAME
         const val DB_NAME = "PWM_DB"
 
@@ -24,6 +25,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val EMAIL = "email"
         const val USERNAME = "username"
         const val PASSWORD = "password"
+        const val DOMANDA = "domanda"
         const val RISPOSTA = "risposta"
 
         const val TABLE_RISTORANTE = "RISTORANTE"
@@ -66,6 +68,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
                     "$TELEFONO TEXT," +
                     "$USERNAME TEXT NOT NULL UNIQUE,"+
                     "$PASSWORD TEXT NOT NULL," +
+                    "$DOMANDA TEXT NOT NULL," +
                     "$RISPOSTA TEXT NOT NULL);"
 
         private const val SQL_CREATE_RISTORANTE =

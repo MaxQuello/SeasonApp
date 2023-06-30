@@ -108,7 +108,8 @@ class LoginFragment : Fragment() {
                             editor.apply()
 
                             if ((response.body()?.get("queryset") as JsonArray).size() == 1) {
-                                //Log.i("LOG-Login_Fragment-onResponse", "Sono dentro il secondo if. e chiamo la getImageProfilo")
+                                findNavController().navigate(R.id.action_loginFragment_to_homeFragment2)
+                                Toast.makeText(context, "Login Effettuato", Toast.LENGTH_LONG).show()
                             } else {
                                 Log.i("LOG-Login_Fragment-onResponse", "CREDENZIALI ERRATE1")
                                 Toast.makeText(context,"credenziali errate", Toast.LENGTH_LONG).show()
@@ -134,15 +135,16 @@ class LoginFragment : Fragment() {
     private fun getUser(jsonObject: JsonObject){
         val id = jsonObject.get("id").asInt
         val nome = jsonObject.get("nome").asString
-        val cognome=jsonObject.get("cognome").asString
+        val cognome = jsonObject.get("cognome").asString
         val gender = jsonObject.get("gender").asString
         val dataNascita = jsonObject.get("dataNascita").asString
-        val email=jsonObject.get("mail").asString
+        val email = jsonObject.get("mail").asString
         val telefono = jsonObject.get("numeroDiTelefono").asString
-        val username=jsonObject.get("username").asString
-        val password=jsonObject.get("password").asString
+        val username = jsonObject.get("username").asString
+        val password = jsonObject.get("password").asString
+        val domanda = jsonObject.get("domanda").asString
         val risposta = jsonObject.get("risposta").asString
-        dbManager.insertUtente(id,nome,cognome,gender,dataNascita,email,telefono,username,password,risposta)
+        dbManager.insertUtente(id,nome,cognome,gender,dataNascita,email,telefono,username,password,domanda,risposta)
     }
 
     private fun getIdUtente(requestLogin: RequestLogin) {
