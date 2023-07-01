@@ -57,6 +57,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         const val TABLE_OTP = "OTP"
         const val CODICE_OTP = "codice_otp"
+        const val REFOTP = "ref_otp"
 //
 
 
@@ -117,7 +118,8 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         private const val SQL_CREATE_OTP =
             "CREATE TABLE $TABLE_OTP (" +
                     "$CODICE_OTP INTEGER PRIMARY KEY," +
-                    "FOREIGN KEY ($REF_UTENTE) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
+                    "$REFOTP INTEGER," +
+                    "FOREIGN KEY ($REFOTP) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
                     ");"
 
 
