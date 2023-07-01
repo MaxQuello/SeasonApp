@@ -186,4 +186,9 @@
             android:id="@+id/action_modificaPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/pagamentoFragment"
+        android:name="com.example.seasonapp.prenotazioneCamere.PagamentoFragment"
+        android:label="fragment_pagamento"
+        tools:layout="@layout/fragment_pagamento" /><action android:id="@+id/action_global_pagamentoFragment" app:destination="@id/pagamentoFragment"/>
 </navigation>

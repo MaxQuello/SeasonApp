@@ -33,7 +33,7 @@ open class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        drawerLayout = findViewById(R.id.drawer_layout)
+        drawerLayout = binding.drawerLayout
         db = DbManager(this).open()
 //Comportamento Navigation
         val navHostFragment = supportFragmentManager

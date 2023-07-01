@@ -3,17 +3,25 @@ package com.example.seasonapp
 import AdapterOfferte
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
@@ -43,6 +51,7 @@ class PrenotaFragment : Fragment() {
     private var selectedOffer : ArrayList<Offerta>? = null
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
+    private lateinit var dialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +66,6 @@ class PrenotaFragment : Fragment() {
 
         val sessionManager = SessionManager.getInstance(requireContext())
         val username = sessionManager.getUsername()
-
-
-        Log.d("USERNAME","${username}")
 
         idUtente = username?.let { dbManager.getUserIdByUsername(it) }
 
@@ -96,20 +102,14 @@ class PrenotaFragment : Fragment() {
 
                 prenotaButton = binding.buttonPrenotaOra
                 prenotaButton.setOnClickListener {
-                    if(checkiflogindone()){
-                        prenotaCamera()
-                    }else{
-                        Toast.makeText(
-                            requireContext(),
-                            "Non puoi prenotare una camera se non hai effettuato il login",
-                            Toast.LENGTH_SHORT
-                        )
-                    }
 
+                    findNavController().navigate(R.id.action_global_pagamentoFragment)
+                    // prenotaCamera()
                 }
 
 
-                return binding.root
+        return binding.root
+
         }
 
     private fun prenotaCamera() {
@@ -318,6 +318,7 @@ class PrenotaFragment : Fragment() {
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
+                        binding.buttonPrenotaOra.visibility = View.VISIBLE
                         val listaOfferte = ArrayList<Offerta>()
                         val jsonArray = response.body()?.getAsJsonArray("queryset")
                         Log.d("QUERY","risultati:  ${jsonArray}")
@@ -339,6 +340,7 @@ class PrenotaFragment : Fragment() {
                     }
 
                     else {
+                        binding.buttonPrenotaOra.visibility = View.GONE
                         Log.e("Errore API", "Codice di errore: ${response.code()}")
                     }
                 }
