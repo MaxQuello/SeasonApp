@@ -81,4 +81,6 @@
     <string name="messaggioOtp">Il codice di recupero per la password è %s</string>
     <string name="reinserisci_password">Reinserisci Password</string>
     <string name="modifica_password">Modifica Password</string>
+    <string name="prova_i_nostri_impianti">Prova i nostri impianti</string>
+    <string name="impiantiDesc">Prenota ora i campi di calcio disponibili all\'interno della nostra struttura.</string>
 </resources>
