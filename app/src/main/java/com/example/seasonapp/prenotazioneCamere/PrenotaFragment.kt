@@ -463,4 +463,9 @@ class PrenotaFragment : Fragment() {
         ospitiPickerButton.text = "Numero di ospiti: $selectedGuests"
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dbManager.close()
+    }
+
 }

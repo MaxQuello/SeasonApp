@@ -275,5 +275,10 @@ class RistoranteFragment : Fragment() {
         return reservationExists
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dbManager.close()
+    }
+
 
 }

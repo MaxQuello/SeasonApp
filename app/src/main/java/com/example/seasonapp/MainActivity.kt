@@ -117,4 +117,9 @@ open class MainActivity : AppCompatActivity(){
     fun getDialog(): Dialog{
         return dialog
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        db.close()
+    }
 }
