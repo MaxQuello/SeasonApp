@@ -83,4 +83,10 @@
     <string name="modifica_password">Modifica Password</string>
     <string name="prova_i_nostri_impianti">Prova i nostri impianti</string>
     <string name="impiantiDesc">Prenota ora i campi di calcio disponibili all\'interno della nostra struttura.</string>
+    <string name="ristoranteTitle">Ristorante</string>
+    <string name="gympass">GymPass</string>
+    <string name="impianto_sportivo">Impianto Sportivo</string>
+    <string name="cancella_prenotazione">Cancella</string>
+    <string name="id_pren_rist">ID</string>
+    <string name="id">ID</string>
 </resources>
