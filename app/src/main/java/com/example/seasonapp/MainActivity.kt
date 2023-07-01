@@ -111,7 +111,8 @@ open class MainActivity : AppCompatActivity(){
 
         db.deleteAll()
         Toast.makeText(this, "Hai effettuato il logout", Toast.LENGTH_LONG).show()
-
+        findNavController(R.id.fragmentContainerView).navigate(R.id.action_global_homeFragment2)
+//
     }
 
     fun getDialog(): Dialog{
