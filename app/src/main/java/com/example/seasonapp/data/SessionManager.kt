@@ -22,7 +22,7 @@ class SessionManager private constructor(context: Context) {
                 instance ?: SessionManager(context).also { instance = it }
             }
     }
-
+//
     fun setUsername(username: String) {
         sharedPreferences.edit().putString(KEY_USERNAME, username).apply()
     }

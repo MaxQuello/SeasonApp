@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_recuperoUsernameFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_recuperoUsernameFragment_to_domandaSicurezzaFragment"
+            app:destination="@id/domandaSicurezzaFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -132,8 +135,8 @@
             android:id="@+id/action_otpFragment_to_recuperoPasswordFragment"
             app:destination="@id/recuperoPasswordFragment" />
         <action
-            android:id="@+id/action_otpFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_otpFragment_to_modificaPasswordFragment"
+            app:destination="@id/modificaPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/modificaProfiloFragment"
@@ -172,6 +175,15 @@
             app:destination="@id/recuperoUsernameFragment" />
         <action
             android:id="@+id/action_domandaSicurezzaFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modificaPasswordFragment"
+        android:name="com.example.seasonapp.profilazione.ModificaPasswordFragment"
+        android:label="fragment_modifica_password"
+        tools:layout="@layout/fragment_modifica_password" >
+        <action
+            android:id="@+id/action_modificaPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>
