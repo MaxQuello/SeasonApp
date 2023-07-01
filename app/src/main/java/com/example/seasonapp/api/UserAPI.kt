@@ -19,6 +19,10 @@ interface UserAPI {
     @FormUrlEncoded
     fun getIdUtente(@Field("query") query: String): Call<JsonObject>
 
+    @POST("postSelect/")
+    @FormUrlEncoded
+    fun getUser(@Field("query") query: String): Call<JsonObject>
+
 
     @POST("postSelect/")
     @FormUrlEncoded

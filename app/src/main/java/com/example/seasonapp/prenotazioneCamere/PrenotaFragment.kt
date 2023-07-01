@@ -59,8 +59,6 @@ class PrenotaFragment : Fragment() {
         val username = sessionManager.getUsername()
 
 
-        Log.d("USERNAME","${username}")
-
         idUtente = username?.let { dbManager.getUserIdByUsername(it) }
 
                 datePickerButton = binding.datePicker
@@ -234,23 +232,25 @@ class PrenotaFragment : Fragment() {
         val numberOfRooms = selectedRooms
         Log.i("MyTag", checkInDate.toString())
 
-        // Verifica se le informazioni sono valide
+
         if (numberOfGuests > 0 && checkInDate != null && checkOutDate != null) {
             val camereNecessarie = calcolaCamere(numberOfGuests, numberOfRooms)
-            val requestRoom = RequestRoom(checkInDate,checkOutDate,numberOfGuests,numberOfRooms)
             if(camereNecessarie != null) {
                 ricercaCamereDB(checkInDate, checkOutDate, camereNecessarie)
             }else{
-                //gestisci richiesta impossibile
+                Toast.makeText(
+                    requireContext(),
+                    "Non ci sono stanze disponibili",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-            //return listOf(checkInDate, checkOutDate)
+
         } else {
             Toast.makeText(
                 requireContext(),
                 "Completa tutte le informazioni di prenotazione",
                 Toast.LENGTH_SHORT
             ).show()
-            //return null
         }
     }
 
