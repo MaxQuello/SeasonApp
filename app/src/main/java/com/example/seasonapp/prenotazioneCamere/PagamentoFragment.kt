@@ -20,6 +20,7 @@ class PagamentoFragment : Fragment() {
 
         binding = FragmentPagamentoBinding.inflate(layoutInflater)
         return binding.root
-
     }
+
+
 }
