@@ -2,6 +2,7 @@ package com.example.seasonapp
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
@@ -19,6 +21,9 @@ import com.example.seasonapp.databinding.FragmentServiziBinding
 import com.example.seasonapp.model.RequestGym
 import com.example.seasonapp.model.RequestResturant
 import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -71,7 +76,27 @@ class ServiziFragment : Fragment() {
 
         prenotaGymButton = binding.buttonPrenotaOraPalestra
         prenotaGymButton.setOnClickListener {
-            prenotaPalestra()
+            if(!checkiflogindone()){
+                Toast.makeText(
+                    requireContext(),
+                    "Devi fare l'accesso per prenotare",
+                    Toast.LENGTH_LONG).show()
+            }
+            lifecycleScope.launch {
+                if (!checkIfReservationExists()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Devi prima prenotare una stanza per accedere al ristorante",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                if (checkiflogindone() && checkIfReservationExists()) {
+                    prenotaPalestra()
+                }
+            }
+
+
         }
 
         return binding.root
@@ -210,4 +235,53 @@ class ServiziFragment : Fragment() {
             }
         )
     }
+
+    private suspend fun checkIfReservationExists(): Boolean {
+        val query = "SELECT * FROM reservations WHERE ref_reservations = $idUtente " +
+                "AND '$selectedDate' BETWEEN checkInDate AND checkOutDate"
+
+        Log.d("QUERY","LA QUERY E': ${query}")
+        var reservationExists = false
+
+        try {
+            val response = withContext(Dispatchers.IO) {
+                ClientNetwork.retrofit.getMyReservations(query).execute()
+            }
+
+            if (response.isSuccessful) {
+                val reservations = response.body()
+                Log.d("RESERVATIONS BODY","BODY: $reservations")
+                reservationExists = (reservations?.getAsJsonArray("queryset")?.size() ?: 0) > 0
+
+                Log.d("RESERVATIONS BODY","BODY: $reservationExists")
+            } else {
+                Toast.makeText(requireContext(), "Andata male", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${e.message}")
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        }
+        Log.d("RETURN","Il return è : $reservationExists")
+
+        return reservationExists
+    }
+
+    private fun checkiflogindone(): Boolean {
+        // Ottenere un'istanza delle SharedPreferences
+        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+        // Recuperare lo stato del login
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+        // Verificare lo stato del login
+        if (isLoggedIn) {
+            Log.i("PROVA","LOGIN FATTO")
+            return true
+        } else {
+            Log.i("PROVA","LOGIN NON FATTO")
+            return false
+        }
+
+    }
+
 }

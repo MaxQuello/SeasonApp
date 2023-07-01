@@ -96,7 +96,16 @@ class PrenotaFragment : Fragment() {
 
                 prenotaButton = binding.buttonPrenotaOra
                 prenotaButton.setOnClickListener {
-                    prenotaCamera()
+                    if(checkiflogindone()){
+                        prenotaCamera()
+                    }else{
+                        Toast.makeText(
+                            requireContext(),
+                            "Non puoi prenotare una camera se non hai effettuato il login",
+                            Toast.LENGTH_SHORT
+                        )
+                    }
+
                 }
 
 
@@ -107,26 +116,36 @@ class PrenotaFragment : Fragment() {
         var roomIdOfferta : Int? = null
         var dataCheckInOfferta : LocalDate? = null
         var dataCheckOutOfferta : LocalDate? = null
-        for (offerte in selectedOffer!!){
-            roomIdOfferta=offerte.roomId
-            dataCheckInOfferta=offerte.dataCheckIn
-            dataCheckOutOfferta= offerte.dataCheckOut
-        }
-        val requestPrenotaCamera = roomIdOfferta?.let {
-            dataCheckInOfferta?.let { it1 ->
-                dataCheckOutOfferta?.let { it2 ->
-                    idUtente?.let { it3 ->
-                        RequestPrenotaCamera(
-                            it,
-                            it1,
-                            it2,
-                            it3
-                        )
+
+        if (selectedOffer != null){
+            for (offerte in selectedOffer!!){
+                roomIdOfferta=offerte.roomId
+                dataCheckInOfferta=offerte.dataCheckIn
+                dataCheckOutOfferta= offerte.dataCheckOut
+            }
+            val requestPrenotaCamera = roomIdOfferta?.let {
+                dataCheckInOfferta?.let { it1 ->
+                    dataCheckOutOfferta?.let { it2 ->
+                        idUtente?.let { it3 ->
+                            RequestPrenotaCamera(
+                                it,
+                                it1,
+                                it2,
+                                it3
+                            )
+                        }
                     }
                 }
             }
+            inserisciCamera(requestPrenotaCamera)
+        }else{
+            Toast.makeText(
+                requireContext(),
+                "Devi prima ricercare una camera per prenotarla",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        inserisciCamera(requestPrenotaCamera)
+
     }
 
     private fun inserisciCamera(requestPrenotaCamera: RequestPrenotaCamera?) {
