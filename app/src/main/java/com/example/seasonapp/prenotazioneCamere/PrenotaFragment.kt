@@ -3,20 +3,31 @@ package com.example.seasonapp
 import AdapterOfferte
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
+import com.example.seasonapp.databinding.BottomsheetlayoutBinding
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestPrenotaCamera
 import com.example.seasonapp.model.RequestRoom
@@ -33,7 +44,6 @@ class PrenotaFragment : Fragment() {
     private lateinit var datePickerButton : Button
     private lateinit var searchButton: Button
     private lateinit var camerePickerButton : Button
-    private lateinit var prenotaButton: Button
     private var selectedCheckInDate: LocalDate? = null
     private var selectedCheckOutDate: LocalDate? = null
     private var checkInSelected = false
@@ -43,6 +53,8 @@ class PrenotaFragment : Fragment() {
     private var selectedOffer : ArrayList<Offerta>? = null
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
+    private lateinit var bottomLayout: Dialog
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +69,7 @@ class PrenotaFragment : Fragment() {
 
         val sessionManager = SessionManager.getInstance(requireContext())
         val username = sessionManager.getUsername()
-
+        mainActivity = activity as MainActivity
 
         idUtente = username?.let { dbManager.getUserIdByUsername(it) }
 
@@ -92,22 +104,17 @@ class PrenotaFragment : Fragment() {
                     }
                 }
 
-                prenotaButton = binding.buttonPrenotaOra
-                prenotaButton.setOnClickListener {
-                    if(checkiflogindone()){
-                        prenotaCamera()
-                    }else{
-                        Toast.makeText(
-                            requireContext(),
-                            "Non puoi prenotare una camera se non hai effettuato il login",
-                            Toast.LENGTH_SHORT
-                        )
+
+                    binding.buttonPrenotaOra.setOnClickListener {
+                            mainActivity.getDialog().dismiss()
+                        findNavController().navigate(R.id.action_global_pagamentoFragment)
+                        // prenotaCamera()
                     }
 
-                }
 
 
-                return binding.root
+        return binding.root
+
         }
 
     private fun prenotaCamera() {
@@ -232,25 +239,23 @@ class PrenotaFragment : Fragment() {
         val numberOfRooms = selectedRooms
         Log.i("MyTag", checkInDate.toString())
 
-
+        // Verifica se le informazioni sono valide
         if (numberOfGuests > 0 && checkInDate != null && checkOutDate != null) {
             val camereNecessarie = calcolaCamere(numberOfGuests, numberOfRooms)
+            val requestRoom = RequestRoom(checkInDate,checkOutDate,numberOfGuests,numberOfRooms)
             if(camereNecessarie != null) {
                 ricercaCamereDB(checkInDate, checkOutDate, camereNecessarie)
             }else{
-                Toast.makeText(
-                    requireContext(),
-                    "Non ci sono stanze disponibili",
-                    Toast.LENGTH_SHORT
-                ).show()
+                //gestisci richiesta impossibile
             }
-
+            //return listOf(checkInDate, checkOutDate)
         } else {
             Toast.makeText(
                 requireContext(),
                 "Completa tutte le informazioni di prenotazione",
                 Toast.LENGTH_SHORT
             ).show()
+            //return null
         }
     }
 
@@ -318,6 +323,7 @@ class PrenotaFragment : Fragment() {
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
+                        binding.buttonPrenotaOra.visibility = View.VISIBLE
                         val listaOfferte = ArrayList<Offerta>()
                         val jsonArray = response.body()?.getAsJsonArray("queryset")
                         Log.d("QUERY","risultati:  ${jsonArray}")
@@ -339,6 +345,7 @@ class PrenotaFragment : Fragment() {
                     }
 
                     else {
+                        binding.buttonPrenotaOra.visibility = View.GONE
                         Log.e("Errore API", "Codice di errore: ${response.code()}")
                     }
                 }
