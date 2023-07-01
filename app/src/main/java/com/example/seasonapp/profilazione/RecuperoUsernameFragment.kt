@@ -89,4 +89,9 @@ class RecuperoUsernameFragment : Fragment() {
         )
 
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dbManager.close()
+    }
 }

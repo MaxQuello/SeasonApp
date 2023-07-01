@@ -155,6 +155,11 @@ class RecuperoPasswordFragment : Fragment() {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dbManager.close()
+    }
+
 }
 
 

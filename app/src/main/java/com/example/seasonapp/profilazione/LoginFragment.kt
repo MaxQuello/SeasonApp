@@ -26,7 +26,7 @@ import retrofit2.Response
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
-    private var idRicevuto : Int? = null
+    //private var idRicevuto : Int? = null
     var username = ""
     var password = ""
     private lateinit var dbManager: DbManager
@@ -175,5 +175,10 @@ class LoginFragment : Fragment() {
             }
         )
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dbManager.close()
     }
 }
