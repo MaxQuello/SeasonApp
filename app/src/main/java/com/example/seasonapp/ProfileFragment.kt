@@ -13,11 +13,15 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.example.seasonapp.data.DbManager
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentLoginBinding
 import com.example.seasonapp.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var dbManager: DbManager
+    var idUtente : Int? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +33,12 @@ class ProfileFragment : Fragment() {
         binding.buttonAccedi
         binding.buttonRegistrati
         checkiflogindone()
-        val nomeUtente = "user"  //da settare con il db
+        dbManager = DbManager(requireContext())
+        dbManager.open()
+
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val username = sessionManager.getUsername()
+        val nomeUtente = "$username"  //da settare con il db
         val messaggioBenvenuto = getString(R.string.benvenuto, nomeUtente)
         binding.testoProfilo.text = messaggioBenvenuto
 
@@ -84,5 +93,6 @@ class ProfileFragment : Fragment() {
         }
 
     }
+
 
 }
