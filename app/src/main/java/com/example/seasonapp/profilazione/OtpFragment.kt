@@ -27,7 +27,7 @@ class OtpFragment : Fragment() {
         //QUERY DB PER CONTROLLARE ESATTEZZA DELL'OTP INSERITO
         val buttonContinua = view.findViewById<Button>(R.id.buttonContinua)
         buttonContinua.setOnClickListener {
-            findNavController().navigate(R.id.action_otpFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_otpFragment_to_modificaPasswordFragment)
 
         }
         return view
