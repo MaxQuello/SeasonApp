@@ -110,6 +110,7 @@ class LoginFragment : Fragment() {
                             if ((response.body()?.get("queryset") as JsonArray).size() == 1) {
                                 findNavController().navigate(R.id.action_loginFragment_to_homeFragment2)
                                 Toast.makeText(context, "Login Effettuato", Toast.LENGTH_LONG).show()
+
                             } else {
                                 Log.i("LOG-Login_Fragment-onResponse", "CREDENZIALI ERRATE1")
                                 Toast.makeText(context,"credenziali errate", Toast.LENGTH_LONG).show()

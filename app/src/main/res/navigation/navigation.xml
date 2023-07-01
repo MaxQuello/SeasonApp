@@ -162,4 +162,16 @@
             android:id="@+id/action_gestisciServiziFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/domandaSicurezzaFragment"
+        android:name="com.example.seasonapp.DomandaSicurezzaFragment"
+        android:label="fragment_domanda_sicurezza"
+        tools:layout="@layout/fragment_domanda_sicurezza" >
+        <action
+            android:id="@+id/action_domandaSicurezzaFragment_to_recuperoUsernameFragment"
+            app:destination="@id/recuperoUsernameFragment" />
+        <action
+            android:id="@+id/action_domandaSicurezzaFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

@@ -20,9 +20,6 @@ class RecuperoUsernameFragment : Fragment() {
     ): View? {
         binding = FragmentRecuperoUsernameBinding.inflate(inflater,container,false)
         val view = binding.root
-        val domandaSicurezza= "domandaSicurezza"  //da settare con il db
-        val domanda = getString(R.string.domandaSicurezzaUtente, domandaSicurezza)
-        binding.domandaSicurezzaText.text = domanda
 
         val buttonIndietro = binding.buttonIndietroRecuperoUsername
         buttonIndietro.setOnClickListener {

@@ -8,6 +8,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
     companion object{
 
+
         // DATABASE NAME
         const val DB_NAME = "PWM_DB"
 
@@ -16,7 +17,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         //TABLE NAME
         const val TABLE_UTENTE = "UTENTE"
-        const val ID_UTENTE = "id_utente"
+        const val ID_UTENTE =  "id_utente"
         const val NOME = "nome"
         const val COGNOME = "cognome"
         const val GENDER = "gender"
@@ -53,6 +54,10 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val ROOM_TYPE = "room_type"
         const val CAPACITY = "capacity"
         const val AVAILABILITY = "avability3"
+
+        const val TABLE_OTP = "OTP"
+        const val CODICE_OTP = "codice_otp"
+
 
 
 
@@ -109,7 +114,11 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
                     "$AVAILABILITY INTEGER" +
                     ");"
 
-
+        private const val SQL_CREATE_OTP =
+            "CREATE TABLE $TABLE_OTP (" +
+                    "$CODICE_OTP INTEGER PRIMARY KEY," +
+                    "FOREIGN KEY ($REF_UTENTE) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
+                    ");"
 
 
 
@@ -130,6 +139,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         db?.execSQL(SQL_CREATE_GYM)
         db?.execSQL(SQL_CREATE_ROOMS)
         db?.execSQL(SQL_CREATE_RESERVATIONS)
+        db?.execSQL(SQL_CREATE_OTP)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -138,6 +148,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         db?.execSQL(SQL_CREATE_GYM)
         db?.execSQL(SQL_CREATE_ROOMS)
         db?.execSQL(SQL_CREATE_RESERVATIONS)
+        db?.execSQL(SQL_CREATE_OTP)
         onCreate(db)
     }
 

@@ -2,6 +2,7 @@ package com.example.seasonapp
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -10,14 +11,16 @@ import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.databinding.ActivityMainBinding
-
+import com.example.seasonapp.profilazione.LoginFragment
 
 
 open class MainActivity : AppCompatActivity(){
@@ -25,12 +28,13 @@ open class MainActivity : AppCompatActivity(){
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var dialog: Dialog
     private lateinit var navController: NavController
+    private lateinit var db: DbManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         drawerLayout = findViewById(R.id.drawer_layout)
-
+        db = DbManager(this).open()
 //Comportamento Navigation
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -104,7 +108,9 @@ open class MainActivity : AppCompatActivity(){
 
         Log.i("PROVA","HO FATTO IL LOGOUT")
 
-        // Puoi eseguire altre operazioni di logout, come reindirizzamento a una schermata di accesso o cancellazione dei dati di sessione
+        db.deleteAll()
+        Toast.makeText(this, "Hai effettuato il logout", Toast.LENGTH_LONG).show()
+
     }
 
 

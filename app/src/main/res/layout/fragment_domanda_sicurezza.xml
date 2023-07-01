@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profilazione.RecuperoUsernameFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".DomandaSicurezzaFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +11,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/buttonIndietroRecuperoUsername"
+            android:id="@+id/buttonIndietroRecupero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -22,7 +20,7 @@
             android:src="@drawable/baseline_arrow_back_24" />
 
         <TextView
-            android:id="@+id/recuperaUsernameText"
+            android:id="@+id/recuperaUsernameText2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -35,7 +33,7 @@
             android:textStyle="bold|italic" />
 
         <EditText
-            android:id="@+id/emailText"
+            android:id="@+id/emailText2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
@@ -43,21 +41,34 @@
             android:layout_weight="0"
             android:ems="10"
             android:hint="@string/emailUtente"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress" />
+
+        <TextView
+            android:id="@+id/domandaSicurezzaText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:gravity="center_horizontal"
+            android:text="@string/domandaSicurezzaUtente"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/inserisciNumero2"
+            android:id="@+id/rispostaText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="10dp"
             android:layout_weight="0"
             android:ems="10"
-            android:hint="@string/numero"
-            android:inputType="phone" />
+            android:hint="@string/rispostaSicurezza"
+            android:inputType="text" />
 
         <Button
-            android:id="@+id/buttonContinuaRecuperoUs"
+            android:id="@+id/buttonContinuaRecuperoUser"
             android:layout_width="wrap_content"
             android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
@@ -66,5 +77,4 @@
             android:layout_weight="0"
             android:text="@string/continua" />
     </LinearLayout>
-
 </FrameLayout>

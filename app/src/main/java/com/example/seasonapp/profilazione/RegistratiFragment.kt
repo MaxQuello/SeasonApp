@@ -139,7 +139,7 @@ class RegistratiFragment : Fragment() {
 
     private fun registraUtente(requestRegistration: RequestRegistration, callback: (idUtente: Int?) -> Unit) {
 
-        val query = "INSERT INTO utente (nome, cognome, gender, dataNascita, mail, numeroDiTelefono, username, password,domanda, risposta) " +
+        val query = "INSERT INTO utente (nome, cognome, gender, dataNascita, mail, numeroDiTelefono, username, password, domanda, risposta) " +
                 "VALUES ('${requestRegistration.nome}', '${requestRegistration.cognome}', '${requestRegistration.gender}'," +
                 "'${requestRegistration.dataNascita}', '${requestRegistration.mail}', '${requestRegistration.numeroTelefono}'," +
                 "'${requestRegistration.username}', '${requestRegistration.password}', '${requestRegistration.domanda}', '${requestRegistration.risposta}')"
@@ -176,7 +176,7 @@ class RegistratiFragment : Fragment() {
                             findNavController().navigate(com.example.seasonapp.R.id.action_registratiFragment_to_homeFragment2)
                             Toast.makeText(
                                 requireContext(),
-                                "Registrazione effettutata, fai l'accesso",
+                                "Registrazione effettuata, fai l'accesso",
                                 Toast.LENGTH_LONG
                             ).show()
                         }catch (e: SQLiteConstraintException){

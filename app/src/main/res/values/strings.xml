@@ -79,4 +79,6 @@
     <string name="i_miei_servizi">I MIEI SERVIZI</string>
     <string name="gestisci_prenotazioni">GESTISCI PRENOTAZIONI</string>
     <string name="messaggioOtp">Il codice di recupero per la password è %s</string>
+    <string name="reinserisci_password">Reinserisci Password</string>
+    <string name="modifica_password">Modifica Password</string>
 </resources>
