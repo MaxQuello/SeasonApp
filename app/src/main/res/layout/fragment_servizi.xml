@@ -108,34 +108,34 @@
                     android:background="?android:attr/listDivider" />
 
                 <ImageView
-                    android:id="@+id/imageEscursione"
+                    android:id="@+id/imageImpianto"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_marginVertical="10dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/escursione" />
+                    android:src="@drawable/impianto_sportivo" />
 
                 <TextView
-                    android:id="@+id/titoloEscursione"
+                    android:id="@+id/titoloImpianto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/fontcorsivo"
                     android:gravity="center_horizontal"
-                    android:text="@string/textEscursione"
+                    android:text="@string/prova_i_nostri_impianti"
                     android:textColor="#000000"
                     android:textSize="30sp"
                     android:textStyle="normal|bold" />
 
                 <TextView
-                    android:id="@+id/descEscursione"
+                    android:id="@+id/descImpianto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
                     android:gravity="center_horizontal"
-                    android:text="@string/descEscursione" />
+                    android:text="@string/impiantiDesc" />
 
                 <Button
-                    android:id="@+id/date_picker_escursione"
+                    android:id="@+id/date_picker_impianto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -144,19 +144,10 @@
                     app:icon="@drawable/ic_today" />
 
                 <Button
-                    android:id="@+id/ospiti_picker_escursione"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:backgroundTint="@color/dock"
-                    android:text="@string/numero_di_ospiti" />
-
-                <Button
-                    android:id="@+id/buttonPrenotaOraEscursione"
+                    android:id="@+id/buttonPrenotaOraImpianto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="8dp"
                     android:backgroundTint="@color/dock"
                     android:text="@string/prenota"
                     app:layout_constraintBottom_toBottomOf="parent"
