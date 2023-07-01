@@ -159,7 +159,7 @@ class DbManager(val context: Context) {
         cursor?.close()
         return userId
     }
-
+//
     fun selectIdUtente(): Cursor {
         val projection = arrayOf(DBHelper.ID_UTENTE)
         val cursor = db.query(

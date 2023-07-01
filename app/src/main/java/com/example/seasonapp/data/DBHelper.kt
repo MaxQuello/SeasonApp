@@ -57,7 +57,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
 
         const val TABLE_OTP = "OTP"
         const val CODICE_OTP = "codice_otp"
-
+//
 
 
 
