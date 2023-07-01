@@ -32,15 +32,22 @@ class ProfileFragment : Fragment() {
         val view = binding.root
         binding.buttonAccedi
         binding.buttonRegistrati
-        checkiflogindone()
         dbManager = DbManager(requireContext())
         dbManager.open()
+        if(checkiflogindone()){
+            val sessionManager = SessionManager.getInstance(requireContext())
+            val username = sessionManager.getUsername()
+            val nomeUtente = "$username"  //da settare con il db
+            val messaggioBenvenuto = getString(R.string.benvenuto, nomeUtente)
+            binding.testoProfilo.text = messaggioBenvenuto
+        }else{
+            val nomeUtente = "user"
+            val messaggioBenvenuto = getString(R.string.benvenuto, nomeUtente)
+            binding.testoProfilo.text = messaggioBenvenuto
+        }
 
-        val sessionManager = SessionManager.getInstance(requireContext())
-        val username = sessionManager.getUsername()
-        val nomeUtente = "$username"  //da settare con il db
-        val messaggioBenvenuto = getString(R.string.benvenuto, nomeUtente)
-        binding.testoProfilo.text = messaggioBenvenuto
+
+
 
         val login = binding.buttonAccedi
         login.setOnClickListener{
