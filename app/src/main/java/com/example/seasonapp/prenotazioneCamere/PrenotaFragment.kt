@@ -334,8 +334,9 @@ class PrenotaFragment : Fragment() {
                                 val capacita = jsonObject["capacity"].toString().toInt()
                                 val tipologia = jsonObject["roomType"].toString().replace("\"", "")
                                 val roomId = jsonObject["roomId"].toString().toInt()
+                                val costo = jsonObject["costo"].toString().toDouble()
 
-                                listaOfferte.add(Offerta(roomId,tipologia, 1, 100.0, checkInDate, checkOutDate, capacita))
+                                listaOfferte.add(Offerta(roomId,tipologia, 1, costo, checkInDate, checkOutDate, capacita))
                                 selectedOffer = listaOfferte
                             }
 
