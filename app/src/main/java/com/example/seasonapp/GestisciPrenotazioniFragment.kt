@@ -1,59 +1,101 @@
 package com.example.seasonapp
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.example.seasonapp.api.ClientNetwork
+import com.example.seasonapp.data.DbManager
+import com.example.seasonapp.data.SessionManager
+import com.example.seasonapp.databinding.FragmentGestisciPrenotazioniBinding
+import com.example.seasonapp.databinding.FragmentPrenotaBinding
+import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [GestisciPrenotazioniFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GestisciPrenotazioniFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentGestisciPrenotazioniBinding
+    private var idUtente : Int? = null
+    private lateinit var dbManager: DbManager
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gestisci_prenotazioni, container, false)
+        binding = FragmentGestisciPrenotazioniBinding.inflate(inflater)
+        dbManager = DbManager(requireContext())
+        dbManager.open()
+
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val username = sessionManager.getUsername()
+
+
+        idUtente = username?.let { dbManager.getUserIdByUsername(it) }
+
+        if (checkiflogindone()){
+            trovaprenotazioni()
+        }else{
+            Toast.makeText(
+                requireContext(),
+                "Devi prima effettuare il login per vedere le tue prenotazioni",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GestisciPrenotazioniFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GestisciPrenotazioniFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun checkiflogindone(): Boolean {
+        // Ottenere un'istanza delle SharedPreferences
+        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+        // Recuperare lo stato del login
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+        // Verificare lo stato del login
+        if (isLoggedIn) {
+            Log.i("PROVA","LOGIN FATTO")
+            return true
+        } else {
+            Log.i("PROVA","LOGIN NON FATTO")
+            return false
+        }
+
     }
+
+    private fun trovaprenotazioni() {
+        val query = "SELECT * FROM reservations WHERE ref_reservations = ${idUtente}"
+
+        ClientNetwork.retrofit.getMyReservations(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Log.d("PROVA","${response.body()}")
+                    }else{
+                        Toast.makeText(
+                            requireContext(),
+                            "Andata male",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+    }
+
+
 }

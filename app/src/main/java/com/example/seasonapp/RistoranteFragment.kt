@@ -1,6 +1,7 @@
 package com.example.seasonapp
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,12 +13,16 @@ import android.widget.NumberPicker
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentRistoranteBinding
 import com.example.seasonapp.model.RequestResturant
 import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +38,7 @@ class RistoranteFragment : Fragment() {
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
     private lateinit var dbManager: DbManager
-    val idUtente : Int? = null
+    var idUtente : Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +50,11 @@ class RistoranteFragment : Fragment() {
         dbManager = DbManager(requireContext())
         dbManager.open()
 
+        val sessionManager = SessionManager.getInstance(requireContext())
+        val username = sessionManager.getUsername()
 
+
+        idUtente = username?.let { dbManager.getUserIdByUsername(it) }
 
         datePickerButton = binding.datePickerRistorante
         datePickerButton.setOnClickListener {
@@ -66,24 +75,41 @@ class RistoranteFragment : Fragment() {
             val radioButton = view?.findViewById<RadioButton>(radioButtonId)
             val scelta = radioButton?.text.toString()
             chosenMeal = scelta
-            prenotaRistorante()
+            if(!checkiflogindone()){
+                Toast.makeText(
+                    requireContext(),
+                "Devi fare l'accesso per prenotare",
+                Toast.LENGTH_LONG).show()
+            }
+            lifecycleScope.launch {
+                if (!checkIfReservationExists()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Devi prima prenotare una stanza per accedere al ristorante",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
 
-            Log.d("Prova","pasto scelto: ${chosenMeal}")
+                if (checkiflogindone() && checkIfReservationExists()) {
+                    prenotaRistorante()
+                }
+            }
+
         }
 
         return binding.root
     }
 
     private fun prenotaRistorante() {
-        if(idUtente != null){
             val numberOfGuest = selectedGuests
             val resturantDate = selectedDate
             val sceltaPasto = chosenMeal
             val idRicevuto = idUtente
 
             if (numberOfGuest>0 && resturantDate!=null && sceltaPasto !=null){
-                val requestResturant = RequestResturant(idRicevuto,numberOfGuest,resturantDate,sceltaPasto)
-                prenotazioneRistorante(requestResturant)
+                val requestResturant =
+                    idRicevuto?.let { RequestResturant(it,numberOfGuest,resturantDate,sceltaPasto) }
+                requestResturant?.let { prenotazioneRistorante(it) }
             }else{
                 Toast.makeText(
                     requireContext(),
@@ -91,13 +117,6 @@ class RistoranteFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }else{
-            Toast.makeText(
-                requireContext(),
-                "Devi fare l'accesso per prenotare",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
     }
 
     private fun showGuestsSelectionDialog() {
@@ -207,4 +226,54 @@ class RistoranteFragment : Fragment() {
             }
         )
     }
+
+    private fun checkiflogindone(): Boolean {
+        // Ottenere un'istanza delle SharedPreferences
+        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+        // Recuperare lo stato del login
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+        // Verificare lo stato del login
+        if (isLoggedIn) {
+            Log.i("PROVA","LOGIN FATTO")
+            return true
+        } else {
+            Log.i("PROVA","LOGIN NON FATTO")
+            return false
+        }
+
+    }
+
+    private suspend fun checkIfReservationExists(): Boolean {
+        val query = "SELECT * FROM reservations WHERE ref_reservations = $idUtente " +
+                "AND '$selectedDate' BETWEEN checkInDate AND checkOutDate"
+
+        Log.d("QUERY","LA QUERY E': ${query}")
+        var reservationExists = false
+
+        try {
+            val response = withContext(Dispatchers.IO) {
+                ClientNetwork.retrofit.getMyReservations(query).execute()
+            }
+
+            if (response.isSuccessful) {
+                val reservations = response.body()
+                Log.d("RESERVATIONS BODY","BODY: $reservations")
+                reservationExists = (reservations?.getAsJsonArray("queryset")?.size() ?: 0) > 0
+
+                Log.d("RESERVATIONS BODY","BODY: $reservationExists")
+            } else {
+                Toast.makeText(requireContext(), "Andata male", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${e.message}")
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        }
+        Log.d("RETURN","Il return è : $reservationExists")
+
+        return reservationExists
+    }
+
+
 }
