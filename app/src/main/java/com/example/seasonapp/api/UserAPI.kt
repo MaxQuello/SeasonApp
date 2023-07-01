@@ -21,6 +21,10 @@ interface UserAPI {
 
     @POST("postSelect/")
     @FormUrlEncoded
+    fun getNotifications(@Field("query") query: String): Call<JsonObject>
+
+    @POST("postSelect/")
+    @FormUrlEncoded
     fun getUser(@Field("query") query: String): Call<JsonObject>
 
 
@@ -55,6 +59,10 @@ interface UserAPI {
     @POST("postInsert/")
     @FormUrlEncoded
     fun inserImpiantiReservation(@Field("query") query: String) : Call<JsonObject>
+
+    @POST("postInsert/")
+    @FormUrlEncoded
+    fun inserResturantNotification(@Field("query") query: String) : Call<JsonObject>
 
     @POST("postUpdate/")
     @FormUrlEncoded

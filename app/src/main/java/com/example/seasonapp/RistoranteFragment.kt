@@ -38,7 +38,9 @@ class RistoranteFragment : Fragment() {
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
     private lateinit var dbManager: DbManager
-    var idUtente : Int? = null
+    private var idUtente : Int? = null
+    private var typeNotification = "Ristorante"
+    private var textNotification : String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +62,8 @@ class RistoranteFragment : Fragment() {
         datePickerButton.setOnClickListener {
             showDatePicker()
         }
+
+
 
         guestButton = binding.ospitiPickerRistorante
         guestButton.setOnClickListener {
@@ -105,6 +109,8 @@ class RistoranteFragment : Fragment() {
             val resturantDate = selectedDate
             val sceltaPasto = chosenMeal
             val idRicevuto = idUtente
+
+            textNotification = "Hai prenotato il ristorante per la data $selectedDate"
 
             if (numberOfGuest>0 && resturantDate!=null && sceltaPasto !=null){
                 val requestResturant =
@@ -190,7 +196,6 @@ class RistoranteFragment : Fragment() {
     private fun prenotazioneRistorante(requestResturant: RequestResturant){
         val query = "INSERT INTO prenotazioneRistorante(id_utente, data_prenotazione, numero_ospiti, chosen_meal)" +
         "VALUES (${requestResturant.idUtente}, '${requestResturant.resturantDate}', ${requestResturant.numberOfGuest}, '${requestResturant.scelta}');"
-
         Log.d("QUERY","La mia query è: ${query}")
 
         ClientNetwork.retrofit.insertResturantReservation(query).enqueue(
@@ -208,6 +213,7 @@ class RistoranteFragment : Fragment() {
                             "Prenotazione effettuata",
                             Toast.LENGTH_SHORT
                         ).show()
+                        inserisciNotificaRistorante()
                     } else {
                         val errorMessage = response.message()
                         Log.e("onResponse", "Errore nell'inserimento nel database: $errorMessage")
@@ -225,6 +231,30 @@ class RistoranteFragment : Fragment() {
                 }
             }
         )
+    }
+
+    private fun inserisciNotificaRistorante(){
+        val query = "INSERT INTO notifications (ref_notification, type, message) " +
+                "VALUES ($idUtente, '$typeNotification', '$textNotification');"
+
+        ClientNetwork.retrofit.inserResturantNotification(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Log.d("NOTIFICA","NOTIFICA INSERITA")
+                    }else{
+                        Log.d("PROBLEMA","PROBLEMA")
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Resturant_Fragment-onFailure", "Errore ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+
     }
 
     private fun checkiflogindone(): Boolean {

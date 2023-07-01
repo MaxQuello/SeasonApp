@@ -44,6 +44,12 @@ class ServiziFragment : Fragment() {
 
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
+
+    private var typeNotificationGym = "Palestra"
+    private var textNotificationGym : String? = null
+
+    private var typeNotificationImpianti = "Impianti"
+    private var textNotificationImpianti : String? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -111,7 +117,27 @@ class ServiziFragment : Fragment() {
 
         prenotaOraSportButton = binding.buttonPrenotaOraImpianto
         prenotaOraSportButton.setOnClickListener {
-            prenotaImpianto()
+
+            if(!checkiflogindone()){
+                Toast.makeText(
+                    requireContext(),
+                    "Devi fare l'accesso per prenotare",
+                    Toast.LENGTH_LONG).show()
+            }
+            lifecycleScope.launch {
+                if (!checkIfReservationExistsImpianti()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Devi prima prenotare una stanza per accedere al ristorante",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                if (checkiflogindone() && checkIfReservationExistsImpianti()) {
+                    prenotaImpianto()
+                }
+            }
+
         }
 
         return binding.root
@@ -223,6 +249,8 @@ class ServiziFragment : Fragment() {
         val gymDate = selectedDate
         val idRicevuto = idUtente
 
+        textNotificationGym = "Hai prenotato la palestra per la data $selectedDate"
+
         if (numberOfGuest > 0 && gymDate != null) {
             val requestGym = idRicevuto?.let { RequestGym(it, gymDate, numberOfGuest) }
             requestGym?.let { prenotazionePalestra(it) }
@@ -256,8 +284,7 @@ class ServiziFragment : Fragment() {
                         ).show()
                         val dateString = requestGym.gymDate.toString()
                         dbManager.insertPrenotazioneGym(requestGym.idUtente,dateString,requestGym.numeroOspiti)
-
-
+                        inserisciNotificaPalestra()
                     }else{
                         val errorMessage = response.message()
                         Log.e("onResponse", "Errore nell'inserimento nel database: $errorMessage")
@@ -308,6 +335,36 @@ class ServiziFragment : Fragment() {
         return reservationExists
     }
 
+    private suspend fun checkIfReservationExistsImpianti(): Boolean {
+        val query = "SELECT * FROM reservations WHERE ref_reservations = $idUtente " +
+                "AND '$selectedDateImpianti' BETWEEN checkInDate AND checkOutDate"
+
+        Log.d("QUERY","LA QUERY E': ${query}")
+        var reservationExists = false
+
+        try {
+            val response = withContext(Dispatchers.IO) {
+                ClientNetwork.retrofit.getMyReservations(query).execute()
+            }
+
+            if (response.isSuccessful) {
+                val reservations = response.body()
+                Log.d("RESERVATIONS BODY","BODY: $reservations")
+                reservationExists = (reservations?.getAsJsonArray("queryset")?.size() ?: 0) > 0
+
+                Log.d("RESERVATIONS BODY","BODY: $reservationExists")
+            } else {
+                Toast.makeText(requireContext(), "Andata male", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${e.message}")
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        }
+        Log.d("RETURN","Il return è : $reservationExists")
+
+        return reservationExists
+    }
+
     private fun checkiflogindone(): Boolean {
         // Ottenere un'istanza delle SharedPreferences
         val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -329,6 +386,8 @@ class ServiziFragment : Fragment() {
     private fun prenotaImpianto(){
         val idRicevuto = idUtente
         val impiantiDate = selectedDateImpianti
+
+        textNotificationImpianti = "Hai prenotato l impianto sportivo per la data $selectedDateImpianti"
 
         if (impiantiDate != null) {
             val requestImpianti = idRicevuto?.let { RequestImpianti(it, impiantiDate) }
@@ -356,6 +415,7 @@ class ServiziFragment : Fragment() {
                             requireContext(),
                         "Prenotazione effettuata",
                         Toast.LENGTH_SHORT).show()
+                        inserisciNotificaImpianto()
                     }else{
                         Toast.makeText(
                             requireContext(),
@@ -372,6 +432,56 @@ class ServiziFragment : Fragment() {
 
             }
         )
+    }
+
+    private fun inserisciNotificaPalestra(){
+        val query = "INSERT INTO notifications (ref_notification, type, message) " +
+                "VALUES ($idUtente, '$typeNotificationGym', '$textNotificationGym');"
+
+        ClientNetwork.retrofit.inserResturantNotification(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Log.d("NOTIFICA","NOTIFICA INSERITA")
+                    }else{
+                        Log.d("PROBLEMA","PROBLEMA")
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Resturant_Fragment-onFailure", "Errore ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+
+    }
+
+    private fun inserisciNotificaImpianto(){
+        val query = "INSERT INTO notifications (ref_notification, type, message) " +
+                "VALUES ($idUtente, '$typeNotificationImpianti', '$textNotificationImpianti');"
+
+        Log.d("QUERY","QUERY : $query")
+
+        ClientNetwork.retrofit.inserResturantNotification(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Log.d("NOTIFICA","NOTIFICA INSERITA")
+                    }else{
+                        Log.d("PROBLEMA","PROBLEMA")
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Resturant_Fragment-onFailure", "Errore ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+
     }
 
     override fun onDestroyView() {

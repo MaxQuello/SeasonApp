@@ -43,7 +43,6 @@ class RegistratiFragment : Fragment() {
     private lateinit var editTextRisposta : EditText
     private lateinit var registratiButton: Button
     private lateinit var dbManager: DbManager
-    private lateinit var idUtente : RequestRegistration
 
 
     override fun onCreateView(
