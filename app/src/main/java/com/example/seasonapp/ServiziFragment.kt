@@ -19,6 +19,7 @@ import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.databinding.FragmentServiziBinding
 import com.example.seasonapp.model.RequestGym
+import com.example.seasonapp.model.RequestImpianti
 import com.example.seasonapp.model.RequestResturant
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +37,10 @@ class ServiziFragment : Fragment() {
     private lateinit var prenotaGymButton: Button
     private var selectedDate: LocalDate? = null
     private var selectedGuests = 1
+
+    private lateinit var datePickerSportButton: Button
+    private lateinit var prenotaOraSportButton: Button
+    private var selectedDateImpianti: LocalDate? = null
 
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
@@ -99,6 +104,16 @@ class ServiziFragment : Fragment() {
 
         }
 
+        datePickerSportButton = binding.datePickerImpianto
+        datePickerSportButton.setOnClickListener {
+            showDatePickerImpianti()
+        }
+
+        prenotaOraSportButton = binding.buttonPrenotaOraImpianto
+        prenotaOraSportButton.setOnClickListener {
+            prenotaImpianto()
+        }
+
         return binding.root
     }
 
@@ -140,6 +155,40 @@ class ServiziFragment : Fragment() {
         datePickerButton.text = dateString
     }
 
+    private fun showDatePickerImpianti() {
+        val currentDate = LocalDate.now()
+        val currentYear = currentDate.year
+        val currentMonth = currentDate.monthValue
+        val currentDay = currentDate.dayOfMonth
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, year, month, day ->
+                this@ServiziFragment.selectedDateImpianti = LocalDate.of(year, month + 1, day)
+
+                if (selectedDateImpianti?.isBefore(currentDate) == true) {
+                    Toast.makeText(
+                        requireContext(),
+                        "La data di prenotazione non può essere precedente alla data corrente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    updateButtonWithSelectedDateImpianti()
+                }
+            },
+            currentYear,
+            currentMonth - 1,
+            currentDay
+        )
+
+        datePickerDialog.show()
+    }
+
+    private fun updateButtonWithSelectedDateImpianti() {
+        val dateString = selectedDateImpianti?.toString() ?: ""
+        datePickerSportButton.text = dateString
+    }
+
     private fun showGuestsSelectionDialog() {
         val guestsNumberPicker = NumberPicker(context)
 
@@ -170,29 +219,22 @@ class ServiziFragment : Fragment() {
     }
 
     private fun prenotaPalestra() {
-        if(idUtente != null){
-            val numberOfGuest = selectedGuests
-            val gymDate = selectedDate
-            val idRicevuto = idUtente
+        val numberOfGuest = selectedGuests
+        val gymDate = selectedDate
+        val idRicevuto = idUtente
 
-            if (numberOfGuest>0 && gymDate!=null){
-                val requestGym = idRicevuto?.let { RequestGym(it,gymDate,numberOfGuest) }
-                requestGym?.let { prenotazionePalestra(it) }
-            }else{
-                Toast.makeText(
-                    requireContext(),
-                    "Non hai completato i campi richiesti",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }else{
+        if (numberOfGuest > 0 && gymDate != null) {
+            val requestGym = idRicevuto?.let { RequestGym(it, gymDate, numberOfGuest) }
+            requestGym?.let { prenotazionePalestra(it) }
+        } else {
             Toast.makeText(
                 requireContext(),
-                "Devi fare l'accesso per prenotare",
+                "Non hai completato i campi richiesti",
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
+
 
     private fun prenotazionePalestra(requestGym: RequestGym) {
         val query = "INSERT INTO prenotazioneGym(id_utente, data_prenotazione, numero_ospiti)" +
@@ -282,6 +324,59 @@ class ServiziFragment : Fragment() {
             return false
         }
 
+    }
+
+    private fun prenotaImpianto(){
+        val idRicevuto = idUtente
+        val impiantiDate = selectedDateImpianti
+
+        if (impiantiDate != null) {
+            val requestImpianti = idRicevuto?.let { RequestImpianti(it, impiantiDate) }
+            inserisciPrenotazione(requestImpianti)
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "Non hai completato i campi richiesti",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun inserisciPrenotazione(requestImpianti: RequestImpianti?) {
+        val query = "INSERT INTO prenotazioneImpianti(ref_impianti, data_prenotazione_impianti)" +
+                " VALUES(${requestImpianti?.idUtente}, '${requestImpianti?.impiantiDate}');"
+
+        Log.d("QUERY","QUERY: $query")
+
+        ClientNetwork.retrofit.inserImpiantiReservation(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Toast.makeText(
+                            requireContext(),
+                        "Prenotazione effettuata",
+                        Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(
+                            requireContext(),
+                            "La tua prenotazione non è andata a buon fine",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Servizi_Fragment-onFailure", "Errore ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dbManager.close()
     }
 
 }
