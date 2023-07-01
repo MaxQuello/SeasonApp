@@ -14,17 +14,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
+import com.example.seasonapp.databinding.BottomsheetlayoutBinding
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestPrenotaCamera
 import com.example.seasonapp.model.RequestRoom
@@ -41,7 +44,6 @@ class PrenotaFragment : Fragment() {
     private lateinit var datePickerButton : Button
     private lateinit var searchButton: Button
     private lateinit var camerePickerButton : Button
-    private lateinit var prenotaButton: Button
     private var selectedCheckInDate: LocalDate? = null
     private var selectedCheckOutDate: LocalDate? = null
     private var checkInSelected = false
@@ -51,7 +53,8 @@ class PrenotaFragment : Fragment() {
     private var selectedOffer : ArrayList<Offerta>? = null
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
-    private lateinit var dialog: Dialog
+    private lateinit var bottomLayout: Dialog
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,6 +69,7 @@ class PrenotaFragment : Fragment() {
 
         val sessionManager = SessionManager.getInstance(requireContext())
         val username = sessionManager.getUsername()
+        mainActivity = activity as MainActivity
 
         idUtente = username?.let { dbManager.getUserIdByUsername(it) }
 
@@ -100,12 +104,13 @@ class PrenotaFragment : Fragment() {
                     }
                 }
 
-                prenotaButton = binding.buttonPrenotaOra
-                prenotaButton.setOnClickListener {
 
-                    findNavController().navigate(R.id.action_global_pagamentoFragment)
-                    // prenotaCamera()
-                }
+                    binding.buttonPrenotaOra.setOnClickListener {
+                            mainActivity.getDialog().dismiss()
+                        findNavController().navigate(R.id.action_global_pagamentoFragment)
+                        // prenotaCamera()
+                    }
+
 
 
         return binding.root
