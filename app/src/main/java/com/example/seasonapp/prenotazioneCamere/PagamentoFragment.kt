@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 
 
 class PagamentoFragment : Fragment() {
@@ -35,6 +37,9 @@ class PagamentoFragment : Fragment() {
     private var roomId : Int? = null
     private var dataCheckIn : LocalDate? = null
     private var dataCheckOut: LocalDate? = null
+    private var numerogiorni : Int? = null
+    private lateinit var editTextSconto : EditText
+    private lateinit var buttonSconto : Button
 
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
@@ -45,6 +50,10 @@ class PagamentoFragment : Fragment() {
         listaOfferte = arguments?.getParcelableArrayList<Offerta>("offerte")?.let {
             ArrayList(it)
         }
+        dataCheckIn = listaOfferte?.get(0)?.dataCheckIn
+        dataCheckOut = listaOfferte?.get(0)?.dataCheckOut
+
+        numerogiorni = ChronoUnit.DAYS.between(dataCheckIn,dataCheckOut).toInt()
     }
 
     override fun onCreateView(
@@ -72,6 +81,39 @@ class PagamentoFragment : Fragment() {
             showGuestsSelectionDialog()
         }
 
+        editTextSconto = binding.editTextVoucher
+
+        buttonSconto = binding.buttonVoucher
+        buttonSconto.setOnClickListener {
+            val codice = editTextSconto.text.toString()
+            if (codice != ""){
+                val query = "SELECT 1 FROM utente WHERE codice = '${codice}' AND id = ${idUtente} "
+                ClientNetwork.retrofit.getIdUtente(query).enqueue(
+                    object  : Callback<JsonObject>{
+                        override fun onResponse(
+                            call: Call<JsonObject>,
+                            response: Response<JsonObject>
+                        ) {
+                            if (response.isSuccessful){
+                                val risultato = response.body()?.getAsJsonArray("queryset")
+                                if (risultato != null){
+
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                            TODO("Not yet implemented")
+                        }
+
+                    }
+                )
+            }
+
+        }
+
+
+
         confermaPagamentoButton = binding.buttonPaga
         confermaPagamentoButton.setOnClickListener {
             for (offerte in listaOfferte!!){
@@ -79,6 +121,8 @@ class PagamentoFragment : Fragment() {
                 dataCheckIn = offerte.dataCheckIn
                 dataCheckOut = offerte.dataCheckOut
             }
+
+
             updatePrezzoFinale() // Aggiorna il prezzo finale
             inserisciCamera(roomId,dataCheckIn,dataCheckOut)
         }
@@ -162,7 +206,7 @@ class PagamentoFragment : Fragment() {
             }
 
             costoTotale += costoMacchina * selectedCar // Aggiorna il prezzo totale con il costo delle macchine
-            val prezzoFinale = costoTotale
+            val prezzoFinale = costoTotale * numerogiorni!!
             textViewPrezzo.text = "PREZZO FINALE: $prezzoFinale"
             textViewPrezzo.visibility = View.VISIBLE // Rendi la TextView visibile
         } else {
