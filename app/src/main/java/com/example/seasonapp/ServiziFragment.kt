@@ -327,7 +327,7 @@ class ServiziFragment : Fragment() {
                 Toast.makeText(requireContext(), "Andata male", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${e.message}")
+            Log.i("LOG-ServiziFragment-onFailure", "Errore accesso ${e.message}")
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
         Log.d("RETURN","Il return è : $reservationExists")
@@ -357,7 +357,7 @@ class ServiziFragment : Fragment() {
                 Toast.makeText(requireContext(), "Andata male", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${e.message}")
+            Log.i("LOG-ServiziFragment-onFailure", "Errore accesso ${e.message}")
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
         Log.d("RETURN","Il return è : $reservationExists")
@@ -451,7 +451,7 @@ class ServiziFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Resturant_Fragment-onFailure", "Errore ${t.message}")
+                    Log.i("LOG-ServiziFragment-onFailure", "Errore ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
 
@@ -477,7 +477,7 @@ class ServiziFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Resturant_Fragment-onFailure", "Errore ${t.message}")
+                    Log.i("LOG-ServiziFragment-onFailure", "Errore ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
 

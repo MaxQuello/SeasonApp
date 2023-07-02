@@ -111,14 +111,14 @@ class GestisciPrenotazioniFragment : Fragment() {
                     }else{
                         Toast.makeText(
                             requireContext(),
-                            "Andata male",
+                            "Errore",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${t.message}")
+                    Log.i("LOG-GestisciPrenotazioni_Fragmemt-onFailure", "Errore accesso ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
 

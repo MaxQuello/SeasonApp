@@ -92,7 +92,7 @@ class ModificaPasswordFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Login_Fragment-onFailure", "Errore accesso ${t.message}")
+                    Log.i("LOG-ModificaPassword_Fragment-onFailure", "Errore accesso ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
 

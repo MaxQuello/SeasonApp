@@ -1,4 +1,5 @@
 package com.example.seasonapp.data
+
 import android.content.Context
 import android.content.SharedPreferences
 
@@ -13,6 +14,7 @@ class SessionManager private constructor(context: Context) {
     companion object {
         private const val PREF_NAME = "AppSession"
         private const val KEY_USERNAME = "username"
+        private const val KEY_EMAIL = "email"
 
         @Volatile
         private var instance: SessionManager? = null
@@ -22,12 +24,20 @@ class SessionManager private constructor(context: Context) {
                 instance ?: SessionManager(context).also { instance = it }
             }
     }
-//
+
     fun setUsername(username: String) {
         sharedPreferences.edit().putString(KEY_USERNAME, username).apply()
     }
 
     fun getUsername(): String? {
         return sharedPreferences.getString(KEY_USERNAME, null)
+    }
+
+    fun setEmail(email: String) {
+        sharedPreferences.edit().putString(KEY_EMAIL, email).apply()
+    }
+
+    fun getEmail(): String? {
+        return sharedPreferences.getString(KEY_EMAIL, null)
     }
 }

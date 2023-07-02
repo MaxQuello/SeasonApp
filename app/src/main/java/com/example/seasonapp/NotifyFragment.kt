@@ -76,7 +76,7 @@ class NotifyFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Servizi_Fragment-onFailure", "Errore ${t.message}")
+                    Log.i("LOG-Notify_Fragment-onFailure", "Errore ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
 

@@ -64,7 +64,59 @@ class GestisciServiziFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${t.message}")
+                    Log.i("LOG-Gestisci_Servizi-onFailure", "Errore accesso ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+    }
+
+    private fun trovaprenotazioniImpianti() {
+        val query = "SELECT * FROM prenotazioneImpianti WHERE id_utente = ${idUtente}"
+
+        ClientNetwork.retrofit.getMyGymReservation(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Log.d("PROVA","${response.body()}")
+                    }else{
+                        Toast.makeText(
+                            requireContext(),
+                            "Andata male",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Gestisci_Servizi-onFailure", "Errore accesso ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+    }
+
+    private fun trovaprenotazioniRistorante() {
+        val query = "SELECT * FROM prenotazioneRistorante WHERE id_utente = ${idUtente}"
+
+        ClientNetwork.retrofit.getMyGymReservation(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Log.d("PROVA","${response.body()}")
+                    }else{
+                        Toast.makeText(
+                            requireContext(),
+                            "Andata male",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Gestisci_Servizi-onFailure", "Errore accesso ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
 

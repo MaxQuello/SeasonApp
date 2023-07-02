@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.example.seasonapp.DomandaSicurezzaFragment
 import com.example.seasonapp.R
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentRecuperoUsernameBinding
 import com.example.seasonapp.model.InsertOtp
 import com.example.seasonapp.model.RequestOtp
@@ -66,6 +68,8 @@ class RecuperoUsernameFragment : Fragment() {
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
 
+                        val sessionManager = SessionManager.getInstance(requireContext())
+                        sessionManager.setEmail("${requestUsername.email}")
                         findNavController().navigate(R.id.action_recuperoUsernameFragment_to_domandaSicurezzaFragment)
 
 
@@ -82,7 +86,7 @@ class RecuperoUsernameFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Recupero_Password_Fragment-onFailure", "Errore ${t.message}")
+                    Log.i("LOG-Recupero_Username_Fragment-onFailure", "Errore ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
             }
