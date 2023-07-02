@@ -73,6 +73,7 @@ class OtpFragment : Fragment() {
                             codiceOtp = codiceOtpJson?.asInt ?: 0
 
                             if (codiceOtp == editTextOtpString) {
+                                dropTableOtp()
                                 findNavController().navigate(R.id.action_otpFragment_to_modificaPasswordFragment)
                             } else {
                                 Toast.makeText(
@@ -93,6 +94,25 @@ class OtpFragment : Fragment() {
                         Log.d("PROBLEMA","PROBLEMA")
                     }
 
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Otp_Fragment-onFailure", "Errore accesso ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
+    }
+
+    private fun dropTableOtp(){
+        val query = "DELETE FROM otp;"
+        ClientNetwork.retrofit.remove(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Log.d("DELETE","CANCELLATO")
+                    }
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
