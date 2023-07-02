@@ -67,7 +67,7 @@
     <action android:id="@+id/action_global_contattiFragment" app:destination="@id/contattiFragment" />
     <fragment
         android:id="@+id/camereFragment"
-        android:name="com.example.seasonapp.CamereFragment"
+        android:name="com.example.seasonapp.prenotazioneCamere.CamereFragment"
         android:label="fragment_camere"
         tools:layout="@layout/fragment_camere" />
     <action android:id="@+id/action_global_camereFragment" app:destination="@id/camereFragment" />
@@ -149,7 +149,7 @@
     </fragment>
     <fragment
         android:id="@+id/gestisciPrenotazioniFragment"
-        android:name="com.example.seasonapp.GestisciPrenotazioniFragment"
+        android:name="com.example.seasonapp.prenotazioneCamere.GestisciPrenotazioniFragment"
         android:label="fragment_gestisci_prenotazioni"
         tools:layout="@layout/fragment_gestisci_prenotazioni" >
         <action

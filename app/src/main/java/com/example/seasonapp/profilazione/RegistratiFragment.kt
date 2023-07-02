@@ -27,6 +27,7 @@ import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.security.SecureRandom
 
 
 class RegistratiFragment : Fragment() {
@@ -43,6 +44,7 @@ class RegistratiFragment : Fragment() {
     private lateinit var editTextRisposta : EditText
     private lateinit var registratiButton: Button
     private lateinit var dbManager: DbManager
+    private var codiceSconto : Int? = null
 
 
     override fun onCreateView(
@@ -107,8 +109,12 @@ class RegistratiFragment : Fragment() {
             && testoMail.isNotEmpty() && testoNumeroTelefono.isNotEmpty() && testoUsername.isNotEmpty()
             && testoPassword.isNotEmpty() && testoDomanda.isNotEmpty() && testoRisposta.isNotEmpty()) {
 
+            codiceSconto = generaCodiceSconto()
+
             val requestRegistration = RequestRegistration(testoNome, testoCognome, scelta, testoDataNascita, testoMail,
-                testoNumeroTelefono, testoUsername, testoPassword, testoDomanda, testoRisposta)
+                testoNumeroTelefono, testoUsername, testoPassword, testoDomanda, testoRisposta,
+                codiceSconto!!
+            )
 
             registraUtente(requestRegistration) { idUtente ->
                 if (idUtente != null) {
@@ -123,7 +129,8 @@ class RegistratiFragment : Fragment() {
                         testoUsername,
                         testoPassword,
                         testoDomanda,
-                        testoRisposta
+                        testoRisposta,
+                        codiceSconto!!
                     )
                 }
             }
@@ -136,12 +143,20 @@ class RegistratiFragment : Fragment() {
         }
     }
 
+    private fun generaCodiceSconto() : Int {
+        val secureRandom = SecureRandom()
+        val randomNumber = secureRandom.nextInt(900000) + 100000
+
+        return randomNumber
+    }
+
     private fun registraUtente(requestRegistration: RequestRegistration, callback: (idUtente: Int?) -> Unit) {
 
-        val query = "INSERT INTO utente (nome, cognome, gender, dataNascita, mail, numeroDiTelefono, username, password, domanda, risposta) " +
+        val query = "INSERT INTO utente (nome, cognome, gender, dataNascita, mail, numeroDiTelefono, username, password, domanda, risposta,codice_sconto) " +
                 "VALUES ('${requestRegistration.nome}', '${requestRegistration.cognome}', '${requestRegistration.gender}'," +
                 "'${requestRegistration.dataNascita}', '${requestRegistration.mail}', '${requestRegistration.numeroTelefono}'," +
-                "'${requestRegistration.username}', '${requestRegistration.password}', '${requestRegistration.domanda}', '${requestRegistration.risposta}')"
+                "'${requestRegistration.username}', '${requestRegistration.password}', '${requestRegistration.domanda}', '${requestRegistration.risposta}'," +
+                "'${requestRegistration.codiceSconto}')"
 
 
         Log.d("DEBUG","La tua query sarà: ${query}")
@@ -157,19 +172,22 @@ class RegistratiFragment : Fragment() {
                         try {
                             getIdUtente(requestRegistration) { idUtente ->
                                 if (idUtente != null) {
-                                    dbManager.insertUtente(
-                                        idUtente,
-                                        requestRegistration.nome,
-                                        requestRegistration.cognome,
-                                        requestRegistration.gender,
-                                        requestRegistration.dataNascita,
-                                        requestRegistration.mail,
-                                        requestRegistration.numeroTelefono,
-                                        requestRegistration.username,
-                                        requestRegistration.password,
-                                        requestRegistration.domanda,
-                                        requestRegistration.risposta
-                                    )
+                                    codiceSconto?.let {
+                                        dbManager.insertUtente(
+                                            idUtente,
+                                            requestRegistration.nome,
+                                            requestRegistration.cognome,
+                                            requestRegistration.gender,
+                                            requestRegistration.dataNascita,
+                                            requestRegistration.mail,
+                                            requestRegistration.numeroTelefono,
+                                            requestRegistration.username,
+                                            requestRegistration.password,
+                                            requestRegistration.domanda,
+                                            requestRegistration.risposta,
+                                            it
+                                        )
+                                    }
                                 }
                             }
                             findNavController().navigate(com.example.seasonapp.R.id.action_registratiFragment_to_homeFragment2)
@@ -242,11 +260,6 @@ class RegistratiFragment : Fragment() {
             }
         )
 
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        dbManager.close()
     }
 
 

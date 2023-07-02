@@ -31,7 +31,8 @@ class DbManager(val context: Context) {
         username: String,
         password: String,
         domanda: String,
-        risposta: String
+        risposta: String,
+        codice : Int
     ) {
         val value = ContentValues().apply {
             put(DBHelper.ID_UTENTE,id)
@@ -46,6 +47,7 @@ class DbManager(val context: Context) {
             put(DBHelper.PASSWORD, password)
             put(DBHelper.DOMANDA, password)
             put(DBHelper.RISPOSTA, risposta)
+            put(DBHelper.CODICESCONTO,codice)
         }
         db.insertWithOnConflict(DBHelper.TABLE_UTENTE, null, value, SQLiteDatabase.CONFLICT_IGNORE)
     }

@@ -145,7 +145,8 @@ class LoginFragment : Fragment() {
         val password = jsonObject.get("password").asString
         val domanda = jsonObject.get("domanda").asString
         val risposta = jsonObject.get("risposta").asString
-        dbManager.insertUtente(id,nome,cognome,gender,dataNascita,email,telefono,username,password,domanda,risposta)
+        val codiceSconto = jsonObject.get("codice_sconto").asInt
+        dbManager.insertUtente(id,nome,cognome,gender,dataNascita,email,telefono,username,password,domanda,risposta,codiceSconto)
     }
 
     private fun getIdUtente(requestLogin: RequestLogin) {
@@ -177,8 +178,4 @@ class LoginFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        dbManager.close()
-    }
 }

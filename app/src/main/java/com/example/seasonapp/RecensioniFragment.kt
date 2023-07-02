@@ -1,6 +1,7 @@
 package com.example.seasonapp
 
 import AdapterRecensione
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -61,7 +62,17 @@ class RecensioniFragment : Fragment() {
         buttonRecensisci = binding.buttonRecensisci
         buttonRecensisci.setOnClickListener {
              recensioneString = editTextRecensione.text.toString()
-            recensisci()
+
+            if(checkiflogindone()){
+                recensisci()
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    "Devi fare l'accesso per lasciare una recensione",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
         }
 
         prelevaRecensioni()
@@ -140,6 +151,24 @@ class RecensioniFragment : Fragment() {
 
             }
         )
+    }
+
+    private fun checkiflogindone(): Boolean {
+        // Ottenere un'istanza delle SharedPreferences
+        val sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+        // Recuperare lo stato del login
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+        // Verificare lo stato del login
+        if (isLoggedIn) {
+            Log.i("PROVA","LOGIN FATTO")
+            return true
+        } else {
+            Log.i("PROVA","LOGIN NON FATTO")
+            return false
+        }
+
     }
 
 }

@@ -28,6 +28,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val PASSWORD = "password"
         const val DOMANDA = "domanda"
         const val RISPOSTA = "risposta"
+        const val CODICESCONTO = "codice_sconto"
 
         const val TABLE_RISTORANTE = "RISTORANTE"
         const val ID_RISTORANTE = "id_ristorante"
@@ -80,7 +81,8 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
                     "$USERNAME TEXT NOT NULL UNIQUE,"+
                     "$PASSWORD TEXT NOT NULL," +
                     "$DOMANDA TEXT NOT NULL," +
-                    "$RISPOSTA TEXT NOT NULL);"
+                    "$RISPOSTA TEXT NOT NULL," +
+                    "$CODICESCONTO INTEGER);"
 
         private const val SQL_CREATE_RISTORANTE =
             "CREATE TABLE $TABLE_RISTORANTE (" +

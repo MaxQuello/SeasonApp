@@ -1,4 +1,4 @@
-package com.example.seasonapp
+package com.example.seasonapp.prenotazioneCamere
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

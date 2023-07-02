@@ -1,4 +1,4 @@
-package com.example.seasonapp
+package com.example.seasonapp.prenotazioneCamere
 
 import android.content.Context
 import android.os.Bundle
@@ -12,7 +12,6 @@ import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentGestisciPrenotazioniBinding
-import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
