@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/nOspitiTextImpianto"
+            android:id="@+id/nOspitiTextGym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/idImpiantoText"
+            android:id="@+id/idGymText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -33,31 +33,31 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/nOspitiImpianto"
+            android:id="@+id/nOspitiGym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/dataPrenotazioneImpianto"
+            app:layout_constraintBottom_toTopOf="@+id/dataPrenotazioneGym"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider7"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/idPrenotazioneImpianto"
+            android:id="@+id/idPrenotazioneGym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/dataPrenotazioneImpianto"
+            app:layout_constraintBottom_toTopOf="@+id/dataPrenotazioneGym"
             app:layout_constraintEnd_toStartOf="@+id/divider7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/dataPrenotazioneImpianto"
+            android:id="@+id/dataPrenotazioneGym"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -72,7 +72,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/buttonCancellaImpianto"
+            android:id="@+id/buttonCancellaGym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/dock"
@@ -87,7 +87,7 @@
             android:layout_width="1dp"
             android:layout_height="0dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toTopOf="@+id/dataPrenotazioneImpianto"
+            app:layout_constraintBottom_toTopOf="@+id/dataPrenotazioneGym"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
