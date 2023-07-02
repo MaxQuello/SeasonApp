@@ -185,6 +185,9 @@
         <action
             android:id="@+id/action_modificaPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_modificaPasswordFragment_to_recuperoPasswordFragment"
+            app:destination="@id/recuperoPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/pagamentoFragment"

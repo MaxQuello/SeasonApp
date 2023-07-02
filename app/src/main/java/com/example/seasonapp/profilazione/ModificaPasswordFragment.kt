@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import com.example.seasonapp.R
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentModificaPasswordBinding
@@ -43,6 +45,10 @@ class ModificaPasswordFragment : Fragment() {
         modificaButton = binding.buttonModificaPassword
 
         Log.d("USERNAME","USERNAME : $username")
+
+        binding.buttonIndietroModifica.setOnClickListener{
+            findNavController().navigate(R.id.action_modificaPasswordFragment_to_recuperoPasswordFragment)
+        }
 
         modificaButton.setOnClickListener {
             Log.d("USERNAME","USERNAME : $username")
@@ -82,6 +88,7 @@ class ModificaPasswordFragment : Fragment() {
                             "La tua nuova password è $passwordString",
                             Toast.LENGTH_LONG
                         ).show()
+                        findNavController().navigate(R.id.action_modificaPasswordFragment_to_loginFragment)
                     }else{
                         Toast.makeText(
                             requireContext(),
