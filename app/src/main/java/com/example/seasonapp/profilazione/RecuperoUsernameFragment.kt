@@ -53,7 +53,7 @@ class RecuperoUsernameFragment : Fragment() {
 
     private fun verificaEsistenzaUtente(requestUsername: RequestUsername) {
         val query =
-            "SELECT * FROM utente WHERE email = '${requestUsername.email}' AND numeroDiTelefono = '${requestUsername.nTelefono}';"
+            "SELECT * FROM utente WHERE mail = '${requestUsername.email}' AND numeroDiTelefono = '${requestUsername.nTelefono}';"
         Log.d("DEBUG", "La tua query sarà: ${query}")
         ClientNetwork.retrofit.login(query).enqueue(
             object : Callback<JsonObject> {

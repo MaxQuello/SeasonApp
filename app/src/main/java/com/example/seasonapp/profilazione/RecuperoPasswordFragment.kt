@@ -13,14 +13,17 @@ import com.example.seasonapp.R
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DBHelper
 import com.example.seasonapp.data.DbManager
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentRecuperoPasswordBinding
 import com.example.seasonapp.model.InsertOtp
 import com.example.seasonapp.model.RequestOtp
+import com.example.seasonapp.model.RequestRegistration
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.security.SecureRandom
 import kotlin.random.Random
 
 
@@ -29,6 +32,7 @@ class RecuperoPasswordFragment : Fragment() {
     private lateinit var dbManager: DbManager
     var username = ""
     var telefono = ""
+    var idUtente : Int? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,10 +42,12 @@ class RecuperoPasswordFragment : Fragment() {
         binding = FragmentRecuperoPasswordBinding.inflate(layoutInflater)
         dbManager = DbManager(requireContext())
         dbManager.open()
+
+
         val view = binding.root
         val insertUsername = binding.inserisciUsername
         val insertTelefono = binding.inserisciNumero
-        var idUtente : Int? = null
+
 
 
         binding.buttonIndietro.setOnClickListener {
@@ -89,10 +95,14 @@ class RecuperoPasswordFragment : Fragment() {
                             Toast.LENGTH_LONG
                         ).show()
 
-                        //Prelevare l'id che è risultato dalla query
-                        val idUtente = 99
-                        val insertOtp = InsertOtp(otp = otp, idUtente = idUtente)
-                        insertOtp(insertOtp)
+
+                        val jsonObject = bodyString?.getAsJsonArray("queryset")?.get(0)?.asJsonObject
+                        idUtente = jsonObject?.getAsJsonPrimitive("id")?.asInt
+                        val sessionManager = SessionManager.getInstance(requireContext())
+                        sessionManager.setUsername(requestOtp.username)
+                        val insertOtp = idUtente?.let { InsertOtp(otp = otp, idUtente = it) }
+                        insertOtp?.let { insertOtp(it) }
+
 
                     } else {
                         val errorMessage = response.message()
@@ -115,11 +125,14 @@ class RecuperoPasswordFragment : Fragment() {
 
     }
 
+
     private fun generaOtp(): Int {
-        val randomNumber = Random.nextInt(100000, 999999)
+        val secureRandom = SecureRandom()
+        val randomNumber = secureRandom.nextInt(900000) + 100000
 
         return randomNumber
     }
+
 
     private fun insertOtp(insertOtp: InsertOtp) {
 
@@ -130,7 +143,7 @@ class RecuperoPasswordFragment : Fragment() {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     Log.i(
                         "onResponse",
-                        "Sono dentro la onResponse e l'esito sarà: ${response.isSuccessful}"
+                        "Sono dentro la onResponseOTP e l'esito sarà: ${response.isSuccessful}"
                     )
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
