@@ -8,6 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.seasonapp.AdapterNotifiche
+import com.example.seasonapp.AdapterPrenotazioniEffettuate
+import com.example.seasonapp.Notifica
+import com.example.seasonapp.PrenotazioniEffettuate
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
@@ -16,11 +21,15 @@ import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class GestisciPrenotazioniFragment : Fragment() {
     private lateinit var binding: FragmentGestisciPrenotazioniBinding
     private var idUtente : Int? = null
     private lateinit var dbManager: DbManager
+    private lateinit var prenotazioniEffettuate : ArrayList<PrenotazioniEffettuate>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,7 +86,28 @@ class GestisciPrenotazioniFragment : Fragment() {
             object : Callback<JsonObject>{
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     if (response.isSuccessful){
-                        Log.d("PROVA","${response.body()}")
+                        val jsonArray = response.body()?.getAsJsonArray("queryset")
+                        val resultList = jsonArray?.mapNotNull { it as? JsonObject }
+                        Log.d("RECENSIONI","RECENSIONI: ${response.body()}")
+                        prenotazioniEffettuate = ArrayList<PrenotazioniEffettuate>()
+                        if (resultList != null) {
+                            for(jsonObject in resultList){
+                                val id_prenotazione = jsonObject["reservationId"].toString().toInt()
+                                val id_utente = jsonObject["ref_reservations"].toString().toInt()
+                                val dataCheckIn= jsonObject["checkInDate"].toString()
+
+                                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
+                                val date = LocalDate.parse(dataCheckIn, formatter)
+
+                                val checkIn = LocalDate.parse(dataCheckIn)
+                                Log.i("suca", "${checkIn}")
+                                val dataCheckOut= jsonObject["checkOutDate"].toString()
+                                prenotazioniEffettuate.add(PrenotazioniEffettuate(id_prenotazione, id_utente, date, LocalDate.parse(dataCheckOut)))
+                            }
+
+                        }
+                        binding.listaPrenotazioni.adapter = AdapterPrenotazioniEffettuate(prenotazioniEffettuate)
+                        binding.listaPrenotazioni.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     }else{
                         Toast.makeText(
                             requireContext(),

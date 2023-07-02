@@ -91,4 +91,6 @@
     <string name="id">ID</string>
     <string name="riepilogo_della_prenotazione">Riepilogo della prenotazione</string>
     <string name="stelle">STELLE</string>
+    <string name="id_utente">ID Utente</string>
+    <string name="id_prenotazione">ID Prenotazione</string>
 </resources>
