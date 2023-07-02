@@ -97,4 +97,5 @@
     <string name="prezzo_finale">Prezzo Finale</string>
     <string name="conferma_pagamento">Conferma Pagamento</string>
     <string name="necessiti_del_parcheggio">Necessiti del parcheggio?</string>
+    <string name="hai_un_codice_sconto">Hai un codice sconto?</string>
 </resources>
