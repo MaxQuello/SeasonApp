@@ -8,6 +8,7 @@ class AdapterNotifiche(private val data: ArrayList<Notifica>): RecyclerView.Adap
     class ViewHolder(val binding: CardViewNotificheBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Notifica){
             binding.notifica.text = item.notifica
+           // binding.tipologiaNotificaText.text = item.tipologia
         }
     }
 

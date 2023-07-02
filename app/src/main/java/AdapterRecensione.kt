@@ -1,13 +1,16 @@
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.seasonapp.Offerta
 import com.example.seasonapp.Recensioni
+import com.example.seasonapp.databinding.CardViewOfferteBinding
 import com.example.seasonapp.databinding.CardViewRecensioniBinding
 
-class AdapterRecensioni(private val data: ArrayList<Recensioni>): RecyclerView.Adapter<AdapterRecensioni.ViewHolder>() {
+class AdapterRecensione(private val data: ArrayList<Recensioni>): RecyclerView.Adapter<AdapterRecensione.ViewHolder>() {
     class ViewHolder(val binding: CardViewRecensioniBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Recensioni){
-            binding.recensione.text = item.recensione
+            binding.nStelleText.text = item.stelle.toString()
+            binding.recensione.text = item.testo
         }
     }
 

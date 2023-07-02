@@ -1,5 +1,6 @@
 package com.example.seasonapp
 
+import AdapterRecensione
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -27,6 +28,7 @@ class RecensioniFragment : Fragment() {
     private lateinit var editTextRecensione : EditText
     private lateinit var buttonRecensisci : Button
     private var recensioneString :String? = null
+    private lateinit var recensioni : ArrayList<Recensioni>
 
     private lateinit var dbManager: DbManager
     private var idUtente: Int? = null
@@ -107,15 +109,29 @@ class RecensioniFragment : Fragment() {
         val query = "SELECT * FROM recensioni"
         Log.d("QUERY","QUERY: $query")
 
-        ClientNetwork.retrofit.getRecensioni(query).enqueue(
-            object :Callback<JsonObject>{
+        ClientNetwork.retrofit.getRecensioni(query).enqueue(object :Callback<JsonObject>{
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    recensioni = ArrayList<Recensioni>()
+                    val bodyString = response.body()
                     if (response.isSuccessful){
+                        val jsonArray = response.body()?.getAsJsonArray("queryset")
+                        val resultList = jsonArray?.mapNotNull { it as? JsonObject }
                         Log.d("RECENSIONI","RECENSIONI: ${response.body()}")
+                        if (resultList != null) {
+                            for(jsonObject in resultList){
+                                val testo = jsonObject["testo"].toString()
+                                val stelle = jsonObject["numero_stelle"].toString().toInt()
+                                recensioni.add(Recensioni(testo, stelle))
+                            }
+
+                        }
+                        binding.listaRecensioni.adapter = AdapterRecensione(recensioni)
+                        binding.listaRecensioni.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                     }else{
                         Log.d("PROBLEMA","PROBLEMA")
                     }
                 }
+
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
                     Log.i("LOG-Login_Fragment-onFailure", "Errore accesso ${t.message}")

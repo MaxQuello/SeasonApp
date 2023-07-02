@@ -1,5 +1,5 @@
 package com.example.seasonapp
 
-class Recensioni(val recensione: String){
+class Recensioni(val testo: String, val stelle : Int){
     //card
 }
