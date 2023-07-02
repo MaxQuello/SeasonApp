@@ -111,7 +111,7 @@ class GestisciPrenotazioniFragment : Fragment() {
 
                         }
                         binding.listaPrenotazioni.adapter = AdapterPrenotazioniEffettuate(prenotazioniEffettuate)
-                        binding.listaPrenotazioni.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                        binding.listaPrenotazioni.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                     }else{
                         Toast.makeText(
                             requireContext(),
