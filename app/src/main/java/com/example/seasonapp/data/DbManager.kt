@@ -45,7 +45,7 @@ class DbManager(val context: Context) {
             put(DBHelper.TELEFONO, telefono)
             put(DBHelper.USERNAME, username)
             put(DBHelper.PASSWORD, password)
-            put(DBHelper.DOMANDA, password)
+            put(DBHelper.DOMANDA, domanda)
             put(DBHelper.RISPOSTA, risposta)
             put(DBHelper.CODICESCONTO,codice)
         }
