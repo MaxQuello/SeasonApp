@@ -25,6 +25,8 @@ class DomandaSicurezzaFragment : Fragment() {
     private lateinit var emailEditText: EditText
     private var domandaString : String? = null
     private var email : String? = null
+    private lateinit var rispostaEditText: EditText
+    private var rispostaString : String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +44,13 @@ class DomandaSicurezzaFragment : Fragment() {
 
         val buttonIndietro = binding.buttonIndietroRecupero
         buttonIndietro.setOnClickListener {
-
             findNavController().navigate(R.id.action_domandaSicurezzaFragment_to_recuperoUsernameFragment)
-
         }
         val buttonContinua = binding.buttonContinuaRecuperoUser
         buttonContinua.setOnClickListener {
+            rispostaEditText = binding.rispostaText
+            rispostaString = rispostaEditText.text.toString()
+            verificaDomanda(rispostaString!!, email!!)
             findNavController().navigate(R.id.action_domandaSicurezzaFragment_to_loginFragment)
 
         }
@@ -98,9 +101,11 @@ class DomandaSicurezzaFragment : Fragment() {
         )
     }
 
-    private fun verificaDomanda(requestDomanda: RequestDomanda) {
+    private fun verificaDomanda(rispostaString: String,email:String) {
         val query =
-            "SELECT username FROM utente WHERE domandaDiSicurezza = '${requestDomanda.domanda}' AND risposta = '${requestDomanda.risposta}';"
+            "SELECT username FROM utente WHERE domanda = '${domandaString}' AND risposta = '${rispostaString}' " +
+                    "AND mail = '${email}';"
+        Log.d("QUERY","QUERY: ${query}")
         Log.d("DEBUG", "La tua query sarà: ${query}")
         ClientNetwork.retrofit.login(query).enqueue(
             object : Callback<JsonObject> {
@@ -112,19 +117,30 @@ class DomandaSicurezzaFragment : Fragment() {
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
+                        val bodyString = response.body()
+                        Log.d("BODY", "BODY: ${bodyString}")
+                        val jsonArray = bodyString?.getAsJsonArray("queryset")
 
-                        val username = "???"
-                        findNavController().navigate(R.id.action_domandaSicurezzaFragment_to_loginFragment)
-                        Toast.makeText(context, "Il tuo Username è '${username}'", Toast.LENGTH_SHORT).show()
+                        if (jsonArray != null && jsonArray.size() > 0) {
+                            val jsonObject = jsonArray.get(0)?.asJsonObject
+                            val username = jsonObject?.getAsJsonPrimitive("username")?.asString
 
+                            if (username != null) {
+                                val message = "Il tuo Username è '$username'"
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                            } else {
+                                // La chiave "username" non è presente o non è di tipo stringa, gestisci l'errore
+                                Log.d("ERRORE", "Chiave \"username\" mancante o non è di tipo stringa")
+                            }
+                        } else {
+                            // L'array è vuoto o non è stato trovato, gestisci l'errore
+                            Log.d("ERRORE", "Array vuoto o non trovato")
+                        }
                     } else {
+                        // La chiamata non è stata riuscita, gestisci l'errore
                         val errorMessage = response.message()
                         Log.e("onResponse", "Nessun utente trovato: $errorMessage")
-                        Toast.makeText(
-                            requireContext(),
-                            "Nessun utente trovato",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(requireContext(), "Nessun utente trovato", Toast.LENGTH_SHORT).show()
                     }
 
                 }
