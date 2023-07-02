@@ -76,7 +76,6 @@ class GestisciPrenotazioniFragment : Fragment() {
             Log.i("PROVA","LOGIN NON FATTO")
             return false
         }
-
     }
 
     private fun trovaprenotazioni() {
@@ -94,15 +93,20 @@ class GestisciPrenotazioniFragment : Fragment() {
                             for(jsonObject in resultList){
                                 val id_prenotazione = jsonObject["reservationId"].toString().toInt()
                                 val id_utente = jsonObject["ref_reservations"].toString().toInt()
-                                val dataCheckIn= jsonObject["checkInDate"].toString()
 
-                                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
-                                val date = LocalDate.parse(dataCheckIn, formatter)
 
-                                val checkIn = LocalDate.parse(dataCheckIn)
-                                Log.i("suca", "${checkIn}")
-                                val dataCheckOut= jsonObject["checkOutDate"].toString()
-                                prenotazioniEffettuate.add(PrenotazioniEffettuate(id_prenotazione, id_utente, date, LocalDate.parse(dataCheckOut)))
+                                val dataCheckIn = jsonObject["checkInDate"].toString().replace("\"", "")
+                                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                                val dateCheckIn = LocalDate.parse(dataCheckIn, formatter)
+
+                                val dataCheckOut = jsonObject["checkOutDate"].toString().replace("\"", "")
+                                val formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                                val dateCheckOut = LocalDate.parse(dataCheckOut, formatter1)
+
+
+
+
+                                prenotazioniEffettuate.add(PrenotazioniEffettuate(id_prenotazione, id_utente, dateCheckIn, dateCheckOut))
                             }
 
                         }
