@@ -23,7 +23,7 @@ class AdapterRistorante(private val data: ArrayList<Ristorante>): RecyclerView.A
             binding.pranzoCena.text = item.orario
             val currentDate: LocalDate = LocalDate.now()
             if (item.data_prenotazione!! < currentDate) {
-                binding.buttonCancellaRisto.visibility = View.GONE
+                binding.buttonCancellaRisto.visibility = View.INVISIBLE
             } else {
                 binding.buttonCancellaRisto.visibility = View.VISIBLE
             }
