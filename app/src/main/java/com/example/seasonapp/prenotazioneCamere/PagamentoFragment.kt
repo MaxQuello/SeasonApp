@@ -66,7 +66,7 @@ class PagamentoFragment : Fragment() {
         postiAutoButton = binding.postiAutoPicker
 
         // Inizializza la TextView con un valore di default
-        binding.textPrezzo.text = "PREZZO FINALE: "
+        binding.prezzoFinale.text = ""
 
         postiAutoButton.setOnClickListener {
             showGuestsSelectionDialog()
