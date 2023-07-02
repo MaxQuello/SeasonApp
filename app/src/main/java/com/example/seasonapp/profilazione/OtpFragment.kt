@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.seasonapp.R
 import com.example.seasonapp.api.ClientNetwork
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentOtpBinding
 import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.google.gson.JsonObject
@@ -25,10 +26,10 @@ import retrofit2.Response
 class OtpFragment : Fragment() {
     private lateinit var binding : FragmentOtpBinding
     private lateinit var buttonContinua : Button
-    private lateinit var buttonIndietro : Button
     private lateinit var editTextOtp : EditText
     private var editTextOtpString : Int? = null
     private var codiceOtp: Int = 0
+    private var idUtente : Int? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +38,9 @@ class OtpFragment : Fragment() {
     ): View? {
 
         binding = FragmentOtpBinding.inflate(inflater)
+
+        val sessionManager = SessionManager.getInstance(requireContext())
+        idUtente = sessionManager.getId()
 
 
         val buttonIndietro = view?.findViewById<ImageButton>(R.id.buttonIndietro3)
@@ -106,7 +110,8 @@ class OtpFragment : Fragment() {
     }
 
     private fun dropTableOtp(){
-        val query = "DELETE FROM otp;"
+        val query = "DELETE FROM otp WHERE ref_utente = ${idUtente};"
+        Log.d("QUERY","QUERY: ${query}")
         ClientNetwork.retrofit.remove(query).enqueue(
             object : Callback<JsonObject>{
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {

@@ -15,6 +15,7 @@ class SessionManager private constructor(context: Context) {
         private const val PREF_NAME = "AppSession"
         private const val KEY_USERNAME = "username"
         private const val KEY_EMAIL = "email"
+        private const val KEY_ID = "id"
 
         @Volatile
         private var instance: SessionManager? = null
@@ -40,4 +41,14 @@ class SessionManager private constructor(context: Context) {
     fun getEmail(): String? {
         return sharedPreferences.getString(KEY_EMAIL, null)
     }
+    fun setId(id: Int?) {
+        sharedPreferences.edit().putInt(KEY_ID, id ?: -1).apply()
+    }
+
+    fun getId(): Int? {
+        val id = sharedPreferences.getInt(KEY_ID, -1)
+        return if (id != -1) id else null
+    }
+
+
 }

@@ -40,6 +40,7 @@ class PagamentoFragment : Fragment() {
     private var numerogiorni : Int? = null
     private lateinit var editTextSconto : EditText
     private lateinit var buttonSconto : Button
+    private var sconto = 0
 
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
@@ -86,8 +87,9 @@ class PagamentoFragment : Fragment() {
         buttonSconto = binding.buttonVoucher
         buttonSconto.setOnClickListener {
             val codice = editTextSconto.text.toString()
-            if (codice != ""){
-                val query = "SELECT 1 FROM utente WHERE codice = '${codice}' AND id = ${idUtente} "
+            if (codice != "" && costoTotale != 0.0){
+                val query = "SELECT 1 FROM utente WHERE codice_sconto = '${codice}' AND id = ${idUtente} "
+                Log.d("QUERY","QUERY : ${query}")
                 ClientNetwork.retrofit.getIdUtente(query).enqueue(
                     object  : Callback<JsonObject>{
                         override fun onResponse(
@@ -96,14 +98,17 @@ class PagamentoFragment : Fragment() {
                         ) {
                             if (response.isSuccessful){
                                 val risultato = response.body()?.getAsJsonArray("queryset")
+                                Log.d("RISULTATO","RISULTATO: ${risultato}")
                                 if (risultato != null){
-//
+                                    sconto = 10
+                                    updatePrezzoFinale()
                                 }
                             }
                         }
 
                         override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                            TODO("Not yet implemented")
+                            Log.i("LOG-Prenota_Fragment-onFailure", "Errore ${t.message}")
+                            Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                         }
 
                     }
@@ -125,6 +130,25 @@ class PagamentoFragment : Fragment() {
 
             updatePrezzoFinale() // Aggiorna il prezzo finale
             inserisciCamera(roomId,dataCheckIn,dataCheckOut)
+            val query = "UPDATE utente SET codice_sconto ='' "
+            ClientNetwork.retrofit.modifica(query).enqueue(
+                object  : Callback<JsonObject>{
+                    override fun onResponse(
+                        call: Call<JsonObject>,
+                        response: Response<JsonObject>
+                    ) {
+                        if (response.isSuccessful){
+                            Log.d("FUNZIONANTE","FUNZIONANTE")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                        Log.i("LOG-Prenota_Fragment-onFailure", "Errore ${t.message}")
+                        Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+            )
         }
 
         return binding.root
@@ -206,7 +230,7 @@ class PagamentoFragment : Fragment() {
             }
 
             costoTotale += costoMacchina * selectedCar // Aggiorna il prezzo totale con il costo delle macchine
-            val prezzoFinale = costoTotale * numerogiorni!!
+            val prezzoFinale = costoTotale * numerogiorni!! - ((sconto * costoTotale* numerogiorni!!)/100)
             textViewPrezzo.text = "PREZZO FINALE: $prezzoFinale"
             textViewPrezzo.visibility = View.VISIBLE // Rendi la TextView visibile
         } else {
