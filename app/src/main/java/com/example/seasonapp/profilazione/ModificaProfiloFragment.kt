@@ -151,7 +151,7 @@ class ModificaProfiloFragment : Fragment() {
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "Non è stato possibile modificare i dati inseriti",
+                            "Username non disponibile",
                             Toast.LENGTH_LONG
                         ).show()
                     }
