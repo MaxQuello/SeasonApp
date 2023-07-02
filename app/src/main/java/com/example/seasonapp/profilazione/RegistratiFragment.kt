@@ -202,9 +202,8 @@ class RegistratiFragment : Fragment() {
                             "L'username inserito è gia esistente",
                             Toast.LENGTH_SHORT).show()
                         }
-
-
-                    }else{
+                         inserisciNotificaRegistrazione()
+                        }else{
                         Toast.makeText(
                             requireContext(),
                             "Username gia registrato",
@@ -255,6 +254,30 @@ class RegistratiFragment : Fragment() {
                         "L'id utente non esiste",
                         Toast.LENGTH_SHORT
                     ).show()
+                }
+
+            }
+        )
+
+    }
+
+    private fun inserisciNotificaRegistrazione(){
+        val query = "INSERT INTO notifications (ref_notification, type, message) " +
+                "VALUES ('${id}', 'Benvenuto', 'Benvenuti all'Hotel Season! Godetevi un soggiorno indimenticabile con il nostro codice sconto esclusivo ${codiceSconto}');"
+
+        ClientNetwork.retrofit.inserResturantNotification(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    if (response.isSuccessful){
+                        Log.d("NOTIFICA","NOTIFICA INSERITA")
+                    }else{
+                        Log.d("PROBLEMA","PROBLEMA")
+                    }
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-ServiziFragment-onFailure", "Errore ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
 
             }
