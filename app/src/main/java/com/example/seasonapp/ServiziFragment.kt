@@ -415,6 +415,8 @@ class ServiziFragment : Fragment() {
                             requireContext(),
                         "Prenotazione effettuata",
                         Toast.LENGTH_SHORT).show()
+                        val dateString = requestImpianti?.impiantiDate.toString()
+                        requestImpianti?.let { dbManager.insertPrenotazioneImpianto(it.idUtente,dateString) }
                         inserisciNotificaImpianto()
                     }else{
                         Toast.makeText(

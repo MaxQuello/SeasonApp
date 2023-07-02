@@ -25,8 +25,7 @@ class ModificaPasswordFragment : Fragment() {
     private lateinit var modificaButton : Button
     private var passwordString : String? = null
     private var ripetiPasswordString : String? = null
-    val sessionManager = context?.let { SessionManager.getInstance(it) }
-    var username : String? = null
+    private var username : String? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,12 +35,16 @@ class ModificaPasswordFragment : Fragment() {
 
         binding = FragmentModificaPasswordBinding.inflate(layoutInflater)
 
+        val sessionManager = SessionManager.getInstance(requireContext())
+        username = sessionManager.getUsername()
+
         passwordTextView = binding.inserisciPassword
         ripetiPasswordTextView = binding.reinserisciPassword
         modificaButton = binding.buttonModificaPassword
 
+        Log.d("USERNAME","USERNAME : $username")
+
         modificaButton.setOnClickListener {
-            username= sessionManager?.getUsername()
             Log.d("USERNAME","USERNAME : $username")
             passwordString= passwordTextView.text.toString()
             ripetiPasswordString = ripetiPasswordTextView.text.toString()
@@ -65,8 +68,8 @@ class ModificaPasswordFragment : Fragment() {
 
     private fun modificaPassword() {
         val query = "UPDATE utente" +
-                 "password = '$passwordString'" +
-                " WHERE username = $username"
+                 " SET password = '$passwordString'" +
+                " WHERE username = '$username'"
 
         Log.d("QUERY","QUERY: $query")
 
@@ -76,7 +79,7 @@ class ModificaPasswordFragment : Fragment() {
                     if (response.isSuccessful){
                         Toast.makeText(
                             requireContext(),
-                            "La tua nuova password è >$passwordString",
+                            "La tua nuova password è $passwordString",
                             Toast.LENGTH_LONG
                         ).show()
                     }else{

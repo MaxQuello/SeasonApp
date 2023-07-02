@@ -58,6 +58,11 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         const val TABLE_OTP = "OTP"
         const val CODICE_OTP = "codice_otp"
         const val REFOTP = "ref_otp"
+
+        const val TABLE_IMPIANTI = "impianti"
+        const val IDPRENOTAZIONEIMPIANTO = "id_prenotazione_impianto"
+        const val REFIMPIANTO = "ref_impianto"
+        const val DATAIMPIANTO = "data_impianto"
 //
 
 
@@ -122,6 +127,15 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
                     "FOREIGN KEY ($REFOTP) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
                     ");"
 
+        private const val SQL_CREATE_IMPIANTI =
+            "CREATE TABLE $TABLE_IMPIANTI (" +
+                    "$IDPRENOTAZIONEIMPIANTO INTEGER PRIMARY KEY," +
+                    "$REFIMPIANTO INTEGER," +
+                    "$DATAIMPIANTO TEXT," +
+                    "FOREIGN KEY ($REFIMPIANTO) REFERENCES $TABLE_UTENTE ($ID_UTENTE)" +
+                    ");"
+
+
 
 
         // STRING TO DROP TABLE
@@ -142,6 +156,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         db?.execSQL(SQL_CREATE_ROOMS)
         db?.execSQL(SQL_CREATE_RESERVATIONS)
         db?.execSQL(SQL_CREATE_OTP)
+        db?.execSQL(SQL_CREATE_IMPIANTI)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -151,6 +166,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DB_NAME, null, DB_VE
         db?.execSQL(SQL_CREATE_ROOMS)
         db?.execSQL(SQL_CREATE_RESERVATIONS)
         db?.execSQL(SQL_CREATE_OTP)
+        db?.execSQL(SQL_CREATE_IMPIANTI)
         onCreate(db)
     }
 

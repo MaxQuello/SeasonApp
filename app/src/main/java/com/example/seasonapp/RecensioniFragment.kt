@@ -120,7 +120,7 @@ class RecensioniFragment : Fragment() {
                         if (resultList != null) {
                             for(jsonObject in resultList){
                                 val testo = jsonObject["testo"].toString()
-                                val stelle = jsonObject["numero_stelle"].toString().toInt()
+                                val stelle = jsonObject["numero_stelle"].toString().toFloat()
                                 recensioni.add(Recensioni(testo, stelle))
                             }
 

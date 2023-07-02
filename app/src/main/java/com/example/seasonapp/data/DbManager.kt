@@ -203,6 +203,17 @@ class DbManager(val context: Context) {
         db.insertWithOnConflict(DBHelper.TABLE_GYM, null, values, SQLiteDatabase.CONFLICT_IGNORE)
     }
 
+    fun insertPrenotazioneImpianto(
+        idUtente: Int,
+        dataimpianto: String,
+    ) {
+        val values = ContentValues().apply {
+            put(DBHelper.REFIMPIANTO, idUtente)
+            put(DBHelper.DATAIMPIANTO, dataimpianto)
+        }
+        db.insertWithOnConflict(DBHelper.TABLE_IMPIANTI, null, values, SQLiteDatabase.CONFLICT_IGNORE)
+    }
+
     fun insertPrenotazioneCamera(
         roomId: Int,
         dataCheckIn: String,

@@ -20,6 +20,7 @@ import com.example.seasonapp.model.RequestOtp
 import com.example.seasonapp.model.RequestRegistration
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import org.jsoup.Jsoup
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -100,6 +101,7 @@ class RecuperoPasswordFragment : Fragment() {
                         idUtente = jsonObject?.getAsJsonPrimitive("id")?.asInt
                         val sessionManager = SessionManager.getInstance(requireContext())
                         sessionManager.setUsername(requestOtp.username)
+                        Log.d("USERNAME","L'USERNAME E' : ${requestOtp.username}")
                         val insertOtp = idUtente?.let { InsertOtp(otp = otp, idUtente = it) }
                         insertOtp?.let { insertOtp(it) }
 
@@ -138,15 +140,14 @@ class RecuperoPasswordFragment : Fragment() {
 
         val query ="insert into otp (codice_otp, ref_utente) values (${insertOtp.otp}, ${insertOtp.idUtente})"
         Log.d("DEBUG", "La tua query sarà: ${query}")
-        ClientNetwork.retrofit.login(query).enqueue(
+        ClientNetwork.retrofit.inserOtp(query).enqueue(
             object : Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     Log.i(
                         "onResponse",
                         "Sono dentro la onResponseOTP e l'esito sarà: ${response.isSuccessful}"
                     )
-                    val bodyString = response.body()
-                    Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
+
                     if (response.isSuccessful) {
 
                         Log.i("Query", "Insert Riuscito")
