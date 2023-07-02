@@ -1,14 +1,17 @@
+package com.example.seasonapp
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.seasonapp.Recensioni
-import com.example.seasonapp.Ristorante
-import com.example.seasonapp.databinding.CardViewRecensioniBinding
 import com.example.seasonapp.databinding.CardViewRistoranteBinding
 
 class AdapterRistorante(private val data: ArrayList<Ristorante>): RecyclerView.Adapter<AdapterRistorante.ViewHolder>() {
     class ViewHolder(val binding: CardViewRistoranteBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Ristorante){
+            binding.dataPrenotazioneRistorante.text = item.data_prenotazione.toString()
+            binding.nOspitiRistorante.text = item.nOspiti.toString()
+            binding.idPrenotazioneRistorante.text = item.id_prenotazione.toString()
+            binding.pranzoCena.text = item.orario
 
         }
     }

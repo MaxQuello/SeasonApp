@@ -52,6 +52,10 @@ interface UserAPI {
     @FormUrlEncoded
     fun getMyGymReservation(@Field("query") query: String) : Call<JsonObject>
 
+    @POST("postSelect/")
+    @FormUrlEncoded
+    fun getMyImpiantiReservation(@Field("query") query: String) : Call<JsonObject>
+
     @POST("postInsert/")
     @FormUrlEncoded
     fun insertResturantReservation(@Field("query") query: String) : Call<JsonObject>

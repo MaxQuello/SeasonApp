@@ -13,11 +13,11 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/nOspitiTextImpianto"
+            android:id="@+id/idUtenteTextImpianto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="@string/numero_di_ospiti"
+            android:text="@string/id_utente"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider7"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/nOspitiImpianto"
+            android:id="@+id/idUtenteImpianto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
