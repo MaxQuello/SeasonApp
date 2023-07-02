@@ -42,19 +42,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/inserisci_i_posti_auto"
+            android:text="@string/necessiti_del_parcheggio"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listaOffertePagamento" />
 
-        <Spinner
-            android:id="@+id/spinner"
+        <Button
+            android:id="@+id/posti_auto_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginVertical="10dp"
+            android:backgroundTint="@color/dock"
+            android:text="@string/inserisci_i_posti_auto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textPostoAuto" />
@@ -63,11 +65,10 @@
             android:id="@+id/divider15"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="20dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            tools:layout_editor_absoluteY="356dp" />
 
         <TextView
             android:id="@+id/textPrezzo"

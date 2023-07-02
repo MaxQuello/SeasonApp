@@ -96,4 +96,5 @@
     <string name="inserisci_i_posti_auto">Inserisci i posti Auto</string>
     <string name="prezzo_finale">Prezzo Finale</string>
     <string name="conferma_pagamento">Conferma Pagamento</string>
+    <string name="necessiti_del_parcheggio">Necessiti del parcheggio?</string>
 </resources>
