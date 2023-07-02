@@ -13,6 +13,7 @@ class AdapterOfferte(private val data: ArrayList<Offerta>): RecyclerView.Adapter
             binding.dataCheckIn.text = item.dataCheckIn.toString()
             binding.dataCheckOut.text = item.dataCheckOut.toString()
             binding.nOspiti.text = item.nOspiti.toString()
+            binding.fotoCamera.setImageBitmap(item.image)
         }
     }
 

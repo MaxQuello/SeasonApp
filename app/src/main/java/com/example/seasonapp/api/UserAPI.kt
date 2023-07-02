@@ -79,4 +79,7 @@ interface UserAPI {
     @GET
     fun getAvatar(@Url url: String) : Call<ResponseBody>
 
+    @GET
+    fun image(@Url url: String) : Call <ResponseBody>
+
 }

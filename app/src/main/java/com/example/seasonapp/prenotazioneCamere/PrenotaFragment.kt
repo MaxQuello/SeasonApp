@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -32,11 +34,12 @@ import com.example.seasonapp.databinding.FragmentPrenotaBinding
 import com.example.seasonapp.model.RequestPrenotaCamera
 import com.example.seasonapp.model.RequestRoom
 import com.google.gson.JsonObject
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
-
+import java.util.concurrent.atomic.AtomicInteger
 
 
 class PrenotaFragment : Fragment() {
@@ -53,8 +56,8 @@ class PrenotaFragment : Fragment() {
     private var selectedOffer : ArrayList<Offerta>? = null
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
-    private lateinit var bottomLayout: Dialog
     private lateinit var mainActivity: MainActivity
+    private lateinit var listaOfferte: ArrayList<Offerta>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,8 +110,10 @@ class PrenotaFragment : Fragment() {
 
                     binding.buttonPrenotaOra.setOnClickListener {
                             mainActivity.getDialog().dismiss()
-                        findNavController().navigate(R.id.action_global_pagamentoFragment)
-                        // prenotaCamera()
+                        val bundle = Bundle()
+                        bundle.putParcelableArrayList("offerte", listaOfferte)
+                        findNavController().navigate(R.id.action_global_pagamentoFragment, bundle)
+
                     }
 
 
@@ -323,8 +328,9 @@ class PrenotaFragment : Fragment() {
                     val bodyString = response.body()
                     Log.i("onResponse", "Sono dentro la onResponse e il body sara : ${bodyString}")
                     if (response.isSuccessful) {
+                        val count = AtomicInteger(0)
                         binding.buttonPrenotaOra.visibility = View.VISIBLE
-                        val listaOfferte = ArrayList<Offerta>()
+                        listaOfferte = ArrayList<Offerta>()
                         val jsonArray = response.body()?.getAsJsonArray("queryset")
                         Log.d("QUERY","risultati:  ${jsonArray}")
                         val resultList = jsonArray?.mapNotNull { it as? JsonObject }
@@ -335,8 +341,36 @@ class PrenotaFragment : Fragment() {
                                 val tipologia = jsonObject["roomType"].toString().replace("\"", "")
                                 val roomId = jsonObject["roomId"].toString().toInt()
                                 val costo = jsonObject["costo"].toString().toDouble()
+                                var bitmap : Bitmap? = null
+                                var path : String? = null
+                                when(tipologia){
+                                    "singola" -> path =  "media/images/Camere/camera_singola.png"
+                                    "matrimoniale" -> path =  "media/images/Camere/camera_matrimoniale.png"
+                                    "family" -> path =  "media/images/Camere/camera_family.png"
+                                }
+                                path?.let {
+                                    ClientNetwork.retrofit.image(path).enqueue(object:Callback<ResponseBody>{
+                                        override fun onResponse(
+                                            call: Call<ResponseBody>,
+                                            response: Response<ResponseBody>
+                                        ) {
+                                            val inputStream = response.body()?.byteStream()
+                                            bitmap = BitmapFactory.decodeStream(inputStream)
+                                            listaOfferte.add(Offerta(roomId,tipologia, 1, costo, checkInDate, checkOutDate, capacita, bitmap))
+                                            val itemCount = count.getAndIncrement()
+                                            binding.listaOfferte.adapter?.notifyItemInserted(itemCount - 1)
+                                        }
 
-                                listaOfferte.add(Offerta(roomId,tipologia, 1, costo, checkInDate, checkOutDate, capacita))
+                                        override fun onFailure(
+                                            call: Call<ResponseBody>,
+                                            t: Throwable
+                                        ) {
+                                            //On Failure
+                                        }
+
+                                    })
+                                }
+
                                 selectedOffer = listaOfferte
                             }
 
