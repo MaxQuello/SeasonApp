@@ -17,6 +17,10 @@ interface UserAPI {
 
     @POST("postSelect/")
     @FormUrlEncoded
+    fun getDomanda(@Field("query") query: String): Call<JsonObject>
+
+    @POST("postSelect/")
+    @FormUrlEncoded
     fun otp(@Field("query") query: String): Call<JsonObject>
 
     @POST("postSelect/")

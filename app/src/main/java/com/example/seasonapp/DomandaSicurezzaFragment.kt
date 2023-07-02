@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.seasonapp.api.ClientNetwork
+import com.example.seasonapp.data.SessionManager
 import com.example.seasonapp.databinding.FragmentDomandaSicurezzaBinding
 import com.example.seasonapp.databinding.FragmentRecuperoUsernameBinding
 import com.example.seasonapp.model.RequestDomanda
@@ -20,6 +22,10 @@ import retrofit2.Response
 
 class DomandaSicurezzaFragment : Fragment() {
     private lateinit var binding: FragmentDomandaSicurezzaBinding
+    private lateinit var emailEditText: EditText
+    private var domandaString : String? = null
+    private var email : String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,9 +34,11 @@ class DomandaSicurezzaFragment : Fragment() {
     ): View? {
         binding = FragmentDomandaSicurezzaBinding.inflate(inflater, container, false)
         val view = binding.root
-        val domandaSicurezza = "domandaSicurezza"  //da settare con il db
-        val domanda = getString(R.string.domandaSicurezzaUtente, domandaSicurezza)
-        binding.domandaSicurezzaText.text = domanda
+
+
+        val sessionManager = SessionManager.getInstance(requireContext())
+        email = sessionManager.getEmail()
+        getDomandaSicurezza()
 
         val buttonIndietro = binding.buttonIndietroRecupero
         buttonIndietro.setOnClickListener {
@@ -40,11 +48,54 @@ class DomandaSicurezzaFragment : Fragment() {
         }
         val buttonContinua = binding.buttonContinuaRecuperoUser
         buttonContinua.setOnClickListener {
-
             findNavController().navigate(R.id.action_domandaSicurezzaFragment_to_loginFragment)
 
         }
         return view
+    }
+
+    private fun getDomandaSicurezza() {
+        val query = "SELECT domanda FROM utente WHERE mail = '${email}'"
+        Log.d("QUERY","QUERY: ${query}")
+        ClientNetwork.retrofit.getDomanda(query).enqueue(
+            object : Callback<JsonObject>{
+                override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    Log.d("ON RESPONSE","Sono dentro la onResponse l'esito sara ${response.isSuccessful}")
+                    if (response.isSuccessful) {
+                        val bodyString = response.body()
+                        Log.d("BODY","BODY: ${bodyString}")
+                        val jsonArray = bodyString?.getAsJsonArray("queryset")
+
+                        if (jsonArray != null && jsonArray.size() > 0) {
+                            val jsonObject = jsonArray.get(0)?.asJsonObject
+                            domandaString = jsonObject?.getAsJsonPrimitive("domanda")?.asString
+
+                            if (domandaString != null) {
+                                val domandaSicurezza = domandaString
+                                val domanda = getString(R.string.domandaSicurezzaUtente, domandaSicurezza)
+                                binding.domandaSicurezzaText.text = domanda
+                            } else {
+                                // La chiave "domanda" non è presente o non è di tipo stringa, gestisci l'errore
+                                Log.d("ERRORE", "Chiave \"domanda\" mancante o non è di tipo stringa")
+                            }
+                        } else {
+                            // L'array è vuoto o non è stato trovato, gestisci l'errore
+                            Log.d("ERRORE", "Array vuoto o non trovato")
+                        }
+                    } else {
+                        // La chiamata non è stata riuscita, gestisci l'errore
+                        Log.d("ERRORE", "Chiamata non riuscita con codice: " + response.code())
+                    }
+
+                }
+
+                override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                    Log.i("LOG-Domanda_Sicurezza_Fragment-onFailure", "Errore ${t.message}")
+                    Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        )
     }
 
     private fun verificaDomanda(requestDomanda: RequestDomanda) {
@@ -79,7 +130,7 @@ class DomandaSicurezzaFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Recupero_Password_Fragment-onFailure", "Errore ${t.message}")
+                    Log.i("LOG-Domanda_Sicurezza_Fragment-onFailure", "Errore ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
             }

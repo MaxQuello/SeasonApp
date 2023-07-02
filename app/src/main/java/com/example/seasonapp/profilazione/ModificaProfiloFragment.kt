@@ -158,7 +158,7 @@ class ModificaProfiloFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                    Log.i("LOG-Login_Fragment-onFailure", "Errore accesso ${t.message}")
+                    Log.i("LOG-ModificaProfilo_Fragment-onFailure", "Errore accesso ${t.message}")
                     Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
                 }
             }

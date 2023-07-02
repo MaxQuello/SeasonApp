@@ -297,7 +297,7 @@ class RistoranteFragment : Fragment() {
                 Toast.makeText(requireContext(), "Andata male", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Log.i("LOG-Prenota_Fragmemt-onFailure", "Errore accesso ${e.message}")
+            Log.i("LOG-RistoranteFragment-onFailure", "Errore accesso ${e.message}")
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
         Log.d("RETURN","Il return è : $reservationExists")
