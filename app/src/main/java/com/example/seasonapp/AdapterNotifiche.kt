@@ -1,14 +1,15 @@
+package com.example.seasonapp
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.seasonapp.Notifica
 import com.example.seasonapp.databinding.CardViewNotificheBinding
 
 class AdapterNotifiche(private val data: ArrayList<Notifica>): RecyclerView.Adapter<AdapterNotifiche.ViewHolder>() {
     class ViewHolder(val binding: CardViewNotificheBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Notifica){
-            binding.notifica.text = item.notifica
-           // binding.tipologiaNotificaText.text = item.tipologia
+            binding.notifica.text = item.message
+            binding.tipologiaNotificaText.text = item.type
         }
     }
 

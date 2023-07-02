@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.seasonapp.api.ClientNetwork
 import com.example.seasonapp.data.DbManager
 import com.example.seasonapp.data.SessionManager
@@ -22,6 +23,7 @@ class NotifyFragment : Fragment() {
     private lateinit var binding: FragmentNotifyBinding
     var idUtente : Int? = null
     private lateinit var dbManager: DbManager
+    private lateinit var notifiche : ArrayList<Notifica>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,8 +55,21 @@ class NotifyFragment : Fragment() {
         ClientNetwork.retrofit.getNotifications(query).enqueue(
             object : Callback<JsonObject>{
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                    notifiche = ArrayList<Notifica>()
                     if (response.isSuccessful){
-                        Log.d("NOTIFICHE","NOTIFICHE: ${response.body()}")
+                        val jsonArray = response.body()?.getAsJsonArray("queryset")
+                        val resultList = jsonArray?.mapNotNull { it as? JsonObject }
+                        Log.d("RECENSIONI","RECENSIONI: ${response.body()}")
+                        if (resultList != null) {
+                            for(jsonObject in resultList){
+                                val message = jsonObject["message"].toString()
+                                val type= jsonObject["type"].toString()
+                                notifiche.add(Notifica(message, type))
+                            }
+
+                        }
+                        binding.listaNotifiche.adapter = AdapterNotifiche(notifiche)
+                        binding.listaNotifiche.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
                     }else{
                         Log.d("PROBLEMA","PROBLEMA")
                     }

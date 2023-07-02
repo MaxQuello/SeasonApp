@@ -30,7 +30,6 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="10dp"
-            android:fontFamily="@font/fontcorsivo"
             android:textAlignment="center"
             android:textColor="@color/dock"
             android:textSize="16sp"
