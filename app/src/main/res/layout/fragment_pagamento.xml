@@ -41,7 +41,7 @@
             android:id="@+id/textPostoAuto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:text="@string/necessiti_del_parcheggio"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -61,28 +61,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textPostoAuto" />
 
-        <View
-            android:id="@+id/divider15"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textRiepilogo" />
-
         <TextView
             android:id="@+id/textPrezzo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginVertical="10dp"
             android:fontFamily="@font/fontcorsivo"
             android:gravity="center"
             android:text="@string/prezzo_finale"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider15" />
+            app:layout_constraintTop_toBottomOf="@+id/posti_auto_picker" />
 
         <TextView
             android:id="@+id/textView8"
@@ -101,6 +91,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/dock"
             android:text="@string/conferma_pagamento"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
