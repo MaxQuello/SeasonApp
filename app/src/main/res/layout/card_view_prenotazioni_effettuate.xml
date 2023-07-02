@@ -87,13 +87,13 @@
             android:text="-"
             android:textSize="24sp"
             android:textStyle="normal"
-            app:layout_constraintBottom_toTopOf="@+id/buttonCancellaRisto"
+            app:layout_constraintBottom_toTopOf="@+id/buttonCancellaPrenotazione"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider14" />
 
         <Button
-            android:id="@+id/buttonCancellaRisto"
+            android:id="@+id/buttonCancellaPrenotazione"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:backgroundTint="@color/dock"
@@ -108,7 +108,7 @@
             android:layout_width="367dp"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="@+id/buttonCancellaRisto"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonCancellaPrenotazione"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
