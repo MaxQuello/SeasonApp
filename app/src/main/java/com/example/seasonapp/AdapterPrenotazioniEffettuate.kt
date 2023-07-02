@@ -22,7 +22,7 @@ class AdapterPrenotazioniEffettuate(private val data: ArrayList<PrenotazioniEffe
             binding.dataCheckIn2.text = item.dataCheckIn.toString()
             binding.dataCheckOut2.text = item.dataCheckOut.toString()
             val currentDate: LocalDate = LocalDate.now()
-            if (item.dataCheckIn!! < currentDate) {
+            if (item.dataCheckIn!! < currentDate.minusDays(2)) {
                 binding.buttonCancellaPrenotazione.visibility = View.GONE
             } else {
                 binding.buttonCancellaPrenotazione.visibility = View.VISIBLE
