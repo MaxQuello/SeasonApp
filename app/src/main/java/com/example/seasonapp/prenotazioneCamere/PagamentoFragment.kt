@@ -97,7 +97,7 @@ class PagamentoFragment : Fragment() {
                             if (response.isSuccessful){
                                 val risultato = response.body()?.getAsJsonArray("queryset")
                                 if (risultato != null){
-
+//
                                 }
                             }
                         }
